@@ -8,6 +8,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class CourseLoaderComponent implements OnInit {
 
+  public nameCourse = '';
+
   constructor() { }
 
   ngOnInit() {
