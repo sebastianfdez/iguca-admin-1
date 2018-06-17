@@ -15,4 +15,10 @@ export class CourseLoaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  sendCourse() {
+    console.log( this.nameCourse  );
+
+
+  }
+
 }

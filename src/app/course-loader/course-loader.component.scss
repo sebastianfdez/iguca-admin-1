@@ -1,7 +1,30 @@
 app-course-loader {
 
-    
+  height: 100%;
+  width: 100%;
+  display: flex;
 
+  .loaader-content {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+  }
 
+  .loader-course-name {
+    width: 80%;
+  }
 
+  .mat-input-container {
+    width: 100%;
+  }
+
+  .mat-button {
+    width: 200px;
+  }
+
+  .mat-button-wrapper {
+    font-style: inherit;
+    font-size: x-large;
+   }
 }
