@@ -4,7 +4,7 @@
 
   <form class="uploader">
     <mat-form-field class="uploader">
-      <input matInput placeholder="Nombre de la empresa" value="">
+      <input matInput placeholder="Nombre de la empresa" value="" [(ngModel)]="courseName" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
   </form>
@@ -100,26 +100,70 @@
 
 Seccion de preguntas:
 
-<form class="question">
-  <mat-form-field class="mainQuestion">
-    <input matInput placeholder="Pregunta 1:" value="">
-  </mat-form-field>
+<ul>
+    <li *ngFor="let question of model.getFinalExam();">
+      <div class="questionDisplay">
+        <div class="mainQuestionDisplay">
+            <mat-list-item role="listitem">{{question[0]}}</mat-list-item>
+          </div>
 
-  <mat-form-field class="choiceQuestion">
-    <input matInput placeholder="Alternativa a:" value="">
-  </mat-form-field>
+          <div class="choiceAnswerDisplay">
+            <mat-list-item role="listitem">{{question[1]}}</mat-list-item>
+            <mat-list-item role="listitem">{{question[2]}}</mat-list-item>
+            <mat-list-item role="listitem">{{question[3]}}</mat-list-item>
+            <mat-list-item role="listitem">{{question[4]}}</mat-list-item>
+            <mat-list-item role="listitem">{{question[5]}}</mat-list-item>
+          </div>
+        <div class="buttonQuestionDysplay">
+          <button mat-button >Eliminar</button>
+        </div>
+      </div>
+    </li>
+</ul>
 
-  <mat-form-field class="ChoiceQuestion">
-    <input matInput placeholder="Alternativa b:" value="">
-  </mat-form-field>
-  <mat-form-field class="ChoiceQuestion">
-    <input matInput placeholder="Alternativa c:" value="">
-  </mat-form-field>
-  <mat-form-field class="ChoiceQuestion">
-    <input matInput placeholder="Alternativa d:" value="">
-  </mat-form-field>
+<form>
+  <div class="mainQuestion">
+    <mat-form-field>
+      <input matInput placeholder="Pregunta 1:" [(ngModel)]="mainQuestion" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+  </div>
+
+  <mat-radio-group>
+    <div class="choiceQuestion">
+      <mat-form-field>
+        <input matInput placeholder="Alternativa a:"  [(ngModel)]="aChoiceAnswer" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <mat-radio-button value="1">a</mat-radio-button>
+    </div>
+
+    <div class="choiceQuestion">
+      <mat-form-field>
+        <input matInput placeholder="Alternativa b:" [(ngModel)]="bChoiceAnswer" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <mat-radio-button value="2">b</mat-radio-button>
+    </div>
+
+    <div class="choiceQuestion">
+      <mat-form-field>
+        <input matInput placeholder="Alternativa c:" [(ngModel)]="cChoiceAnswer" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <mat-radio-button value="3">c</mat-radio-button>
+    </div>
+
+    <div class="choiceQuestion">
+      <mat-form-field>
+        <input matInput placeholder="Alternativa d:" [(ngModel)]="dChoiceAnswer" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <mat-radio-button value="4">d</mat-radio-button>
+    </div>
+  </mat-radio-group>
+
+  <button mat-button (click)="pushQuestion()">Agregar</button>
+
 </form>
-<mat-checkbox>Check</mat-checkbox>
+
+
+
 
 
 

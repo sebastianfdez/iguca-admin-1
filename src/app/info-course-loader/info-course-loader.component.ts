@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
 import { FileUploader } from 'ng2-file-upload';
+import { Course } from './course.ts';
 
 const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
+
 
 
 
@@ -13,14 +14,34 @@ const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con l
   encapsulation: ViewEncapsulation.None,
 })
 export class InfoCourseLoaderComponent implements OnInit {
-
 public uploader: FileUploader = new FileUploader({url: URL});
 
+public courseName = '';
+public mainQuestion = '';
+public aChoiceAnswer = '';
+public bChoiceAnswer = '';
+public cChoiceAnswer = '';
+public dChoiceAnswer = '';
+public correctAnswer = '';
 
 
-  constructor() { }
 
-  ngOnInit() {
+
+  const model = new Course('idsadns', 'feña');
+
+constructor() {
+}
+   ngOnInit() {
   }
+
+
+
+  pushQuestion() {
+
+    this.model.addQuestion([ this.mainQuestion, this.aChoiceAnswer
+      , this.bChoiceAnswer , this.cChoiceAnswer , this.dChoiceAnswer , this.correctAnswer ]);
+
+  }
+
 
 }

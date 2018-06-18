@@ -4,6 +4,19 @@ app-info-course-loader {
   width: 100%;
   display: flex;
   align-items: center;
+  margin-top: 15px;
+
+    .choiceQuestion {
+      margin-left: 30px;
+      display: flex;
+    }
+
+    .choiceAnswerDisplay {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+      margin-left: 10px;
+    }
 
     .loaader-content {
       height: 100%;
@@ -19,14 +32,31 @@ app-info-course-loader {
       flex-direction: column;
     }
 
+    .mat-button {
+      background-color: green;
+
+    }
+
     .mat-form-field {
       display: flex;
       width: 100%;
     }
+
+    .mat-input-infix.mat-form-field-infix {
+      width: 600px;
+    }
+
     .uploader {
-      margin-top: 50px;
+      margin-top: 15px;
     }
     .question {
     margin-top: 50px;
-  }
+    }
+    .questionDisplay {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+
 }
