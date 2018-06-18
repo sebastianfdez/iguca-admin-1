@@ -1,17 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
 import { CourseLoaderComponent } from './course-loader/course-loader.component';
-import { MatInputModule, MatButtonModule} from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import { MatInputModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InfoCourseLoaderComponent } from './info-course-loader/info-course-loader.component';
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    CourseLoaderComponent
+    CourseLoaderComponent,
+    InfoCourseLoaderComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -19,9 +23,13 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     MatInputModule,
     MatButtonModule,
+    FileUploadModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [CourseLoaderComponent],
+  entryComponents: [CourseLoaderComponent, InfoCourseLoaderComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+
 })
 export class AppModule { }
