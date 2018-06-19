@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
-import { Course } from './course.ts';
+import { Course } from './course';
 
 const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
 
@@ -24,7 +24,7 @@ public cChoiceAnswer = '';
 public dChoiceAnswer = '';
 public correctAnswer = '';
 
-  const model = new Course();
+model = new Course();
 
 constructor() {
 }
@@ -34,15 +34,24 @@ constructor() {
   pushQuestion() {
     this.model.addQuestion([ this.mainQuestion, this.aChoiceAnswer
       , this.bChoiceAnswer , this.cChoiceAnswer , this.dChoiceAnswer , this.correctAnswer ]);
+      this.mainQuestion = '';
+      this.aChoiceAnswer = '';
+      this.bChoiceAnswer = '';
+      this.cChoiceAnswer = '';
+      this.dChoiceAnswer = '';
+      this.correctAnswer = '';
   }
 
   deleteQuestion(position: number) {
-    console.log('eliminar');
     this.model.deleteQuestion(position);
+
   }
-  setCorrectAnswer(value: String) {
+  setCorrectAnswer(value: string) {
     this.correctAnswer = value;
     console.log(this.correctAnswer);
+  }
+  sendCourse() {
+    this.model.writeCourse();
   }
 
 

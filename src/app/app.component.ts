@@ -2,6 +2,11 @@ import { Component, ViewEncapsulation, ComponentFactoryResolver, ViewChild, View
 import { CourseLoaderComponent } from './course-loader/course-loader.component';
 import { InfoCourseLoaderComponent} from './info-course-loader/info-course-loader.component';
 
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/database';
+import { Observable } from 'rxjs/';
+
+export interface Item { name: string; }
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +17,9 @@ import { InfoCourseLoaderComponent} from './info-course-loader/info-course-loade
 export class AppComponent implements OnInit {
   titleHerma = 'hermano';
   private courseLoaderHolder;
+
+  private itemsCollection: AngularFirestoreCollection<Item>;
+  items: Observable<Item[]>;
 
 
   @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;

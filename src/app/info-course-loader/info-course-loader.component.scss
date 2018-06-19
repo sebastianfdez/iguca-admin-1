@@ -6,6 +6,11 @@ app-info-course-loader {
   align-items: center;
   margin-top: 15px;
 
+
+    .buttonQuestionDysplay .mat-button {
+      background-color: red;
+    }
+
     .choice {
       display: flex;
       flex-direction: row;
@@ -48,7 +53,7 @@ app-info-course-loader {
       flex-direction: column;
     }
 
-    .mat-button {
+    .addQuestionButton .mat-button {
       background-color: green;
     }
 
@@ -79,6 +84,13 @@ app-info-course-loader {
       display: flex;
       flex-direction: row;
     }
+
+    .sendCourseButton .mat-button {
+      background-color: yellow;
+      margin-top: 40px;
+      margin-left: 40px; 
+    }
+
     .question {
     margin-top: 50px;
     }

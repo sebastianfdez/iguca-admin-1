@@ -1,5 +1,9 @@
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/src';
+
 export class Course {
 
+  public courses = [];
   public name = '';
   public Id = '';
   public company = '';
@@ -7,8 +11,7 @@ export class Course {
   public documents = [];
   public finalExam = [];
 
-  constructor() {
-}
+  constructor() {}
 
   getId() {
     return this.Id;
@@ -18,20 +21,20 @@ export class Course {
     return this.finalExam;
   }
 
-  addQuestion(quest: []) {
+  addQuestion(quest: string[]) {
     this.question = quest;
     this.finalExam.push(this.question);
     console.log(this.finalExam);
   }
 
-  setId(id: String) {
+  setId(id: string) {
     this.Id = id;
   }
 
-  setName(name: String) {
+  setName(name: string) {
     this.name = name;
   }
-  serCompany(company: String) {
+  serCompany(company: string) {
     this.company = company;
   }
   deleteQuestion(position: number) {
@@ -40,6 +43,19 @@ export class Course {
     console.log(this.finalExam);
     console.log(position);
   }
+  writeCourse() {
+    console.log('probando mandar');
+    courses.push([this.name, this.Id, this.documents, this.finalExam]);
+  }
 
+}
 
+export class IgucaQuestion {
+  a: string;
+  b: string;
+  c: string;
+  d: string;
+  correct: string;
+  question: string;
+  number: number;
 }
