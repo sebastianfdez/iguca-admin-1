@@ -6,37 +6,33 @@
     <mat-form-field class="uploader">
       <input matInput placeholder="Nombre de la empresa" value="" [(ngModel)]="courseName" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
-
   </form>
 
   <div class="container">
       <div class="row">
-
           <div class="col-md-3">
+            <mat-list-item>Docuemntos del curso</mat-list-item>
+            <mat-divider></mat-divider>
 
-              <h3>Selecione los docomentos del curso</h3>
-
-
-              Seleción Multiple
-              <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
-
-              Seleción Unica
-              <input type="file" ng2FileSelect [uploader]="uploader" />
+            <div class="fileUploaderTopic">
+              <mat-list-item>Seleción Multiple de archivos</mat-list-item>
+            </div>
+              <input type="file" ng2FileSelect [uploader]="uploader" multiple  />
           </div>
 
           <div class="col-md-9" style="margin-bottom: 40px">
-
-              <h3>Documentos</h3>
-              <p>Cantidad de docuemntos a subir: {{ uploader?.queue?.length }}</p>
+            <div class="fileUploaderTopic">
+              <mat-list-item>Documentos selecionados:</mat-list-item>
+            </div>
 
               <table class="table">
                   <thead>
                   <tr>
-                      <th width="50%">Nombre</th>
-                      <th>Size</th>
-                      <th>Progress</th>
-                      <th>Status</th>
-                      <th>Actions</th>
+                      <th width="50%"><mat-list-item>Nombre</mat-list-item></th>
+                      <th><mat-list-item>Size</mat-list-item></th>
+                      <th><mat-list-item>Progress</mat-list-item></th>
+                      <th><mat-list-item>Status</mat-list-item></th>
+                      <th><mat-list-item>Action</mat-list-item></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -73,7 +69,7 @@
 
               <div>
                   <div>
-                      Queue progress:
+                        <mat-list-item>Queue progress:</mat-list-item>
                       <div class="progress" style="">
                           <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
                       </div>
@@ -98,24 +94,43 @@
 
   </div>
 
-Seccion de preguntas:
+  <mat-list-item>Sección de preguntas:</mat-list-item>
+  <mat-divider></mat-divider>
+
 
 <ul>
-    <li *ngFor="let question of model.getFinalExam();">
+    <li *ngFor="let question of model.getFinalExam(); index as i" [attr.data-index]="i">
       <div class="questionDisplay">
         <div class="mainQuestionDisplay">
+            <mat-list-item role="listitem">{{i+1}}) </mat-list-item>
             <mat-list-item role="listitem">{{question[0]}}</mat-list-item>
           </div>
 
           <div class="choiceAnswerDisplay">
-            <mat-list-item role="listitem">{{question[1]}}</mat-list-item>
-            <mat-list-item role="listitem">{{question[2]}}</mat-list-item>
-            <mat-list-item role="listitem">{{question[3]}}</mat-list-item>
-            <mat-list-item role="listitem">{{question[4]}}</mat-list-item>
+            <div class="singleChoiceAnswer">
+              <mat-list-item role="listitem">a)  .</mat-list-item>
+              <mat-list-item role="listitem">{{question[1]}}</mat-list-item>
+            </div>
+            <div class="singleChoiceAnswer">
+              <mat-list-item role="listitem">b)  .</mat-list-item>
+              <mat-list-item role="listitem">{{question[2]}}</mat-list-item>
+            </div>
+            <div class="singleChoiceAnswer">
+              <mat-list-item role="listitem">c)  .</mat-list-item>
+              <mat-list-item role="listitem">{{question[3]}}</mat-list-item>
+            </div>
+            <div class="singleChoiceAnswer">
+              <mat-list-item role="listitem">d)  .</mat-list-item>
+              <mat-list-item role="listitem">{{question[4]}}</mat-list-item>
+            </div>
+          </div>
+          <div class="correctAnswerDisplay">
+            <mat-list-item role="listitem">Alternativa correcta:   .</mat-list-item>
             <mat-list-item role="listitem">{{question[5]}}</mat-list-item>
           </div>
+
         <div class="buttonQuestionDysplay">
-          <button mat-button >Eliminar</button>
+          <button mat-button (click)="deleteQuestion(i)">Eliminar</button>
         </div>
       </div>
     </li>
@@ -124,39 +139,40 @@ Seccion de preguntas:
 <form>
   <div class="mainQuestion">
     <mat-form-field>
-      <input matInput placeholder="Pregunta 1:" [(ngModel)]="mainQuestion" [ngModelOptions]="{standalone: true}">
+      <input matInput placeholder="Pregunta:" [(ngModel)]="mainQuestion" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
   </div>
+<div class="choice">
+    <mat-radio-group>
+      <div class="choiceQuestion">
+        <mat-form-field>
+          <input matInput placeholder="Alternativa a:"  [(ngModel)]="aChoiceAnswer" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <mat-radio-button value="1" (click)="setCorrectAnswer('a')">a</mat-radio-button>
+      </div>
 
-  <mat-radio-group>
-    <div class="choiceQuestion">
-      <mat-form-field>
-        <input matInput placeholder="Alternativa a:"  [(ngModel)]="aChoiceAnswer" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-      <mat-radio-button value="1">a</mat-radio-button>
-    </div>
+      <div class="choiceQuestion">
+        <mat-form-field>
+          <input matInput placeholder="Alternativa b:" [(ngModel)]="bChoiceAnswer" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <mat-radio-button value="2" (click)="setCorrectAnswer('b')">b</mat-radio-button>
+      </div>
 
-    <div class="choiceQuestion">
-      <mat-form-field>
-        <input matInput placeholder="Alternativa b:" [(ngModel)]="bChoiceAnswer" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-      <mat-radio-button value="2">b</mat-radio-button>
-    </div>
+      <div class="choiceQuestion">
+        <mat-form-field>
+          <input matInput placeholder="Alternativa c:" [(ngModel)]="cChoiceAnswer" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <mat-radio-button value="3" (click)="setCorrectAnswer('c')">c</mat-radio-button>
+      </div>
 
-    <div class="choiceQuestion">
-      <mat-form-field>
-        <input matInput placeholder="Alternativa c:" [(ngModel)]="cChoiceAnswer" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-      <mat-radio-button value="3">c</mat-radio-button>
-    </div>
-
-    <div class="choiceQuestion">
-      <mat-form-field>
-        <input matInput placeholder="Alternativa d:" [(ngModel)]="dChoiceAnswer" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-      <mat-radio-button value="4">d</mat-radio-button>
-    </div>
-  </mat-radio-group>
+      <div class="choiceQuestion">
+        <mat-form-field>
+          <input matInput placeholder="Alternativa d:" [(ngModel)]="dChoiceAnswer" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <mat-radio-button value="4" (click)="setCorrectAnswer('d')">d</mat-radio-button>
+      </div>
+    </mat-radio-group>
+  </div>
 
   <button mat-button (click)="pushQuestion()">Agregar</button>
 

@@ -6,6 +6,11 @@ app-info-course-loader {
   align-items: center;
   margin-top: 15px;
 
+    .choice {
+      display: flex;
+      flex-direction: row;
+    }
+
     .choiceQuestion {
       margin-left: 30px;
       display: flex;
@@ -15,7 +20,13 @@ app-info-course-loader {
       display: flex;
       flex-direction: column;
       margin-top: 10px;
-      margin-left: 10px;
+      margin-left: 20px;
+    }
+
+    .correctAnswerDisplay {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
     }
 
     .loaader-content {
@@ -23,6 +34,11 @@ app-info-course-loader {
       width: 100%;
       flex-direction: column;
       display: flex;
+    }
+
+    .fileUploaderTopic {
+      margin-top: 20px;
+      margin-bottom: 10px;
     }
 
     .info-course-loader-content {
@@ -34,7 +50,6 @@ app-info-course-loader {
 
     .mat-button {
       background-color: green;
-
     }
 
     .mat-form-field {
@@ -46,8 +61,23 @@ app-info-course-loader {
       width: 600px;
     }
 
+    .mat-radio-button.mat-accent {
+      margin-top: 20px;
+      margin-left: 20px;
+    }
+
+    .mainQuestionDisplay {
+      display: flex;
+      flex-direction: row;
+    }
+
     .uploader {
       margin-top: 15px;
+    }
+
+    .singleChoiceAnswer {
+      display: flex;
+      flex-direction: row;
     }
     .question {
     margin-top: 50px;

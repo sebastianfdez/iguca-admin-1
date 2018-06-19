@@ -24,23 +24,25 @@ public cChoiceAnswer = '';
 public dChoiceAnswer = '';
 public correctAnswer = '';
 
-
-
-
-  const model = new Course('idsadns', 'feña');
+  const model = new Course();
 
 constructor() {
 }
    ngOnInit() {
   }
 
-
-
   pushQuestion() {
-
     this.model.addQuestion([ this.mainQuestion, this.aChoiceAnswer
       , this.bChoiceAnswer , this.cChoiceAnswer , this.dChoiceAnswer , this.correctAnswer ]);
+  }
 
+  deleteQuestion(position: number) {
+    console.log('eliminar');
+    this.model.deleteQuestion(position);
+  }
+  setCorrectAnswer(value: String) {
+    this.correctAnswer = value;
+    console.log(this.correctAnswer);
   }
 
 

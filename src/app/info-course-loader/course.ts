@@ -1,22 +1,13 @@
 export class Course {
 
-
-
-
-
+  public name = '';
   public Id = '';
   public company = '';
   public question = [];
   public documents = [];
   public finalExam = [];
 
-
-
-
-  constructor(Id: String , company: String ) {
-    this.Id = Id;
-    this.company = company;
-    console.log(this.Id);
+  constructor() {
 }
 
   getId() {
@@ -31,6 +22,23 @@ export class Course {
     this.question = quest;
     this.finalExam.push(this.question);
     console.log(this.finalExam);
+  }
+
+  setId(id: String) {
+    this.Id = id;
+  }
+
+  setName(name: String) {
+    this.name = name;
+  }
+  serCompany(company: String) {
+    this.company = company;
+  }
+  deleteQuestion(position: number) {
+    this.finalExam.splice( position , 1 );
+    console.log('eliminado');
+    console.log(this.finalExam);
+    console.log(position);
   }
 
 
