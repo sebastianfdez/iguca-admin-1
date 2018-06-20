@@ -1,9 +1,9 @@
-import { Component, ViewEncapsulation, ComponentFactoryResolver, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
-import { CourseLoaderComponent } from './course-loader/course-loader.component';
+import { Component, ViewEncapsulation, ComponentFactoryResolver, ViewChild, ViewContainerRef, OnInit, ComponentFactory } from '@angular/core';
 import { InfoCourseLoaderComponent} from './info-course-loader/info-course-loader.component';
+import { IgucaService } from './services/iguca-service.service';
+import { IgucaCourse } from './course';
 
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/database';
-import { Observable } from 'rxjs/';
+// import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/database';
 
 export interface Item { name: string; }
 
@@ -16,32 +16,37 @@ export interface Item { name: string; }
 
 export class AppComponent implements OnInit {
   titleHerma = 'hermano';
-  private courseLoaderHolder;
-
-  private itemsCollection: AngularFirestoreCollection<Item>;
-  items: Observable<Item[]>;
-
+  private courseLoaderHolder: ComponentFactory<InfoCourseLoaderComponent>;
+  private courseLoaderHolderComp;
 
   @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;
 
+  private allIgucaCourses: IgucaCourse[] = [];
+  public childOpen = false;
+
   constructor(
     private factory: ComponentFactoryResolver,
+    private igucaService: IgucaService,
   ) {
   }
 
   ngOnInit() {
-    this.openInfoCourseLoader();
-  }
-
-  openCourseLoader() {
-    this.courseLoaderHolder = this.factory.resolveComponentFactory(CourseLoaderComponent);
-    this.parent.createComponent(this.courseLoaderHolder);
+    this.igucaService.courseCreatedObs$.subscribe((newCourse: IgucaCourse) => {
+      this.allIgucaCourses.push(newCourse);
+      console.log(this.allIgucaCourses);
+      this.courseLoaderHolderComp.destroy();
+      this.childOpen = false;
+    });
   }
 
   openInfoCourseLoader() {
     this.courseLoaderHolder = this.factory.resolveComponentFactory(InfoCourseLoaderComponent);
-    this.parent.createComponent(this.courseLoaderHolder);
+    this.courseLoaderHolderComp = this.parent.createComponent(this.courseLoaderHolder);
+    this.childOpen = true;
+  }
 
+  showNewCourse() {
+    this.openInfoCourseLoader();
   }
 
 

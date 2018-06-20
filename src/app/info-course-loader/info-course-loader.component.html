@@ -2,9 +2,15 @@
 
 
 
-  <form class="uploader">
+  <form class="info-course-loader-company">
     <mat-form-field class="uploader">
-      <input matInput placeholder="Nombre de la empresa" value="" [(ngModel)]="courseName" [ngModelOptions]="{standalone: true}">
+      <input matInput placeholder="Nombre de la empresa" value="" [(ngModel)]="newCourse.company" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+  </form>
+
+  <form class="info-course-loader-title">
+    <mat-form-field class="uploader">
+      <input matInput placeholder="Nombre del curso" value="" [(ngModel)]="newCourse.name" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
   </form>
 
@@ -98,7 +104,7 @@
   <mat-divider></mat-divider>
 
 
-<ul>
+<!--<ul>
     <li *ngFor="let question of model.getFinalExam(); index as i" [attr.data-index]="i">
       <div class="questionDisplay">
         <div class="mainQuestionDisplay">
@@ -134,9 +140,9 @@
         </div>
       </div>
     </li>
-</ul>
+</ul>-->
 
-<form>
+<!--<form>
   <div class="mainQuestion">
     <mat-form-field>
       <input matInput placeholder="Pregunta:" [(ngModel)]="mainQuestion" [ngModelOptions]="{standalone: true}">
@@ -177,7 +183,63 @@
     <button mat-button (click)="pushQuestion()">Agregar</button>
   </div>
 
-</form>
+</form>-->
+
+<div class="final-exam">
+
+  <div class="final-exam-question" *ngFor="let question of newCourse.finalExam">
+
+    <div class="mainQuestion">
+      <mat-form-field>
+        <input matInput placeholder="Pregunta:" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </div>
+    <div class="choices">
+      <mat-radio-group>
+        <div class="choiceQuestion">
+          <mat-form-field>
+            <input matInput placeholder="Alternativa a:"  [(ngModel)]="question.a" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)">a</mat-radio-button>
+        </div>
+  
+        <div class="choiceQuestion">
+          <mat-form-field>
+            <input matInput placeholder="Alternativa b:" [(ngModel)]="question.b" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)">b</mat-radio-button>
+        </div>
+  
+        <div class="choiceQuestion">
+          <mat-form-field>
+            <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
+        </div>
+  
+        <div class="choiceQuestion">
+          <mat-form-field>
+            <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </div>
+    <div class="buttonQuestionDysplay">
+      <button mat-button (click)="deleteQuestion(question)">Eliminar</button>
+    </div>
+  
+    
+  </div>
+  <div class="addQuestionButton">
+    <button mat-button (click)="pushQuestion()">Agregar</button>
+  </div>
+
+</div>
+
+<div class="statusText">
+  {{statusText}}
+</div>
 
 <div class="sendCourseButton">
   <button mat-button (click)="sendCourse()">Agregar Curso</button>

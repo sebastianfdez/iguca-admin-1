@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
-import { Course } from './course';
+import { IgucaCourse, IgucaQuestion } from '../course';
+import { IgucaService } from '../services/iguca-service.service';
 
 const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
-
-
-
 
 @Component({
   selector: 'app-info-course-loader',
@@ -14,45 +12,62 @@ const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con l
   encapsulation: ViewEncapsulation.None,
 })
 export class InfoCourseLoaderComponent implements OnInit {
+
 public uploader: FileUploader = new FileUploader({url: URL});
 
-public courseName = '';
-public mainQuestion = '';
-public aChoiceAnswer = '';
-public bChoiceAnswer = '';
-public cChoiceAnswer = '';
-public dChoiceAnswer = '';
-public correctAnswer = '';
+public finalExamQuestions: IgucaQuestion[] = [];
 
-model = new Course();
+public newCourse: IgucaCourse = new IgucaCourse();
 
-constructor() {
+public statusText = '';
+
+constructor(private igucaService: IgucaService) {
 }
-   ngOnInit() {
+  ngOnInit() {
+    this.pushQuestion();
+    this.newCourse.finalExam = this.finalExamQuestions;
   }
 
   pushQuestion() {
-    this.model.addQuestion([ this.mainQuestion, this.aChoiceAnswer
-      , this.bChoiceAnswer , this.cChoiceAnswer , this.dChoiceAnswer , this.correctAnswer ]);
-      this.mainQuestion = '';
-      this.aChoiceAnswer = '';
-      this.bChoiceAnswer = '';
-      this.cChoiceAnswer = '';
-      this.dChoiceAnswer = '';
-      this.correctAnswer = '';
+    const newQuestion: IgucaQuestion = new IgucaQuestion();
+    newQuestion.number = this.finalExamQuestions.length + 1;
+    this.finalExamQuestions.push(newQuestion);
+    console.log(this.newCourse);
   }
 
-  deleteQuestion(position: number) {
-    this.model.deleteQuestion(position);
+  deleteQuestion(question: IgucaQuestion) {
+    this.finalExamQuestions = this.finalExamQuestions.filter((question_) => {
+      return question_ !== question;
+    });
+    this.resetNumbers();
+  }
 
+  setCorrectAnswer(value: string, question: IgucaQuestion) {
+    question.correct = value;
   }
-  setCorrectAnswer(value: string) {
-    this.correctAnswer = value;
-    console.log(this.correctAnswer);
+
+  resetNumbers() {
+    let i = 1;
+    this.finalExamQuestions.forEach((question) => {
+      question.number = i;
+      i += 1;
+    });
   }
+
   sendCourse() {
-    this.model.writeCourse();
+    if (this.validateCourse()) {
+      this.igucaService.newCourseCreated(this.newCourse);
+      this.statusText = 'Curso Valido';
+    }
   }
 
+  validateCourse(): boolean {
+    let isValid = true;
+    if (this.newCourse.name === '') {
+      this.statusText = 'Falta agregar el nombre del curso';
+      isValid = false;
+    }
+    return isValid;
+  }
 
 }

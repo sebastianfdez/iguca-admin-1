@@ -1,13 +1,12 @@
 <div class="app-content">
 
-
-
-
   <div id="parent" #parent></div>
 
+  <div class="app-parent-menu" *ngIf="!childOpen">
 
+    <button (click)="showNewCourse()">Agregar Nuevo Curso</button>
+    <button>Ver Cursos Existentes</button>
 
-
-
+  </div>
 
 </div>
