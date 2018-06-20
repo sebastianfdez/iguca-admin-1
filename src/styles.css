@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+<<<<<<< Updated upstream
+=======
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: #E3E3E3;
+}
+>>>>>>> Stashed changes
