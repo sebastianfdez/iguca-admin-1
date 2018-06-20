@@ -1,0 +1,129 @@
+<div class="info-course-loader-content">
+
+  <div class="course-loader-main-title">
+    <span class="course-loader-main-title-span">
+      Agregar nuevo curso
+    </span>
+  </div>
+
+  <div class="course-loader-field mat-elevation-z1">
+
+    <div class="course-loader-title">
+      <span class="course-loader-title-span">
+        Nombres del curso
+      </span>
+    </div>
+    
+    <form class="course-loader-input">
+      <mat-form-field class="course-form">
+        <input matInput placeholder="Nombre del curso" [(ngModel)]="newCourse.name" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form>
+
+    <form class="course-loader-input">
+      <mat-form-field class="course-form">
+        <input matInput placeholder="Nombre de la empresa" [(ngModel)]="newCourse.company" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form>
+
+  </div>
+
+  <div class="course-loader-field mat-elevation-z1">
+    <div class="documents-container">
+      <div class="course-loader-title">
+        <span class="course-loader-title-span">Subir documentos al curso</span>
+      </div>
+
+      <div class="course-loader-subtitle">
+        <span class="course-loader-subtitle-span document-manual">Manual del curso</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="uploader" multiple/>
+
+      <div class="document-file" *ngFor="let item of uploader.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteManual(item)">Eliminar</button>
+
+      </div>
+
+      <div class="course-loader-subtitle">
+        <span class="course-loader-subtitle-span document-manual">Ejercicios del curso</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="uploader2" multiple/>
+
+      <div class="document-file" *ngFor="let item of uploader2.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteExercise(item)">Eliminar</button>
+
+      </div>
+    </div>
+  </div>
+  
+  <div class="course-loader-field mat-elevation-z1">
+    <div class="course-loader-title">
+      <span class="course-loader-title-span">Subir preguntas al curso</span>
+    </div>
+    <div class="course-loader-subtitle">
+      <span class="course-loader-subtitle-span">Preguntas Examen Final</span>
+    </div>
+
+    <div class="final-exam-question" *ngFor="let question of newCourse.finalExam">
+
+      <div class="mainQuestion">
+        <mat-form-field>
+          <input matInput placeholder="Pregunta {{question.number}} :" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
+      <div class="choices">
+        <mat-radio-group>
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa a:" [(ngModel)]="question.a" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)">a</mat-radio-button>
+          </div>
+    
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa b:" [(ngModel)]="question.b" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)">b</mat-radio-button>
+          </div>
+    
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
+          </div>
+    
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div class="buttonQuestionDisplay">
+        <button mat-button (click)="deleteQuestion(question)">Eliminar Pregunta</button>
+      </div>
+      
+    </div>
+
+    <div class="addQuestionButton">
+      <button mat-button (click)="pushQuestion()">Agregar Pregunta</button>
+    </div>
+  </div>
+
+  <div class="statusText" *ngFor="let error of statusText">
+    {{error}}
+  </div>
+
+
+  <div class="sendCourseButton">
+    <button mat-button (click)="sendCourse()">Agregar Curso</button>
+  </div>
+
+</div>

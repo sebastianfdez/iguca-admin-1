@@ -1,0 +1,75 @@
+app-root {
+
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: #E3E3E3;
+
+  .app-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-parent-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .menu-new-course {
+    height: 40px;
+    width: 210px;
+    display: flex;
+    margin: 5px 0;
+  }
+
+  .menu-old-courses {
+    height: 40px;
+    width: 210px;
+    display: flex;
+    margin: 5px 0;
+  }
+
+  .menu-rendiciones {
+    height: 40px;
+    width: 210px;
+    display: flex;
+    margin: 5px 0;
+  }
+
+  .menu-logo {
+    margin-top: 50px;
+    display: flex;
+    max-height: 231px;
+    max-width: 500px;
+  }
+
+  .menu-logo-img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  .menu-title {
+    margin: 35px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-title-p {
+    font-size: 35px;
+    line-height: 44px;
+    text-align: start;
+    color: #252627;
+  }
+
+  .mat-button {
+    background-color: #FB1D5E;
+    color: #FFFFFF;
+    width: 100%;
+  }
+
+}
