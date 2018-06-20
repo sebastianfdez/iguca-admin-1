@@ -23,6 +23,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { IgucaService } from './services/iguca-service.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,7 @@ import { IgucaService } from './services/iguca-service.service';
     // AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
     // AngularFireDatabaseModule,
   ],
-  providers: [IgucaService],
+  providers: [IgucaService ],
   bootstrap: [AppComponent],
   entryComponents: [InfoCourseLoaderComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

@@ -18,8 +18,10 @@ public uploader: FileUploader = new FileUploader({
   allowedFileType: ['pdf']
 });
 
-
-
+public uploader2: FileUploader = new FileUploader({
+  url: URL,
+  allowedFileType: ['pdf']
+});
 
 public newCourse: IgucaCourse = new IgucaCourse();
 
@@ -111,6 +113,18 @@ constructor(private igucaService: IgucaService) {
       }
     });
     return isValid;
+  }
+
+  deleteManual(file) {
+    this.uploader.queue = this.uploader.queue.filter((file_) => {
+      return file_ !== file;
+    });
+  }
+
+  deleteExercise(file) {
+    this.uploader2.queue = this.uploader.queue.filter((file_) => {
+      return file_ !== file;
+    });
   }
 
 }

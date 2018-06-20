@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
 
   private allIgucaCourses: IgucaCourse[] = [];
   public childOpen = false;
+  public igucaLogo = '../../assets/Logoconfondoblanco.jpg';
 
   constructor(
     private factory: ComponentFactoryResolver,

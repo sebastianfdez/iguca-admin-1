@@ -1,256 +1,129 @@
 <div class="info-course-loader-content">
 
-
-
-  <form class="info-course-loader-company">
-    <mat-form-field class="uploader">
-      <input matInput placeholder="Nombre de la empresa" value="" [(ngModel)]="newCourse.company" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-  </form>
-
-  <form class="info-course-loader-title">
-    <mat-form-field class="uploader">
-      <input matInput placeholder="Nombre del curso" value="" [(ngModel)]="newCourse.name" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-  </form>
-
-  <div class="container">
-      <div class="row">
-          <div class="col-md-3">
-            <mat-list-item>Docuemntos del curso</mat-list-item>
-            <mat-divider></mat-divider>
-
-            <div class="fileUploaderTopic">
-              <mat-list-item>Seleción Multiple de archivos</mat-list-item>
-            </div>
-              <input type="file" ng2FileSelect [uploader]="uploader" multiple  />
-          </div>
-
-          <div class="col-md-9" style="margin-bottom: 40px">
-            <div class="fileUploaderTopic">
-              <mat-list-item>Documentos selecionados:</mat-list-item>
-            </div>
-
-              <table class="table">
-                  <thead>
-                  <tr>
-                      <th width="50%"><mat-list-item>Nombre</mat-list-item></th>
-                      <th><mat-list-item>Size</mat-list-item></th>
-                      <th><mat-list-item>Progress</mat-list-item></th>
-                      <th><mat-list-item>Status</mat-list-item></th>
-                      <th><mat-list-item>Action</mat-list-item></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr *ngFor="let item of uploader.queue">
-                      <td><strong>{{ item?.file?.name }}</strong></td>
-                      <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                      <td *ngIf="uploader.isHTML5">
-                          <div class="progress" style="margin-bottom: 0;">
-                              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                          </div>
-                      </td>
-                      <td class="text-center">
-                          <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                          <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                          <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                      </td>
-                      <td nowrap>
-                          <button type="button" class="btn btn-success btn-xs"
-                                  (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                              <span class="glyphicon glyphicon-upload"></span> Upload
-                          </button>
-                          <button type="button" class="btn btn-warning btn-xs"
-                                  (click)="item.cancel()" [disabled]="!item.isUploading">
-                              <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                          </button>
-                          <button type="button" class="btn btn-danger btn-xs"
-                                  (click)="item.remove()">
-                              <span class="glyphicon glyphicon-trash"></span> Remove
-                          </button>
-                      </td>
-                  </tr>
-                  </tbody>
-              </table>
-
-              <div>
-                  <div>
-                        <mat-list-item>Queue progress:</mat-list-item>
-                      <div class="progress" style="">
-                          <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                      </div>
-                  </div>
-                  <button type="button" class="btn btn-success btn-s"
-                          (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                      <span class="glyphicon glyphicon-upload"></span> Upload all
-                  </button>
-                  <button type="button" class="btn btn-warning btn-s"
-                          (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                      <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                  </button>
-                  <button type="button" class="btn btn-danger btn-s"
-                          (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                      <span class="glyphicon glyphicon-trash"></span> Remove all
-                  </button>
-              </div>
-
-          </div>
-
-      </div>
-
+  <div class="course-loader-main-title">
+    <span class="course-loader-main-title-span">
+      Agregar nuevo curso
+    </span>
   </div>
 
-  <mat-list-item>Sección de preguntas:</mat-list-item>
-  <mat-divider></mat-divider>
+  <div class="course-loader-field mat-elevation-z1">
 
-
-<!--<ul>
-    <li *ngFor="let question of model.getFinalExam(); index as i" [attr.data-index]="i">
-      <div class="questionDisplay">
-        <div class="mainQuestionDisplay">
-            <mat-list-item role="listitem">{{i+1}}) </mat-list-item>
-            <mat-list-item role="listitem">{{question[0]}}</mat-list-item>
-          </div>
-
-          <div class="choiceAnswerDisplay">
-            <div class="singleChoiceAnswer">
-              <mat-list-item role="listitem">a)  .</mat-list-item>
-              <mat-list-item role="listitem">{{question[1]}}</mat-list-item>
-            </div>
-            <div class="singleChoiceAnswer">
-              <mat-list-item role="listitem">b)  .</mat-list-item>
-              <mat-list-item role="listitem">{{question[2]}}</mat-list-item>
-            </div>
-            <div class="singleChoiceAnswer">
-              <mat-list-item role="listitem">c)  .</mat-list-item>
-              <mat-list-item role="listitem">{{question[3]}}</mat-list-item>
-            </div>
-            <div class="singleChoiceAnswer">
-              <mat-list-item role="listitem">d)  .</mat-list-item>
-              <mat-list-item role="listitem">{{question[4]}}</mat-list-item>
-            </div>
-          </div>
-          <div class="correctAnswerDisplay">
-            <mat-list-item role="listitem">Alternativa correcta:   .</mat-list-item>
-            <mat-list-item role="listitem">{{question[5]}}</mat-list-item>
-          </div>
-
-        <div class="buttonQuestionDysplay">
-          <button mat-button (click)="deleteQuestion(i)">Eliminar</button>
-        </div>
-      </div>
-    </li>
-</ul>-->
-
-<!--<form>
-  <div class="mainQuestion">
-    <mat-form-field>
-      <input matInput placeholder="Pregunta:" [(ngModel)]="mainQuestion" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-  </div>
-<div class="choice">
-    <mat-radio-group>
-      <div class="choiceQuestion">
-        <mat-form-field>
-          <input matInput placeholder="Alternativa a:"  [(ngModel)]="aChoiceAnswer" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <mat-radio-button value="1" (click)="setCorrectAnswer('a')">a</mat-radio-button>
-      </div>
-
-      <div class="choiceQuestion">
-        <mat-form-field>
-          <input matInput placeholder="Alternativa b:" [(ngModel)]="bChoiceAnswer" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <mat-radio-button value="2" (click)="setCorrectAnswer('b')">b</mat-radio-button>
-      </div>
-
-      <div class="choiceQuestion">
-        <mat-form-field>
-          <input matInput placeholder="Alternativa c:" [(ngModel)]="cChoiceAnswer" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <mat-radio-button value="3" (click)="setCorrectAnswer('c')">c</mat-radio-button>
-      </div>
-
-      <div class="choiceQuestion">
-        <mat-form-field>
-          <input matInput placeholder="Alternativa d:" [(ngModel)]="dChoiceAnswer" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <mat-radio-button value="4" (click)="setCorrectAnswer('d')">d</mat-radio-button>
-      </div>
-    </mat-radio-group>
-  </div>
-  <div class="addQuestionButton">
-    <button mat-button (click)="pushQuestion()">Agregar</button>
-  </div>
-
-</form>-->
-
-<div class="final-exam">
-
-  <div class="final-exam-question" *ngFor="let question of newCourse.finalExam">
-
-    <div class="mainQuestion">
-      <mat-form-field>
-        <input matInput placeholder="Pregunta {{question.number}} :" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
+    <div class="course-loader-title">
+      <span class="course-loader-title-span">
+        Nombres del curso
+      </span>
     </div>
-    <div class="choices">
-      <mat-radio-group>
-        <div class="choiceQuestion">
-          <mat-form-field>
-            <input matInput placeholder="Alternativa a:"  [(ngModel)]="question.a" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)">a</mat-radio-button>
-        </div>
-  
-        <div class="choiceQuestion">
-          <mat-form-field>
-            <input matInput placeholder="Alternativa b:" [(ngModel)]="question.b" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)">b</mat-radio-button>
-        </div>
-  
-        <div class="choiceQuestion">
-          <mat-form-field>
-            <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
-        </div>
-  
-        <div class="choiceQuestion">
-          <mat-form-field>
-            <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
-        </div>
-      </mat-radio-group>
-    </div>
-    <div class="buttonQuestionDysplay">
-      <button mat-button (click)="deleteQuestion(question)">Eliminar</button>
-    </div>
-  
     
+    <form class="course-loader-input">
+      <mat-form-field class="course-form">
+        <input matInput placeholder="Nombre del curso" [(ngModel)]="newCourse.name" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form>
+
+    <form class="course-loader-input">
+      <mat-form-field class="course-form">
+        <input matInput placeholder="Nombre de la empresa" [(ngModel)]="newCourse.company" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form>
+
   </div>
-  <div class="addQuestionButton">
-    <button mat-button (click)="pushQuestion()">Agregar</button>
+
+  <div class="course-loader-field mat-elevation-z1">
+    <div class="documents-container">
+      <div class="course-loader-title">
+        <span class="course-loader-title-span">Subir documentos al curso</span>
+      </div>
+
+      <div class="course-loader-subtitle">
+        <span class="course-loader-subtitle-span document-manual">Manual del curso</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="uploader" multiple/>
+
+      <div class="document-file" *ngFor="let item of uploader.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteManual(item)">Eliminar</button>
+
+      </div>
+
+      <div class="course-loader-subtitle">
+        <span class="course-loader-subtitle-span document-manual">Ejercicios del curso</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="uploader2" multiple/>
+
+      <div class="document-file" *ngFor="let item of uploader2.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteExercise(item)">Eliminar</button>
+
+      </div>
+    </div>
+  </div>
+  
+  <div class="course-loader-field mat-elevation-z1">
+    <div class="course-loader-title">
+      <span class="course-loader-title-span">Subir preguntas al curso</span>
+    </div>
+    <div class="course-loader-subtitle">
+      <span class="course-loader-subtitle-span">Preguntas Examen Final</span>
+    </div>
+
+    <div class="final-exam-question" *ngFor="let question of newCourse.finalExam">
+
+      <div class="mainQuestion">
+        <mat-form-field>
+          <input matInput placeholder="Pregunta {{question.number}} :" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
+      <div class="choices">
+        <mat-radio-group>
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa a:" [(ngModel)]="question.a" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)">a</mat-radio-button>
+          </div>
+    
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa b:" [(ngModel)]="question.b" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)">b</mat-radio-button>
+          </div>
+    
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
+          </div>
+    
+          <div class="choiceQuestion">
+            <mat-form-field>
+              <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div class="buttonQuestionDisplay">
+        <button mat-button (click)="deleteQuestion(question)">Eliminar Pregunta</button>
+      </div>
+      
+    </div>
+
+    <div class="addQuestionButton">
+      <button mat-button (click)="pushQuestion()">Agregar Pregunta</button>
+    </div>
   </div>
 
-</div>
-
-<div class="statusText" *ngFor="let error of statusText">
-  {{error}}
-</div>
-
-<div class="sendCourseButton">
-  <button mat-button (click)="sendCourse()">Agregar Curso</button>
-</div>
+  <div class="statusText" *ngFor="let error of statusText">
+    {{error}}
+  </div>
 
 
-
-
-
-
-
-
+  <div class="sendCourseButton">
+    <button mat-button (click)="sendCourse()">Agregar Curso</button>
+  </div>
 
 </div>

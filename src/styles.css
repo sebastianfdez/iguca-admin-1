@@ -5,10 +5,12 @@ body {
   height: 100%;
   width: 100%;
   display: flex;
+  margin: 0;
 }
 
 html {
   height: 100%;
   width: 100%;
   display: flex;
+  background-color: #E3E3E3;
 }

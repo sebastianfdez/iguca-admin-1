@@ -3,106 +3,226 @@ app-info-course-loader {
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: center;
-  margin-top: 15px;
+  overflow-y: scroll; 
 
+  .course-form {
+    height: 100%;
+  }
 
-    .buttonQuestionDysplay .mat-button {
+  .course-loader-main-title {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .course-loader-main-title-span {
+    font-size: 35px;
+    line-height: 44px;
+    text-align: start;
+    color: #282d31;
+  }
+
+  .course-loader-input {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .course-loader-title {
+    padding: 15px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #8D9293; 
+  }
+
+  .course-loader-subtitle {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .course-loader-title-span {
+    font-size: 35px;
+    line-height: 44px;
+    text-align: start;
+    color: #282d31;
+  }
+
+  .course-loader-subtitle-span {
+    font-size: 25px;
+    line-height: 44px;
+    text-align: start;
+    color: #0f0f0f;
+  }
+
+  .info-course-loader-content {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .documents-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .document-file {
+    display: flex;
+  }
+
+  .file-button {
+    height: 20px;
+    flex: 0 0 auto;
+    width: fit-content;
+    display: flex;
+
+    .mat-button-wrapper {
+      line-height: 0;
+    }
+  }
+
+  .file-span {
+    height: fit-content;
+    margin-right: 10px;
+    font-size: 13px;
+  }
+
+  .final-exam-question {
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+  }
+
+  .mainQuestionDisplay {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .buttonQuestionDisplay {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .mat-button {
       background-color: red;
+      max-width: 300px;
+      width: 300px;
     }
+  }
 
-    .choice {
-      display: flex;
-      flex-direction: row;
-    }
+  .addQuestionButton {
+    margin: 10px 0;
+    width: 300px;
+    max-width: 300px;
 
-    .choiceQuestion {
-      margin-left: 30px;
-      display: flex;
-    }
-
-    .choiceAnswerDisplay {
-      display: flex;
-      flex-direction: column;
-      margin-top: 10px;
-      margin-left: 20px;
-    }
-
-    .correctAnswerDisplay {
-      display: flex;
-      flex-direction: row;
-      margin: 10px;
-    }
-
-    .loaader-content {
-      height: 100%;
-      width: 100%;
-      flex-direction: column;
-      display: flex;
-    }
-
-    .fileUploaderTopic {
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-
-    .info-course-loader-content {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .addQuestionButton .mat-button {
+    .mat-button {
       background-color: green;
     }
+  }
 
-    .mat-form-field {
-      display: flex;
-      width: 100%;
+  .sendCourseButton {
+    margin: 10px 0;
+    width: 300px;
+    max-width: 300px;
+
+    .mat-button {
+      background-color: #cece10;
     }
+  }
 
-    .mat-input-infix.mat-form-field-infix {
-      width: 600px;
-    }
+  .statusText {
+    color: red;
+  }
 
-    .mat-radio-button.mat-accent {
-      margin-top: 20px;
-      margin-left: 20px;
-    }
+  .choices {
+    display: flex;
+    flex-direction: row;
+  }
 
-    .mainQuestionDisplay {
-      display: flex;
-      flex-direction: row;
-    }
+  .choiceQuestion {
+    margin-left: 30px;
+    display: flex;
+  }
 
-    .uploader {
-      margin-top: 15px;
-    }
+  .course-loader-field {
+    width: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    background-color: #ffffff;
+    align-items: center;
+  }
 
-    .singleChoiceAnswer {
-      display: flex;
-      flex-direction: row;
-    }
 
-    .sendCourseButton .mat-button {
-      background-color: yellow;
-      margin-top: 40px;
-      margin-left: 40px; 
-    }
 
-    .question {
+
+
+
+
+  .buttonQuestionDysplay .mat-button {
+    background-color: red;
+  }
+
+  .choiceAnswerDisplay {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+
+  .correctAnswerDisplay {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+  }
+
+  .loaader-content {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+  }
+
+  .fileUploaderTopic {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .mat-form-field {
+    display: flex;
+    width: 100%;
+  }
+
+  .mat-input-infix.mat-form-field-infix {
+    width: 600px;
+  }
+
+  .mat-radio-button.mat-accent {
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+
+  .singleChoiceAnswer {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .question {
     margin-top: 50px;
-    }
-    .questionDisplay {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-    }
+  }
 
-    .statusText {
-      color: red;
-    }
-
-
+  .questionDisplay {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
 }
