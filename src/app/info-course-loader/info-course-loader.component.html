@@ -191,7 +191,7 @@
 
     <div class="mainQuestion">
       <mat-form-field>
-        <input matInput placeholder="Pregunta:" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
+        <input matInput placeholder="Pregunta {{question.number}} :" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </div>
     <div class="choices">
@@ -237,8 +237,8 @@
 
 </div>
 
-<div class="statusText">
-  {{statusText}}
+<div class="statusText" *ngFor="let error of statusText">
+  {{error}}
 </div>
 
 <div class="sendCourseButton">

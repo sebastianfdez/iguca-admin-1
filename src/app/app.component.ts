@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation, ComponentFactoryResolver, ViewChild, ViewContainerRef, OnInit, ComponentFactory } from '@angular/core';
+import { Component, ViewEncapsulation, ComponentFactoryResolver, ViewChild, ViewContainerRef,
+   OnInit, ComponentFactory } from '@angular/core';
 import { InfoCourseLoaderComponent} from './info-course-loader/info-course-loader.component';
 import { IgucaService } from './services/iguca-service.service';
 import { IgucaCourse } from './course';
