@@ -3,9 +3,10 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // database
-// import { AngularFireModule } from 'angularfire2';
-// import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
+
 
 
 import { AppComponent } from './app.component';
@@ -40,8 +41,8 @@ import { IgucaService } from './services/iguca-service.service';
     MatRadioModule,
     MatListModule,
     MatDividerModule,
-    // AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
-    // AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
+    AngularFireDatabaseModule,
   ],
   providers: [IgucaService ],
   bootstrap: [AppComponent],

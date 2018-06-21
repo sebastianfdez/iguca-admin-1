@@ -14,5 +14,4 @@ export const environment = {
     storageBucket: 'igucapp.appspot.com',
     messagingSenderId: '593839568869',
   },
-  //  firebase.initializeApp(config);
 };

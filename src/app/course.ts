@@ -1,3 +1,9 @@
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireList } from 'angularfire2/database';
+// import { Observable } from 'rxjs';
+
+
+
 export class IgucaQuestion {
   a = '';
   b = '';
@@ -28,5 +34,23 @@ export class Upload {
 
   constructor(file: File) {
     this.file = file;
+  }
+}
+
+export class Database {
+  public courses: AngularFireList<IgucaCourse>;
+  public cursos: {}[];
+
+  constructor(db: AngularFireDatabase) {
+       this.courses = db.list('/Cursos');
+        db.list('/Cursos').valueChanges().subscribe(Courses => {
+        this.cursos = Courses;
+    });
+  }
+  addElement(newcCourse: IgucaCourse) {
+    this.courses.push(newcCourse);
+  }
+  getElemnt() {
+    console.log(this.cursos);
   }
 }

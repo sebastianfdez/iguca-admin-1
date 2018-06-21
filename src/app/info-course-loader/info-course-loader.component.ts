@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FileUploader, FileItem } from 'ng2-file-upload';
-import { IgucaCourse, IgucaQuestion } from '../course';
+import { IgucaCourse, IgucaQuestion, Database } from '../course';
 import { IgucaService } from '../services/iguca-service.service';
+import { AngularFireDatabase } from 'angularfire2/database';
+
 
 const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
 
@@ -24,10 +26,12 @@ public uploader2: FileUploader = new FileUploader({
 });
 
 public newCourse: IgucaCourse = new IgucaCourse();
+public database: Database = new Database(this.db);
 
 public statusText = [];
 
-constructor(private igucaService: IgucaService) {
+constructor(private igucaService: IgucaService,
+  private db: AngularFireDatabase) {
 }
   ngOnInit() {
     this.pushQuestion();
@@ -55,7 +59,6 @@ constructor(private igucaService: IgucaService) {
   }
 
 
-
   setCorrectAnswer(value: string, question: IgucaQuestion) {
     question.correct = value;
   }
@@ -70,8 +73,13 @@ constructor(private igucaService: IgucaService) {
 
   sendCourse() {
     if (this.validateCourse()) {
+      this.database.addElement(this.newCourse);
       this.igucaService.newCourseCreated(this.newCourse);
     }
+  }
+
+  getDatabaseCourses() {
+    this.database.getElemnt();
   }
 
   validateCourse(): boolean {
