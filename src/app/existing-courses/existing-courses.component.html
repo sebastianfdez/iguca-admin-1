@@ -1,0 +1,28 @@
+<p>
+  existing-courses works!
+</p>
+<button (click)="getDatabaseCourses()">Cargar Cursos</button>  
+
+<div *ngFor="let course of this.Courses; let i = index">
+    <div class="courseName">
+        <span class="course-loader-title-span">
+          {{ course.name }}
+        </span>
+      </div>
+  
+
+</div>
+
+  <form class="course-loader-input">
+    <mat-form-field class="course-form">
+      <input matInput placeholder="campo a elminar" [(ngModel)]="deleteChild" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field class="course-form">
+        <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+  
+  
+  </form>
+
+<button (click)="deleteDatabaseCourse()">Borrar Curso</button> 
+

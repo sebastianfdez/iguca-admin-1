@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfoCourseLoaderComponent } from './info-course-loader/info-course-loader.component';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { IgucaService } from './services/iguca-service.service';
+import { ExistingCoursesComponent } from './existing-courses/existing-courses.component';
 
 
 
@@ -29,6 +30,7 @@ import { IgucaService } from './services/iguca-service.service';
   declarations: [
     AppComponent,
     InfoCourseLoaderComponent,
+    ExistingCoursesComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -46,7 +48,7 @@ import { IgucaService } from './services/iguca-service.service';
   ],
   providers: [IgucaService ],
   bootstrap: [AppComponent],
-  entryComponents: [InfoCourseLoaderComponent],
+  entryComponents: [InfoCourseLoaderComponent, ExistingCoursesComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 
 })

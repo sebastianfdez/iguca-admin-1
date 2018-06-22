@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation, ComponentFactoryResolver, ViewChild, ViewContainerRef,
    OnInit, ComponentFactory } from '@angular/core';
 import { InfoCourseLoaderComponent} from './info-course-loader/info-course-loader.component';
+import { ExistingCoursesComponent } from './existing-courses/existing-courses.component';
 import { IgucaService } from './services/iguca-service.service';
 import { IgucaCourse } from './course';
 
@@ -18,7 +19,11 @@ export interface Item { name: string; }
 export class AppComponent implements OnInit {
   titleHerma = 'hermano';
   private courseLoaderHolder: ComponentFactory<InfoCourseLoaderComponent>;
+  private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
+
   private courseLoaderHolderComp;
+  private existingCoursesHolderComp;
+
 
   @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;
 
@@ -51,5 +56,14 @@ export class AppComponent implements OnInit {
     this.openInfoCourseLoader();
   }
 
+  openExistingCourses() {
+    this.existingCoursesHolder = this.factory.resolveComponentFactory(ExistingCoursesComponent);
+    this.existingCoursesHolderComp = this.parent.createComponent(this.existingCoursesHolder);
+    this.childOpen = true;
+  }
+
+  showExistingCourses() {
+    this.openExistingCourses();
+  }
 
 }

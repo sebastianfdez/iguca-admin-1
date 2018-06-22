@@ -26,7 +26,7 @@ public uploader2: FileUploader = new FileUploader({
 });
 
 public newCourse: IgucaCourse = new IgucaCourse();
-public database: Database = new Database(this.db);
+private database: Database = new Database(this.db);
 
 public statusText = [];
 
@@ -79,7 +79,7 @@ constructor(private igucaService: IgucaService,
   }
 
   getDatabaseCourses() {
-    this.database.getElemnt();
+   console.log(this.database.getElement());
   }
 
   validateCourse(): boolean {

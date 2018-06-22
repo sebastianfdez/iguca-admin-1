@@ -1,5 +1,6 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireList } from 'angularfire2/database';
+import { query } from '@angular/core/src/render3/instructions';
 // import { Observable } from 'rxjs';
 
 
@@ -15,6 +16,7 @@ export class IgucaQuestion {
 }
 
 export class IgucaCourse {
+
   _id = '';
   company = '';
   documents: string[] = [];
@@ -40,17 +42,31 @@ export class Upload {
 export class Database {
   public courses: AngularFireList<IgucaCourse>;
   public cursos: {}[];
+  deletCourse: AngularFireList<any>;
 
   constructor(db: AngularFireDatabase) {
        this.courses = db.list('/Cursos');
+       this.deletCourse = db.list('/Cursos');
         db.list('/Cursos').valueChanges().subscribe(Courses => {
         this.cursos = Courses;
     });
+
   }
-  addElement(newcCourse: IgucaCourse) {
-    this.courses.push(newcCourse);
+  addElement(newCourse: IgucaCourse) {
+    this.courses.push(newCourse);
   }
-  getElemnt() {
-    console.log(this.cursos);
+  getElement() {
+    return this.cursos;
   }
+
+  deleteElement( Child: string, equalTo: string ) {
+   console.log(this.deletCourse.snapshotChanges());
+   const herma = this.deletCourse.query.orderByChild(Child).equalTo(equalTo);
+   herma.once('value', function(snapshot) {
+    snapshot.forEach(function(child) {
+      child.ref.remove();
+  });
+  });
 }
+}
+
