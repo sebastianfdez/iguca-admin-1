@@ -1,8 +1,8 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireList } from 'angularfire2/database';
 import { query } from '@angular/core/src/render3/instructions';
+import { Observable } from 'rxjs/Observable';
 // import { Observable } from 'rxjs';
-
 
 
 export class IgucaQuestion {
@@ -17,8 +17,9 @@ export class IgucaQuestion {
 
 export class IgucaCourse {
 
-  _id = '';
+
   company = '';
+  finalExamenPdf = '';
   documents: string[] = [];
   exersices: string[] = [];
   finalExam: IgucaQuestion[] = [];
@@ -41,19 +42,37 @@ export class Upload {
 
 export class Database {
   public courses: AngularFireList<IgucaCourse>;
-  public cursos: {}[];
+  public cursos: any[];
   deletCourse: AngularFireList<any>;
+  items: Observable<any[]>;
+  coursesCharged: boolean;
 
   constructor(db: AngularFireDatabase) {
-       this.courses = db.list('/Cursos');
-       this.deletCourse = db.list('/Cursos');
-        db.list('/Cursos').valueChanges().subscribe(Courses => {
-        this.cursos = Courses;
+    this.courses = db.list('/Cursos');
+    this.deletCourse = db.list('/Cursos');
+    this.coursesCharged = false;
+
+   /*this.items = db.list('/Cursos').snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
+    console.log(this.items); */
+
+
+    // const newKey = db.database.ref().child('/Cursos').push().key;
+
+    db.list('/Cursos').valueChanges().subscribe((Courses) => {
+      this.coursesCharged = true;
+
+      this.cursos = Courses;
     });
+
+    console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
 
   }
   addElement(newCourse: IgucaCourse) {
-    this.courses.push(newCourse);
+    console.log(this.courses.push(newCourse).key);
   }
   getElement() {
     return this.cursos;

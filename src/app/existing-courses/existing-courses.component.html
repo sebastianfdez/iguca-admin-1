@@ -1,15 +1,18 @@
 <p>
   existing-courses works!
 </p>
-<button (click)="getDatabaseCourses()">Cargar Cursos</button>  
+<button *ngIf="database.coursesCharged" (click)="getDatabaseCourses()">Cargar Cursos</button>  
+<button *ngIf="!database.coursesCharged" (click)="getDatabaseCourses()" disabled> Cargar Cursos</button>  
 
 <div *ngFor="let course of this.Courses; let i = index">
     <div class="courseName">
         <span class="course-loader-title-span">
           {{ course.name }}
         </span>
-      </div>
-  
+    <button (click)="editCourse(i)">Editar Curso</button>
+    </div>
+    
+    
 
 </div>
 

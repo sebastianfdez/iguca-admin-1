@@ -11,10 +11,15 @@ import { Database, IgucaCourse, IgucaQuestion } from '../course';
 })
 export class ExistingCoursesComponent implements OnInit {
 
-  private Courses: {}[];
+  private Courses: any[];
   private database: Database = new Database(this.db);
   public deleteChild = '';
   public deleteValue = '';
+  public IgucaCourses: IgucaCourse[] = [];
+  public Iguca: IgucaCourse = new IgucaCourse();
+  public editC: IgucaCourse;
+  public edit = false;
+
 
 
   constructor(private igucaService: IgucaService,
@@ -26,13 +31,29 @@ export class ExistingCoursesComponent implements OnInit {
 
   getDatabaseCourses() {
     this.Courses = this.database.getElement();
-    console.log(this.database.getElement());
-    /* for (let _i = 0; _i < this.database.getElement().length; _i++) {
-      for (let _k = 0; _k < this.database.getElement()[i].length; _k++){
-      }
-  }*/
-  // this.iguca1 = this.Courses[0].company;
 
+
+    for (let _i = 0; _i < this.Courses.length ; _i++) {
+      this.IgucaCourses[_i] = new IgucaCourse();
+      this.IgucaCourses[_i].name = this.Courses[_i].name;
+      this.IgucaCourses[_i].company = this.Courses[_i].company;
+      this.IgucaCourses[_i].exersices = this.Courses[_i].exersices;
+      this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
+      this.IgucaCourses[_i].finalExamenPdf = this.Courses[_i].finalExamenPdf;
+      this.IgucaCourses[_i].documents = this.Courses[_i].documents;
+      console.log(this.IgucaCourses[_i].finalExam[0].correct);
+
+ }
+    console.log(this.Courses);
+    console.log(this.IgucaCourses);
+
+  }
+
+  editCourse(i: number) {
+    console.log(i);
+    this.editC = this.IgucaCourses[i];
+    this.edit = true;
+    console.log(this.editC);
 
   }
 
