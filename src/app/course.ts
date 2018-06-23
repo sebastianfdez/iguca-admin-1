@@ -7,18 +7,29 @@ export class IgucaQuestion {
   b = '';
   c = '';
   d = '';
+  e = '';
+  f = '';
+  g = '';
+  h = '';
   correct = '';
   question = '';
   number = 0;
 }
 
 export class IgucaCourse {
+  _id = '';
   company = '';
   finalExamenPdf = '';
-  documents: string[] = [];
-  exersices: string[] = [];
+  documents: string[] = [''];
+  exersices: string[] = [''];
   finalExam: IgucaQuestion[] = [];
   name = '';
+
+  constructor() {
+    const date = new Date();
+    this._id = String(date.getTime());
+    console.log(this._id);
+  }
 }
 
 export class Upload {
@@ -66,12 +77,12 @@ export class Database {
   }
 
   addElement(newCourse: IgucaCourse) {
-    console.log(this.courses.push(newCourse).key);
+    console.log('cursos antes de db'); 
+    console.log(newCourse);
+    this.courses.push(newCourse);
   }
 
-  getElement() {
-    return this.cursos;
-  }
+
 
   deleteElement( Child: string, equalTo: string ) {
     console.log(this.deletCourse.snapshotChanges());
@@ -81,6 +92,15 @@ export class Database {
         child.ref.remove();
       });
     });
+  }
+
+  getElement() {
+    return this.cursos;
+  }
+
+  updateElement() {
+
+
   }
 }
 

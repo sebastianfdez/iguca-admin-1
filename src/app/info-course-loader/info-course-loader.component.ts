@@ -46,7 +46,9 @@ constructor(private igucaService: IgucaService,
     if (!this.openCourse.finalExam) {
       this.openCourse.finalExam = [];
     }
+    if (this.isNewCourse) {
     this.pushQuestion();
+    }
 
     this.uploader.onAfterAddingFile = (item: FileItem) => {
       item.withCredentials = false;

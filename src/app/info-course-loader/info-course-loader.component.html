@@ -90,22 +90,64 @@
             </mat-form-field>
             <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)">b</mat-radio-button>
           </div>
-    
-          <div class="choiceQuestion">
-            <mat-form-field>
-              <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-            <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
+          
+          <div *ngIf="question.b !== ''">
+            <div class="choiceQuestion">
+              <mat-form-field>
+                <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
+            </div>
           </div>
-    
-          <div class="choiceQuestion">
-            <mat-form-field>
-              <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-            <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
+            
+          <div *ngIf="question.c !== ''">
+            <div class="choiceQuestion">
+              <mat-form-field>
+                <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
+            </div>
           </div>
+
+          <div *ngIf="question.d !== ''">
+            <div class="choiceQuestion">
+              <mat-form-field>
+                <input matInput placeholder="Alternativa e:" [(ngModel)]="question.e" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-radio-button value="5" (click)="setCorrectAnswer('e', question)">e</mat-radio-button>
+            </div>
+          </div>
+
+          <div *ngIf="question.e !== ''">
+            <div class="choiceQuestion">
+              <mat-form-field>
+                <input matInput placeholder="Alternativa f:" [(ngModel)]="question.f" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-radio-button value="6" (click)="setCorrectAnswer('f', question)">f</mat-radio-button>
+            </div>
+          </div>
+
+          <div *ngIf="question.f !== ''">
+            <div class="choiceQuestion">
+              <mat-form-field>
+                <input matInput placeholder="Alternativa g:" [(ngModel)]="question.g" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-radio-button value="7" (click)="setCorrectAnswer('g', question)">g</mat-radio-button>
+            </div>
+          </div>
+
+          <div *ngIf="question.g !== ''">
+            <div class="choiceQuestion">
+              <mat-form-field>
+                <input matInput placeholder="Alternativa h:" [(ngModel)]="question.h" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-radio-button value="8" (click)="setCorrectAnswer('h', question)">h</mat-radio-button>
+            </div>
+          </div>
+
         </mat-radio-group>
       </div>
+      
       <div class="buttonQuestionDisplay">
         <button mat-button (click)="deleteQuestion(question)">Eliminar Pregunta</button>
       </div>
@@ -124,10 +166,6 @@
 
   <div class="sendCourseButton">
     <button mat-button (click)="sendCourse()">Agregar Curso</button>
-  </div>
-
-  <div class="sendCourseButton">
-    <button mat-button (click)="getDatabaseCourses()">Obtener Corsos</button>
   </div>
 
 </div>

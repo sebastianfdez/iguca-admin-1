@@ -21,6 +21,8 @@ export class ExistingCoursesComponent implements OnInit {
   public Iguca: IgucaCourse = new IgucaCourse();
   public editC: IgucaCourse;
   public edit = false;
+  public editN: number;
+
 
   constructor(
     private igucaService: IgucaService,
@@ -33,6 +35,8 @@ export class ExistingCoursesComponent implements OnInit {
 
   getDatabaseCourses() {
     this.Courses = this.database.getElement();
+
+
     for (let _i = 0; _i < this.Courses.length ; _i++) {
       this.IgucaCourses[_i] = new IgucaCourse();
       this.IgucaCourses[_i].name = this.Courses[_i].name;
@@ -41,7 +45,9 @@ export class ExistingCoursesComponent implements OnInit {
       this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
       this.IgucaCourses[_i].finalExamenPdf = this.Courses[_i].finalExamenPdf;
       this.IgucaCourses[_i].documents = this.Courses[_i].documents;
+      this.IgucaCourses[_i]._id = this.Courses[_i]._id;
       console.log(this.IgucaCourses[_i].finalExam[0].correct);
+
     }
     console.log(this.Courses);
     console.log(this.IgucaCourses);
@@ -60,7 +66,6 @@ export class ExistingCoursesComponent implements OnInit {
   deleteDatabaseCourse() {
     this.database.deleteElement( this.deleteChild , this.deleteValue );
     this.getDatabaseCourses();
-
 
   }
 

@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     const dialogRef = this.dialog.open(InfoCourseLoaderComponent, {
       width: '1000px',
       data: {
-        course: {},
+        course: null,
         isNewCourse: true,
       },
     });
