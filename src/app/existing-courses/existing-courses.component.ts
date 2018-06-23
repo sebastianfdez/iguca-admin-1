@@ -13,8 +13,8 @@ import { InfoCourseLoaderComponent } from '../info-course-loader/info-course-loa
 })
 export class ExistingCoursesComponent implements OnInit {
 
-  private Courses: any[];
-  private database: Database = new Database(this.db);
+  public Courses: any[];
+  public database: Database = new Database(this.db);
   public deleteChild = '';
   public deleteValue = '';
   public IgucaCourses: IgucaCourse[] = [];
