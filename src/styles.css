@@ -14,3 +14,9 @@ html {
   display: flex;
   background-color: #E3E3E3;
 }
+
+.cdk-overlay-pane {
+  display: flex;
+  max-height: 100%;
+  overflow-y: scroll;
+}

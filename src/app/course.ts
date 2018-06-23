@@ -1,9 +1,6 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireList } from 'angularfire2/database';
-import { query } from '@angular/core/src/render3/instructions';
 import { Observable } from 'rxjs/Observable';
-// import { Observable } from 'rxjs';
-
 
 export class IgucaQuestion {
   a = '';
@@ -16,8 +13,6 @@ export class IgucaQuestion {
 }
 
 export class IgucaCourse {
-
-
   company = '';
   finalExamenPdf = '';
   documents: string[] = [];
@@ -27,7 +22,6 @@ export class IgucaCourse {
 }
 
 export class Upload {
-
   $key: string;
   file: File;
   name: string;
@@ -64,28 +58,29 @@ export class Database {
 
     db.list('/Cursos').valueChanges().subscribe((Courses) => {
       this.coursesCharged = true;
-
       this.cursos = Courses;
     });
 
     console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
 
   }
+
   addElement(newCourse: IgucaCourse) {
     console.log(this.courses.push(newCourse).key);
   }
+
   getElement() {
     return this.cursos;
   }
 
   deleteElement( Child: string, equalTo: string ) {
-   console.log(this.deletCourse.snapshotChanges());
-   const herma = this.deletCourse.query.orderByChild(Child).equalTo(equalTo);
-   herma.once('value', function(snapshot) {
-    snapshot.forEach(function(child) {
-      child.ref.remove();
-  });
-  });
-}
+    console.log(this.deletCourse.snapshotChanges());
+    const herma = this.deletCourse.query.orderByChild(Child).equalTo(equalTo);
+    herma.once('value', function(snapshot) {
+      snapshot.forEach(function(child) {
+        child.ref.remove();
+      });
+    });
+  }
 }
 

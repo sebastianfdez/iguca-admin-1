@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { IgucaService } from '../services/iguca-service.service';
 import { Database, IgucaCourse, IgucaQuestion } from '../course';
+import { MatDialog } from '@angular/material';
+import { InfoCourseLoaderComponent } from '../info-course-loader/info-course-loader.component';
 
 @Component({
   selector: 'app-existing-courses',
@@ -20,19 +22,17 @@ export class ExistingCoursesComponent implements OnInit {
   public editC: IgucaCourse;
   public edit = false;
 
-
-
-  constructor(private igucaService: IgucaService,
-    private db: AngularFireDatabase) {
-     }
+  constructor(
+    private igucaService: IgucaService,
+    private db: AngularFireDatabase,
+    private dialog: MatDialog) {
+    }
 
   ngOnInit() {
   }
 
   getDatabaseCourses() {
     this.Courses = this.database.getElement();
-
-
     for (let _i = 0; _i < this.Courses.length ; _i++) {
       this.IgucaCourses[_i] = new IgucaCourse();
       this.IgucaCourses[_i].name = this.Courses[_i].name;
@@ -42,19 +42,19 @@ export class ExistingCoursesComponent implements OnInit {
       this.IgucaCourses[_i].finalExamenPdf = this.Courses[_i].finalExamenPdf;
       this.IgucaCourses[_i].documents = this.Courses[_i].documents;
       console.log(this.IgucaCourses[_i].finalExam[0].correct);
-
- }
+    }
     console.log(this.Courses);
     console.log(this.IgucaCourses);
-
   }
 
   editCourse(i: number) {
-    console.log(i);
-    this.editC = this.IgucaCourses[i];
-    this.edit = true;
-    console.log(this.editC);
-
+    this.dialog.open(InfoCourseLoaderComponent, {
+      width: '1000px',
+      data: {
+        course: this.IgucaCourses[i],
+        isNewCourse: false,
+      },
+    });
   }
 
   deleteDatabaseCourse() {

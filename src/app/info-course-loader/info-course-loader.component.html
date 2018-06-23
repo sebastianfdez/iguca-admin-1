@@ -16,13 +16,13 @@
     
     <form class="course-loader-input">
       <mat-form-field class="course-form">
-        <input matInput placeholder="Nombre del curso" [(ngModel)]="newCourse.name" [ngModelOptions]="{standalone: true}">
+        <input matInput placeholder="Nombre del curso" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </form>
 
     <form class="course-loader-input">
       <mat-form-field class="course-form">
-        <input matInput placeholder="Nombre de la empresa" [(ngModel)]="newCourse.company" [ngModelOptions]="{standalone: true}">
+        <input matInput placeholder="Nombre de la empresa" [(ngModel)]="openCourse.company" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </form>
 
@@ -68,7 +68,7 @@
       <span class="course-loader-subtitle-span">Preguntas Examen Final</span>
     </div>
 
-    <div class="final-exam-question" *ngFor="let question of newCourse.finalExam">
+    <div class="final-exam-question" *ngFor="let question of openCourse.finalExam">
 
       <div class="mainQuestion">
         <mat-form-field>

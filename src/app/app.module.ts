@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 // material packages
-import { MatInputModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCheckboxModule, MatDialogModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
@@ -43,6 +43,7 @@ import { ExistingCoursesComponent } from './existing-courses/existing-courses.co
     MatRadioModule,
     MatListModule,
     MatDividerModule,
+    MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
     AngularFireDatabaseModule,
   ],

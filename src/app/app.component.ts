@@ -4,6 +4,7 @@ import { InfoCourseLoaderComponent} from './info-course-loader/info-course-loade
 import { ExistingCoursesComponent } from './existing-courses/existing-courses.component';
 import { IgucaService } from './services/iguca-service.service';
 import { IgucaCourse } from './course';
+import { MatDialog } from '@angular/material';
 
 // import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/database';
 
@@ -18,10 +19,8 @@ export interface Item { name: string; }
 
 export class AppComponent implements OnInit {
   titleHerma = 'hermano';
-  private courseLoaderHolder: ComponentFactory<InfoCourseLoaderComponent>;
-  private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
 
-  private courseLoaderHolderComp;
+  private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
   private existingCoursesHolderComp;
 
 
@@ -34,26 +33,24 @@ export class AppComponent implements OnInit {
   constructor(
     private factory: ComponentFactoryResolver,
     private igucaService: IgucaService,
+    private dialog: MatDialog,
   ) {
   }
 
   ngOnInit() {
-    this.igucaService.courseCreatedObs$.subscribe((newCourse: IgucaCourse) => {
-      this.allIgucaCourses.push(newCourse);
-      console.log(this.allIgucaCourses);
-      this.courseLoaderHolderComp.destroy();
-      this.childOpen = false;
-    });
-  }
-
-  openInfoCourseLoader() {
-    this.courseLoaderHolder = this.factory.resolveComponentFactory(InfoCourseLoaderComponent);
-    this.courseLoaderHolderComp = this.parent.createComponent(this.courseLoaderHolder);
-    this.childOpen = true;
   }
 
   showNewCourse() {
-    this.openInfoCourseLoader();
+    const dialogRef = this.dialog.open(InfoCourseLoaderComponent, {
+      width: '1000px',
+      data: {
+        course: {},
+        isNewCourse: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
   }
 
   openExistingCourses() {
