@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { FileUploader, FileItem } from 'ng2-file-upload';
-import { IgucaCourse, IgucaQuestion, Database } from '../course';
+import { IgucaCourse, IgucaQuestion, Database} from '../course';
 import { IgucaService } from '../services/iguca-service.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AngularFireStorage } from 'angularfire2/storage';
+
 
 
 const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
@@ -31,17 +33,24 @@ private database: Database = new Database(this.db);
 
 public isNewCourse: boolean;
 
+
 public statusText = [];
 
 constructor(private igucaService: IgucaService,
-  private db: AngularFireDatabase, public dialogRef: MatDialogRef<InfoCourseLoaderComponent>,
+  private db: AngularFireDatabase,
+  private afStorage: AngularFireStorage,
+  public dialogRef: MatDialogRef<InfoCourseLoaderComponent>,
   @Inject(MAT_DIALOG_DATA) public data: any) {
+
+
     console.log(this.data);
+
     if (this.data.course) {
       this.openCourse = this.data.course;
     }
     this.isNewCourse = this.data.isNewCourse;
-}
+
+  }
   ngOnInit() {
     if (!this.openCourse.finalExam) {
       this.openCourse.finalExam = [];
@@ -55,6 +64,12 @@ constructor(private igucaService: IgucaService,
       item.alias = 'doc';
      // item.upload();
       console.log(item);
+      this.afStorage.ref('');
+      try {
+        const task = this.afStorage.ref('/files').child('prueba').put(item.file.rawFile);
+      } catch (e) {
+        console.log(e);
+      }
     };
   }
 
@@ -87,7 +102,6 @@ constructor(private igucaService: IgucaService,
     } else {
       return false;
     }
-    console.log(question.correct);
   }
 
   pushQuestion() {

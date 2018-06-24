@@ -1,6 +1,10 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { FileItem } from 'ng2-file-upload';
+
 
 export class IgucaQuestion {
   a = '';
@@ -103,4 +107,3 @@ export class Database {
     this.addElement(updateElement);
   }
 }
-

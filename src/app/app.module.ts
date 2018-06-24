@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // database
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { environment } from '../environments/environment';
 
 
@@ -46,6 +47,7 @@ import { ExistingCoursesComponent } from './existing-courses/existing-courses.co
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
   ],
   providers: [IgucaService ],
   bootstrap: [AppComponent],
