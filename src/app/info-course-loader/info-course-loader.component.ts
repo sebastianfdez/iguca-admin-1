@@ -47,7 +47,7 @@ constructor(private igucaService: IgucaService,
       this.openCourse.finalExam = [];
     }
     if (this.isNewCourse) {
-    this.pushQuestion();
+      this.pushQuestion();
     }
 
     this.uploader.onAfterAddingFile = (item: FileItem) => {
@@ -81,19 +81,30 @@ constructor(private igucaService: IgucaService,
     });
   }
 
-  getDatabaseCourses() {
-   console.log(this.database.getElement());
+  isCorrect(choice: string, question: IgucaQuestion) {
+    if (question.correct === choice) {
+      return  true;
+    } else {
+      return false;
+    }
+    console.log(question.correct);
   }
 
   pushQuestion() {
     const newQuestion: IgucaQuestion = new IgucaQuestion();
     newQuestion.number = this.openCourse.finalExam.length + 1;
     this.openCourse.finalExam.push(newQuestion);
-    console.log(this.openCourse);
   }
 
   setCorrectAnswer(value: string, question: IgucaQuestion) {
     question.correct = value;
+  }
+
+  updateCourse() {
+    if (this.validateCourse()) {
+    this.database.updateElement(this.openCourse);
+    this.dialogRef.close(this.openCourse);
+    }
   }
 
   resetNumbers() {
@@ -109,8 +120,6 @@ constructor(private igucaService: IgucaService,
       console.log(this.isNewCourse);
       if (this.isNewCourse) {
         this.database.addElement(this.openCourse);
-      } else {
-        // TODO: this.database.updateElemente(this.openCouse);
       }
       this.dialogRef.close(this.openCourse);
     }

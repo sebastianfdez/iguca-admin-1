@@ -20,6 +20,7 @@ export class IgucaCourse {
   _id = '';
   company = '';
   finalExamenPdf = '';
+  courseIcon = '';
   documents: string[] = [''];
   exersices: string[] = [''];
   finalExam: IgucaQuestion[] = [];
@@ -28,7 +29,6 @@ export class IgucaCourse {
   constructor() {
     const date = new Date();
     this._id = String(date.getTime());
-    console.log(this._id);
   }
 }
 
@@ -72,20 +72,18 @@ export class Database {
       this.cursos = Courses;
     });
 
-    console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
+   // console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
 
   }
 
   addElement(newCourse: IgucaCourse) {
-    console.log('cursos antes de db'); 
-    console.log(newCourse);
     this.courses.push(newCourse);
   }
 
 
 
   deleteElement( Child: string, equalTo: string ) {
-    console.log(this.deletCourse.snapshotChanges());
+   // console.log(this.deletCourse.snapshotChanges());
     const herma = this.deletCourse.query.orderByChild(Child).equalTo(equalTo);
     herma.once('value', function(snapshot) {
       snapshot.forEach(function(child) {
@@ -98,9 +96,11 @@ export class Database {
     return this.cursos;
   }
 
-  updateElement() {
-
-
+  updateElement(updateElement: IgucaCourse) {
+    const replaceId = updateElement._id;
+    console.log(replaceId);
+    this.deleteElement( '_id' , replaceId );
+    this.addElement(updateElement);
   }
 }
 

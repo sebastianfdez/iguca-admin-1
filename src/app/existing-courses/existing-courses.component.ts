@@ -46,7 +46,6 @@ export class ExistingCoursesComponent implements OnInit {
       this.IgucaCourses[_i].finalExamenPdf = this.Courses[_i].finalExamenPdf;
       this.IgucaCourses[_i].documents = this.Courses[_i].documents;
       this.IgucaCourses[_i]._id = this.Courses[_i]._id;
-      console.log(this.IgucaCourses[_i].finalExam[0].correct);
 
     }
     console.log(this.Courses);
@@ -69,4 +68,7 @@ export class ExistingCoursesComponent implements OnInit {
 
   }
 
+  homePage() {
+    this.igucaService.closeExistingCourses();
+  }
 }

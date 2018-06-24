@@ -38,6 +38,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.igucaService.closeEditCourses$.subscribe((data) => {
+      this.existingCoursesHolderComp.destroy();
+      this.childOpen = false;
+    });
   }
 
   showNewCourse() {

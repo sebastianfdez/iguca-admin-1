@@ -81,14 +81,14 @@
             <mat-form-field>
               <input matInput placeholder="Alternativa a:" [(ngModel)]="question.a" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
-            <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)">a</mat-radio-button>
+            <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)" [checked]="isCorrect('a',question)">a</mat-radio-button>
           </div>
     
           <div class="choiceQuestion">
             <mat-form-field>
               <input matInput placeholder="Alternativa b:" [(ngModel)]="question.b" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
-            <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)">b</mat-radio-button>
+            <mat-radio-button value="2" (click)="setCorrectAnswer('b', question)" [checked]="isCorrect('b',question)">b</mat-radio-button>
           </div>
           
           <div *ngIf="question.b !== ''">
@@ -96,7 +96,7 @@
               <mat-form-field>
                 <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
-              <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)">c</mat-radio-button>
+              <mat-radio-button value="3" (click)="setCorrectAnswer('c', question)" [checked]="isCorrect('c',question)">c</mat-radio-button>
             </div>
           </div>
             
@@ -105,7 +105,7 @@
               <mat-form-field>
                 <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
-              <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)">d</mat-radio-button>
+              <mat-radio-button value="4" (click)="setCorrectAnswer('d', question)" [checked]="isCorrect('d',question)">d</mat-radio-button>
             </div>
           </div>
 
@@ -114,7 +114,7 @@
               <mat-form-field>
                 <input matInput placeholder="Alternativa e:" [(ngModel)]="question.e" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
-              <mat-radio-button value="5" (click)="setCorrectAnswer('e', question)">e</mat-radio-button>
+              <mat-radio-button value="5" (click)="setCorrectAnswer('e', question)" [checked]="isCorrect('e',question)">e</mat-radio-button>
             </div>
           </div>
 
@@ -123,7 +123,7 @@
               <mat-form-field>
                 <input matInput placeholder="Alternativa f:" [(ngModel)]="question.f" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
-              <mat-radio-button value="6" (click)="setCorrectAnswer('f', question)">f</mat-radio-button>
+              <mat-radio-button value="6" (click)="setCorrectAnswer('f', question)" [checked]="isCorrect('f',question)">f</mat-radio-button>
             </div>
           </div>
 
@@ -132,7 +132,7 @@
               <mat-form-field>
                 <input matInput placeholder="Alternativa g:" [(ngModel)]="question.g" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
-              <mat-radio-button value="7" (click)="setCorrectAnswer('g', question)">g</mat-radio-button>
+              <mat-radio-button value="7" (click)="setCorrectAnswer('g', question)" [checked]="isCorrect('g',question)">g</mat-radio-button>
             </div>
           </div>
 
@@ -141,7 +141,7 @@
               <mat-form-field>
                 <input matInput placeholder="Alternativa h:" [(ngModel)]="question.h" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
-              <mat-radio-button value="8" (click)="setCorrectAnswer('h', question)">h</mat-radio-button>
+              <mat-radio-button value="8" (click)="setCorrectAnswer('h', question)" [checked]="isCorrect('h',question)">h</mat-radio-button>
             </div>
           </div>
 
@@ -165,7 +165,11 @@
 
 
   <div class="sendCourseButton">
-    <button mat-button (click)="sendCourse()">Agregar Curso</button>
+    <button mat-button *ngIf="this.isNewCourse" (click)="sendCourse()">Agregar Curso</button>
+  </div>
+
+  <div class="sendCourseButton">
+    <button mat-button *ngIf="!this.isNewCourse" (click)="updateCourse()">Editar Curso</button>
   </div>
 
 </div>
