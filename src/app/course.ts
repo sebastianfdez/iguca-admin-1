@@ -23,10 +23,6 @@ export class IgucaQuestion {
 export class IgucaCourse {
   _id = '';
   company = '';
-  finalExamenPdf = '';
-  courseIcon = '';
-  documents: string[] = [''];
-  exersices: string[] = [''];
   finalExam: IgucaQuestion[] = [];
   name = '';
 
@@ -102,7 +98,6 @@ export class Database {
 
   updateElement(updateElement: IgucaCourse) {
     const replaceId = updateElement._id;
-    console.log(replaceId);
     this.deleteElement( '_id' , replaceId );
     this.addElement(updateElement);
   }

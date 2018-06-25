@@ -5,6 +5,7 @@ import { IgucaService } from '../services/iguca-service.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { FirebaseApp } from 'angularfire2';
 
 
 
@@ -18,12 +19,22 @@ const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con l
 })
 export class InfoCourseLoaderComponent implements OnInit {
 
-public uploader: FileUploader = new FileUploader({
+public fileLoaderManual: FileUploader = new FileUploader({
   url: URL,
   allowedFileType: ['pdf']
 });
 
-public uploader2: FileUploader = new FileUploader({
+public fileLoaderExersices: FileUploader = new FileUploader({
+  url: URL,
+  allowedFileType: ['pdf']
+});
+
+public fileLoaderAnswers: FileUploader = new FileUploader({
+  url: URL,
+  allowedFileType: ['pdf']
+});
+
+public fileLoaderExam: FileUploader = new FileUploader({
   url: URL,
   allowedFileType: ['pdf']
 });
@@ -31,7 +42,17 @@ public uploader2: FileUploader = new FileUploader({
 public openCourse: IgucaCourse = new IgucaCourse();
 private database: Database = new Database(this.db);
 
+examFile: FileItem;
+manualFile: FileItem;
+exerciseFile: FileItem;
+answersFile: FileItem;
+
+
 public isNewCourse: boolean;
+public urlAnswers = '';
+public urlExersices = '';
+public urlExam = '';
+public urlManual = '';
 
 
 public statusText = [];
@@ -40,6 +61,7 @@ constructor(private igucaService: IgucaService,
   private db: AngularFireDatabase,
   private afStorage: AngularFireStorage,
   public dialogRef: MatDialogRef<InfoCourseLoaderComponent>,
+  @Inject(FirebaseApp) firebaseApp: any,
   @Inject(MAT_DIALOG_DATA) public data: any) {
 
 
@@ -47,6 +69,7 @@ constructor(private igucaService: IgucaService,
 
     if (this.data.course) {
       this.openCourse = this.data.course;
+      this.getStorageUrl();
     }
     this.isNewCourse = this.data.isNewCourse;
 
@@ -59,18 +82,30 @@ constructor(private igucaService: IgucaService,
       this.pushQuestion();
     }
 
-    this.uploader.onAfterAddingFile = (item: FileItem) => {
+    this.fileLoaderManual.onAfterAddingFile = (item: FileItem) => {
       item.withCredentials = false;
-      item.alias = 'doc';
-     // item.upload();
-      console.log(item);
-      this.afStorage.ref('');
-      try {
-        const task = this.afStorage.ref('/files').child('prueba').put(item.file.rawFile);
-      } catch (e) {
-        console.log(e);
-      }
+      item.alias = 'manual';
+      this.manualFile = item;
     };
+
+    this.fileLoaderExersices.onAfterAddingFile = (item: FileItem) => {
+      item.withCredentials = false;
+      item.alias = 'exersices';
+      this.exerciseFile = item;
+    };
+
+    this.fileLoaderExam.onAfterAddingFile = (item: FileItem) => {
+      item.withCredentials = false;
+      item.alias = 'exam';
+      this.examFile = item;
+    };
+
+    this.fileLoaderAnswers.onAfterAddingFile = (item: FileItem) => {
+      item.withCredentials = false;
+      item.alias = 'answers';
+      this.answersFile = item;
+    };
+
   }
 
   onNoClick(): void {
@@ -85,16 +120,43 @@ constructor(private igucaService: IgucaService,
   }
 
   deleteManual(file) {
-    this.uploader.queue = this.uploader.queue.filter((file_) => {
+    this.fileLoaderManual.queue = this.fileLoaderManual.queue.filter((file_) => {
       return file_ !== file;
     });
   }
 
   deleteExercise(file) {
-    this.uploader2.queue = this.uploader.queue.filter((file_) => {
+    this.fileLoaderExersices.queue = this.fileLoaderExersices.queue.filter((file_) => {
       return file_ !== file;
     });
   }
+
+  deleteExam(file) {
+    this.fileLoaderExam.queue = this.fileLoaderExam.queue.filter((file_) => {
+      return file_ !== file;
+    });
+  }
+
+  deleteAnswers(file) {
+    this.fileLoaderAnswers.queue = this.fileLoaderAnswers.queue.filter((file_) => {
+      return file_ !== file;
+    });
+  }
+
+  getStorageUrl() {
+      const URL_ref_Manual = this.afStorage.ref(this.openCourse.name).child('Manual');
+      URL_ref_Manual.getDownloadURL().subscribe(url => this.urlManual = url);
+
+      const URL_ref_Exersices = this.afStorage.ref(this.openCourse.name).child('Ejercicios');
+      URL_ref_Exersices.getDownloadURL().subscribe(url => this.urlExersices = url);
+
+      const URL_ref_Answers = this.afStorage.ref(this.openCourse.name).child('Respuestas');
+      URL_ref_Answers.getDownloadURL().subscribe(url => this.urlAnswers = url);
+
+      const URL_ref_Exam = this.afStorage.ref(this.openCourse.name).child('Examen');
+      URL_ref_Exam.getDownloadURL().subscribe(url => this.urlExam = url);
+  }
+
 
   isCorrect(choice: string, question: IgucaQuestion) {
     if (question.correct === choice) {
@@ -116,8 +178,20 @@ constructor(private igucaService: IgucaService,
 
   updateCourse() {
     if (this.validateCourse()) {
-    this.database.updateElement(this.openCourse);
-    this.dialogRef.close(this.openCourse);
+      this.database.updateElement(this.openCourse);
+      if (this.manualFile) {
+        this.updateFile(this.manualFile, 'Manual');
+      }
+      if (this.exerciseFile) {
+        this.updateFile(this.exerciseFile, 'Ejercicios');
+      }
+      if (this.examFile) {
+        this.updateFile(this.examFile, 'Examen');
+      }
+      if (this.answersFile) {
+        this.updateFile(this.answersFile, 'Respuestas');
+      }
+      this.dialogRef.close(this.openCourse);
     }
   }
 
@@ -135,8 +209,34 @@ constructor(private igucaService: IgucaService,
       if (this.isNewCourse) {
         this.database.addElement(this.openCourse);
       }
-      this.dialogRef.close(this.openCourse);
+      if (this.isNewCourse) {
+        this.uploadFile(this.manualFile, 'Manual');
+        this.uploadFile(this.exerciseFile , 'Ejercicios');
+        this.uploadFile(this.examFile , 'Examen');
+        this.uploadFile(this.answersFile, 'Respuestas');
+        this.dialogRef.close(this.openCourse);
+      } else {
+
+      }
     }
+  }
+
+  updateFile(item: FileItem, file: string) {
+    try {
+      const task = this.afStorage.ref( this.openCourse.name).child(file).delete();
+    } catch (e) {
+      console.log(e);
+    }
+    this.uploadFile(item, file);
+  }
+
+
+  uploadFile(item: FileItem, file: string) {
+      try {
+        const task = this.afStorage.ref( this.openCourse.name).child(file).put(item.file.rawFile);
+      } catch (e) {
+        console.log(e);
+      }
   }
 
   validateCourse(): boolean {
@@ -150,10 +250,7 @@ constructor(private igucaService: IgucaService,
       this.statusText.push('Falta agregar el nombre de la compania');
       isValid = false;
     }
-    /*if (this.openCourse.documents.length === 0) {
-      this.statusText = 'Falta agregar al menos un documentos';
-      isValid = false;
-    }*/
+    // TODO: validacion documentos
     if (this.openCourse.finalExam.length === 0) {
       this.statusText.push('Falta agregar al menos una pregunta');
       isValid = false;

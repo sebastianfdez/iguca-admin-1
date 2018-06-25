@@ -4,6 +4,8 @@ import { IgucaService } from '../services/iguca-service.service';
 import { Database, IgucaCourse, IgucaQuestion } from '../course';
 import { MatDialog } from '@angular/material';
 import { InfoCourseLoaderComponent } from '../info-course-loader/info-course-loader.component';
+import { AngularFireStorage } from 'angularfire2/storage';
+import { FirebaseApp } from 'angularfire2';
 
 @Component({
   selector: 'app-existing-courses',
@@ -27,7 +29,8 @@ export class ExistingCoursesComponent implements OnInit {
   constructor(
     private igucaService: IgucaService,
     private db: AngularFireDatabase,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private afStorage: AngularFireStorage) {
     }
 
   ngOnInit() {
@@ -41,10 +44,7 @@ export class ExistingCoursesComponent implements OnInit {
       this.IgucaCourses[_i] = new IgucaCourse();
       this.IgucaCourses[_i].name = this.Courses[_i].name;
       this.IgucaCourses[_i].company = this.Courses[_i].company;
-      this.IgucaCourses[_i].exersices = this.Courses[_i].exersices;
       this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
-      this.IgucaCourses[_i].finalExamenPdf = this.Courses[_i].finalExamenPdf;
-      this.IgucaCourses[_i].documents = this.Courses[_i].documents;
       this.IgucaCourses[_i]._id = this.Courses[_i]._id;
 
     }
@@ -63,9 +63,17 @@ export class ExistingCoursesComponent implements OnInit {
   }
 
   deleteDatabaseCourse() {
-    this.database.deleteElement( this.deleteChild , this.deleteValue );
+    this.database.deleteElement( 'name' , this.deleteValue );
     this.getDatabaseCourses();
+    try {
+      const task = this.afStorage.ref(this.deleteValue).child('Examen').delete();
+      const task1 = this.afStorage.ref(this.deleteValue).child('Respuestas').delete();
+      const task2 = this.afStorage.ref(this.deleteValue).child('Ejercicios').delete();
+      const task3 = this.afStorage.ref(this.deleteValue).child('Manual').delete();
 
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   homePage() {

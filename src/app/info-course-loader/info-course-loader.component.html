@@ -37,25 +37,57 @@
       <div class="course-loader-subtitle">
         <span class="course-loader-subtitle-span document-manual">Manual del curso</span>
       </div>
-      <input type="file" ng2FileSelect [uploader]="uploader" multiple/>
+      <input type="file" ng2FileSelect [uploader]="fileLoaderManual" multiple/>
 
-      <div class="document-file" *ngFor="let item of uploader.queue">
+      <div class="document-file" *ngFor="let item of fileLoaderManual.queue">
 
         <span  class="file-span">{{item?.file?.name}}</span>
         <button mat-button type="button" class="file-button" (click)="deleteManual(item)">Eliminar</button>
-
+      </div>
+      <div class="existing-file">
+        <a target="blank_" href="{{urlManual}}" *ngIf="urlManual !== ''">Manual</a>
       </div>
 
       <div class="course-loader-subtitle">
         <span class="course-loader-subtitle-span document-manual">Ejercicios del curso</span>
       </div>
-      <input type="file" ng2FileSelect [uploader]="uploader2" multiple/>
+      <input type="file" ng2FileSelect [uploader]="fileLoaderExersices" multiple/>
 
-      <div class="document-file" *ngFor="let item of uploader2.queue">
+      <div class="document-file" *ngFor="let item of fileLoaderExersices.queue">
 
         <span  class="file-span">{{item?.file?.name}}</span>
         <button mat-button type="button" class="file-button" (click)="deleteExercise(item)">Eliminar</button>
+      </div>
+      <div class="existing-file">
+        <a target="blank_" href="{{urlExersices}}" *ngIf="urlExersices !== ''">Ejercicios</a>
+      </div>
 
+      <div class="course-loader-subtitle">
+        <span class="course-loader-subtitle-span document-manual">Respuestas Ejercicios</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="fileLoaderAnswers" multiple/>
+
+      <div class="document-file" *ngFor="let item of fileLoaderAnswers.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteAnswers(item)">Eliminar</button>
+      </div>
+      <div class="existing-file">
+        <a target="blank_" href="{{urlAnswers}}" *ngIf="urlAnswers !== ''">Respuestas</a>
+      </div>
+
+      <div class="course-loader-subtitle">
+        <span class="course-loader-subtitle-span document-manual">Caso Examen Final</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="fileLoaderExam" multiple/>
+
+      <div class="document-file" *ngFor="let item of fileLoaderExam.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteExam(item)">Eliminar</button>
+      </div> 
+      <div class="existing-file">
+        <a target="blank_" href="{{urlExam}}" *ngIf="urlExam !== ''">Caso Examen</a>
       </div>
     </div>
   </div>
