@@ -1,15 +1,77 @@
 app-existing-courses{
 
-
+align-items: center;
 display: flex;
-flex-direction: column;
+flex-direction: column; 
+background-color: white;
+
+
+
+.button-edit { 
+    background: yellow;
+}
 
 .courseName {
     margin-left: 20px;
-    margin-top: 20px;
   
+} 
+
+.course-delete-button { 
+    margin: 14px;
+    background: red;
 }
-.course-loader-input { 
+
+.course-delete-field { 
+    margin-top: 20px;
+    margin-right: 20px;
+    font-size: 23px;
+}
+
+.course-element { 
+    height: 30px;
+} 
+
+.course-loader { 
+    align-self: flex-start;
+    margin-left: 30px;
+}
+
+.course-loader-title { 
+    margin-top: 20px;
+    margin-left: 10px;
+    background-color: #8D9293;
+    width: 60%;
+    height: 40px;
+    
+    text-align: center;
+} 
+
+.course-loader-title-span { 
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+    color: #282d31;
+    align-items: center;
+} 
+
+
+.course-loader-number-span { 
+    font-size: 22px;
+    line-height: 44px;
+    text-align: center;
+    color: #282d31;
+    align-items: center;
+}
+
+.course-loader-name-span { 
+    font-size: 28px;
+    line-height: 44px;
+    text-align: center;
+    color: #282d31;
+    align-items: center;
+}
+
+.course-delete { 
     display: flex;
 }
 
@@ -18,9 +80,11 @@ flex-direction: column;
     flex-direction: column;
 }
 
-.name-delete-field { 
-    margin-top: 20px;
-    margin-right: 20px;
+.homePage-button { 
+    font-size: 28px;
+    line-height: 30px;
+    width: 30%;
+    background-color: orange;
 }
 
 

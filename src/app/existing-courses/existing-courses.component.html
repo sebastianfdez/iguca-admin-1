@@ -1,31 +1,38 @@
-<p>
-  existing-courses works!
-</p>
+
 <button *ngIf="database.coursesCharged" (click)="getDatabaseCourses()">Cargar Cursos</button>  
 <button *ngIf="!database.coursesCharged" (click)="getDatabaseCourses()" disabled> Cargar Cursos</button>  
 
-<div *ngFor="let course of this.Courses; let i = index">
-    <div class="courseName">
-        <span class="course-loader-title-span">
-          {{ course.name }}
-        </span>
-    <button (click)="editCourse(i)">Editar Curso</button>
-    </div>
-    
-    
 
+
+<div class="course-loader-title">
+  <span class="course-loader-title-span">
+    Cursos existentes:
+  </span>
 </div>
 
-  <form class="course-loader-input">
-    <div class="name-delete-field">Nombre de curso a eliminar:</div>
-    <mat-form-field class="course-form">
-        <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-  
-  
-  </form>
+<div class="course-loader">  
+  <div class="course-element" *ngFor="let course of this.Courses; let i = index">
+    <div class="courseName">
+        <span class="course-loader-number-span">
+          N)
+        </span>
+        <span class="course-loader-name-span">
+          {{ course.name }}
+        </span>
+      <button class="button-edit" (click)="editCourse(i)">Editar Curso</button>
+    </div>
+  </div>
+</div>
 
-<button (click)="deleteDatabaseCourse()">Borrar Curso</button> 
+<form class="course-delete">
+  <div class="course-delete-field">Nombre de curso a eliminar:</div>
+  <mat-form-field class="course-form">
+      <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}"> 
+  </mat-form-field>
+  <button class="course-delete-button" (click)="deleteDatabaseCourse()">Borrar Curso</button>
 
-<button (click)="homePage()">Volver a Inicio</button> 
+</form>
+
+
+<button class="homePage-button" (click)="homePage()">Volver a Inicio</button> 
 
