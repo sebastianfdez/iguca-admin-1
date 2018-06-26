@@ -1,0 +1,44 @@
+
+<div class="existing-courses-content">
+
+    <div class="course-loader-title">
+      <span class="course-loader-title-span">
+        Administrador de Companias
+      </span>
+      <span class="course-loader-subtitle">
+        Presione el boton para cargar las companias de la base de datos
+      </span>
+    </div>
+  
+    <div class="charge-courses">
+      <button mat-button *ngIf="database.companiesCharged" (click)="getDatabaseCompanies()">Cargar Companias</button>  
+      <button mat-button class="disabled" *ngIf="!database.companiesCharged" (click)="getDatabaseCompanies()" disabled> Cargar Cursos</button>
+    </div>
+  
+    <div class="course-loader">  
+      <div class="course-element mat-elevation-z2" *ngFor="let company of this.companies; let i = index">
+        <div class="course-name">
+            <span class="course-loader-name-span">
+              {{ company.name }}
+            </span>
+        </div>
+        <button mat-button class="button-edit" (click)="editCourse(i)">Editar Compania</button>
+        <button mat-button class="button-delete" (click)="deleteCourse(i)">Eliminar Compania</button>
+      </div>
+    </div>
+  
+    <div class="course-delete">
+      <div class="course-delete-field">Nombre de la compania a eliminar:</div>
+      <mat-form-field class="course-form">
+          <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}"> 
+      </mat-form-field>
+      <button class="course-delete-button" (click)="deleteDatabaseCourse()">Borrar Compania</button>
+  
+    </div>
+  
+    <div class="home-buttons">
+      <button mat-button class="home-page-button" (click)="homePage()">Volver a Inicio</button> 
+    </div>
+  </div>
+  
+  

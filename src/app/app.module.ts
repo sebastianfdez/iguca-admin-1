@@ -24,6 +24,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { IgucaService } from './services/iguca-service.service';
 import { ExistingCoursesComponent } from './existing-courses/existing-courses.component';
 import { CompanyManagementComponent } from './company-management/company-management.component';
+import { ExistingCompaniesComponent } from './existing-companies/existing-companies.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CompanyManagementComponent } from './company-management/company-managem
     InfoCourseLoaderComponent,
     ExistingCoursesComponent,
     CompanyManagementComponent,
+    ExistingCompaniesComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -51,7 +53,7 @@ import { CompanyManagementComponent } from './company-management/company-managem
   ],
   providers: [IgucaService ],
   bootstrap: [AppComponent],
-  entryComponents: [InfoCourseLoaderComponent, ExistingCoursesComponent, CompanyManagementComponent],
+  entryComponents: [InfoCourseLoaderComponent, ExistingCoursesComponent, CompanyManagementComponent, ExistingCompaniesComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 
 })
