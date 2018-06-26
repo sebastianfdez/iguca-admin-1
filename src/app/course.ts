@@ -6,6 +6,13 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { FileItem } from 'ng2-file-upload';
 
 
+export class IgucaCompany {
+
+  _id = '';
+  courses: IgucaCourse[];
+  name = '';
+}
+
 export class IgucaQuestion {
   a = '';
   b = '';
@@ -47,15 +54,23 @@ export class Upload {
 
 export class Database {
   public courses: AngularFireList<IgucaCourse>;
-  public cursos: any[];
-  deletCourse: AngularFireList<any>;
+  public companies: AngularFireList<any>;
+  public existingCoures: any[];
+  public existingCompanies: any[];
+  deleteCourse: AngularFireList<any>;
+  deleteCompany: AngularFireList<any>;
   items: Observable<any[]>;
   coursesCharged: boolean;
+  companiesCharged: boolean;
 
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
-    this.deletCourse = db.list('/Cursos');
+    this.deleteCourse = db.list('/Cursos');
+    this.companies = db.list('/Companies');
+    this.deleteCompany = db.list('/Companies');
+
     this.coursesCharged = false;
+    this.companiesCharged = false;
 
    /*this.items = db.list('/Cursos').snapshotChanges().pipe(
       map(changes =>
@@ -69,7 +84,12 @@ export class Database {
 
     db.list('/Cursos').valueChanges().subscribe((Courses) => {
       this.coursesCharged = true;
-      this.cursos = Courses;
+      this.existingCoures = Courses;
+    });
+
+    db.list('/Companies').valueChanges().subscribe((Companies) => {
+      this.companiesCharged = true;
+      this.existingCompanies = Companies;
     });
 
    // console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
@@ -80,25 +100,45 @@ export class Database {
     this.courses.push(newCourse);
   }
 
-
+  addCompany(newCompany: IgucaCompany) {
+    this.companies.push(newCompany);
+  }
 
   deleteElement( Child: string, equalTo: string ) {
-   // console.log(this.deletCourse.snapshotChanges());
-    const herma = this.deletCourse.query.orderByChild(Child).equalTo(equalTo);
-    herma.once('value', function(snapshot) {
+    const deleteQuery = this.deleteCourse.query.orderByChild(Child).equalTo(equalTo);
+    deleteQuery.once('value', function(snapshot) {
       snapshot.forEach(function(child) {
         child.ref.remove();
       });
     });
   }
 
+  deleteCompanyDB( Child: string, equalTo: string ) {
+     const deleteQuery = this.deleteCompany.query.orderByChild(Child).equalTo(equalTo);
+     deleteQuery.once('value', function(snapshot) {
+       snapshot.forEach(function(child) {
+         child.ref.remove();
+       });
+     });
+   }
+
   getElement() {
-    return this.cursos;
+    return this.existingCoures;
+  }
+
+  getComapny() {
+    return this.existingCompanies;
   }
 
   updateElement(updateElement: IgucaCourse) {
     const replaceId = updateElement._id;
     this.deleteElement( '_id' , replaceId );
     this.addElement(updateElement);
+  }
+
+  updateCompany(updateElement: IgucaCompany) {
+    const replaceId = updateElement._id;
+    this.deleteElement( '_id' , replaceId );
+    this.addCompany(updateElement);
   }
 }

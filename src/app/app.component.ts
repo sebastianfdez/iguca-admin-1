@@ -5,6 +5,7 @@ import { ExistingCoursesComponent } from './existing-courses/existing-courses.co
 import { IgucaService } from './services/iguca-service.service';
 import { IgucaCourse } from './course';
 import { MatDialog } from '@angular/material';
+import { CompanyManagementComponent } from './company-management/company-management.component';
 
 // import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/database';
 
@@ -21,7 +22,9 @@ export class AppComponent implements OnInit {
   titleHerma = 'hermano';
 
   private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
+  private companyManagementHolder: ComponentFactory<CompanyManagementComponent>;
   private existingCoursesHolderComp;
+  private companyManagementHolderComp;
 
 
   @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;
@@ -65,6 +68,12 @@ export class AppComponent implements OnInit {
 
   showExistingCourses() {
     this.openExistingCourses();
+  }
+
+  showCompanyManagement() {
+    this.companyManagementHolder = this.factory.resolveComponentFactory(CompanyManagementComponent);
+    this.companyManagementHolderComp = this.parent.createComponent(this.companyManagementHolder);
+    this.childOpen = true;
   }
 
 }

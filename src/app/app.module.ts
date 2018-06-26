@@ -24,6 +24,7 @@ import { InfoCourseLoaderComponent } from './info-course-loader/info-course-load
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { IgucaService } from './services/iguca-service.service';
 import { ExistingCoursesComponent } from './existing-courses/existing-courses.component';
+import { CompanyManagementComponent } from './company-management/company-management.component';
 
 
 
@@ -32,6 +33,7 @@ import { ExistingCoursesComponent } from './existing-courses/existing-courses.co
     AppComponent,
     InfoCourseLoaderComponent,
     ExistingCoursesComponent,
+    CompanyManagementComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -51,7 +53,7 @@ import { ExistingCoursesComponent } from './existing-courses/existing-courses.co
   ],
   providers: [IgucaService ],
   bootstrap: [AppComponent],
-  entryComponents: [InfoCourseLoaderComponent, ExistingCoursesComponent],
+  entryComponents: [InfoCourseLoaderComponent, ExistingCoursesComponent, CompanyManagementComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 
 })

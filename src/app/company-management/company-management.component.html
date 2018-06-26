@@ -1,0 +1,10 @@
+<p>
+  company-management works!
+</p>
+<button class="get-companies" (click)="getDatabaseCompanies()">Cargar companias</button>
+
+<div class="companies-loader" *ngFor="let company of this.companies; let i = index">  
+  {{ company.name }}
+</div>
+
+<button class="get-courses-name" (click)="getDatabaseCoursesName()">Cargar cursos</button>
