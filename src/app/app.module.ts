@@ -15,6 +15,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+
 
 // Components
 import { InfoCourseLoaderComponent } from './info-course-loader/info-course-loader.component';
@@ -42,6 +44,7 @@ import { CompanyManagementComponent } from './company-management/company-managem
     MatListModule,
     MatDividerModule,
     MatDialogModule,
+    MatSelectModule,
     AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
     AngularFireDatabaseModule,
     AngularFireStorageModule,

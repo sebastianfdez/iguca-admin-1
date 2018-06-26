@@ -1,10 +1,74 @@
-<p>
-  company-management works!
-</p>
-<button class="get-companies" (click)="getDatabaseCompanies()">Cargar companias</button>
+<div class="company-management-content">
+  <button class="get-companies" (click)="getDatabaseCompanies()">Cargar companias</button>
 
-<div class="companies-loader" *ngFor="let company of this.companies; let i = index">  
-  {{ company.name }}
+  <div class="companies-loader" *ngFor="let company of this.companies; let i = index">  
+    {{ company.name }}
+  </div>
+
+  <button class="get-courses-name" (click)="getDatabaseCoursesName()">Cargar cursos</button> 
+
+  <div class="company-management-main-title">
+    <span class="company-management-main-title-span" *ngIf="isNewCourse">
+      Agregar nueva compania
+    </span>
+    <span class="company-management-main-title-span" *ngIf="!isNewCourse">
+      Editar Compania
+    </span>
+  </div> 
+
+  <div class="company-management-field mat-elevation-z1">
+
+    <div class="company-management-title">
+      <span class="company-management-title-span">
+        Nombre de la Compania
+      </span>
+    </div>
+    
+    <form class="company-management-input">
+      <mat-form-field class="company-form">
+        <input matInput placeholder="Nombre de la Compania" [(ngModel)]="openCompany.name" [ngModelOptions]="{standalone: true}" >
+      </mat-form-field>
+    </form>
+
+  </div>
+
+  <div class="company-management-field mat-elevation-z1">
+
+    <div class="company-management-title">
+      <span class="company-management-title-span">
+        Cursos de la Compania
+      </span>
+    </div>
+    
+    <div class="inputs" *ngFor="let inputs of this.openCompany.courses; let i = index">
+      <form class="company-management-input">
+        <mat-form-field class="company-form">
+          <mat-select placeholder="Cursos Disponibles" [(ngModel)]="openCompany.courses[i]" [ngModelOptions]="{standalone: true}" >
+            <mat-option *ngFor="let course of this.Courses" [value]="course.name">
+              {{ course.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <div class="button-deleteCourse">
+          <button mat-button (click)="deleteCourse(openCompany.courses[i])">-</button>
+        </div>
+      
+      </form>
+    </div>
+    <div class="button-addCourse">
+      <button mat-button (click)="addCourse()">+</button>
+    </div>
+  </div>
+
+  <div class="send-company-button">
+    <button mat-button *ngIf="this.isNewCourse" >Agregar Compania</button>
+  </div>
+
+  <div class="send-company-button">
+    <button mat-button *ngIf="!this.isNewCourse" (click)="showCompany()">Mostrar</button>
+  </div>
+
+
+
 </div>
-
-<button class="get-courses-name" (click)="getDatabaseCoursesName()">Cargar cursos</button>

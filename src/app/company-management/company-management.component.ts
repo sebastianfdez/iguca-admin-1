@@ -15,10 +15,23 @@ export class CompanyManagementComponent implements OnInit {
   IgucaCourses = [];
   public companies;
   private Courses: any[];
+  public openCompany: IgucaCompany = new IgucaCompany();
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase) {
+  }
 
   ngOnInit() {
+    this.openCompany.courses.push('');
+  }
+
+  addCourse() {
+    this.openCompany.courses.push('');
+  }
+
+  deleteCourse(course: string) {
+    this.openCompany.courses = this.openCompany.courses.filter((course_) => {
+      return course_ !== course;
+    });
   }
 
   getDatabaseCompanies() {
@@ -42,6 +55,11 @@ export class CompanyManagementComponent implements OnInit {
       }
       console.log(this.IgucaCourses);
     }
+  }
+
+  showCompany() {
+    console.log(this.openCompany);
+    this.database.addCompany(this.openCompany);
   }
 
 }

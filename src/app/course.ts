@@ -9,8 +9,13 @@ import { FileItem } from 'ng2-file-upload';
 export class IgucaCompany {
 
   _id = '';
-  courses: IgucaCourse[];
+  courses = [];
   name = '';
+
+  constructor() {
+    const date = new Date();
+    this._id = String(date.getTime());
+  }
 }
 
 export class IgucaQuestion {
