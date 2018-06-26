@@ -22,28 +22,24 @@ app-root {
 
   .menu-company { 
     height: 40px;
-    width: 210px;
     display: flex;
     margin: 5px 0;
   }
 
   .menu-new-course {
     height: 40px;
-    width: 210px;
     display: flex;
     margin: 5px 0;
   }
 
   .menu-old-courses {
     height: 40px;
-    width: 210px;
     display: flex;
     margin: 5px 0;
   }
 
   .menu-rendiciones {
     height: 40px;
-    width: 210px;
     display: flex;
     margin: 5px 0;
   }
@@ -77,6 +73,7 @@ app-root {
     background-color: #FB1D5E;
     color: #FFFFFF;
     width: 100%;
+    width: 250px;
   }
 
 }

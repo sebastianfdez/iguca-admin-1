@@ -43,7 +43,6 @@ export class ExistingCoursesComponent implements OnInit {
     for (let _i = 0; _i < this.Courses.length ; _i++) {
       this.IgucaCourses[_i] = new IgucaCourse();
       this.IgucaCourses[_i].name = this.Courses[_i].name;
-      this.IgucaCourses[_i].company = this.Courses[_i].company;
       this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
       this.IgucaCourses[_i]._id = this.Courses[_i]._id;
 
@@ -60,6 +59,10 @@ export class ExistingCoursesComponent implements OnInit {
         isNewCourse: false,
       },
     });
+  }
+
+  deleteCourse(i: number) {
+    // TODO: delete course
   }
 
   deleteDatabaseCourse() {

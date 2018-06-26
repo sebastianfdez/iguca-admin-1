@@ -7,8 +7,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { FirebaseApp } from 'angularfire2';
 
-
-
 const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
 
 @Component({
@@ -47,13 +45,11 @@ manualFile: FileItem;
 exerciseFile: FileItem;
 answersFile: FileItem;
 
-
 public isNewCourse: boolean;
 public urlAnswers = '';
 public urlExersices = '';
 public urlExam = '';
 public urlManual = '';
-
 
 public statusText = [];
 
@@ -64,16 +60,13 @@ constructor(private igucaService: IgucaService,
   @Inject(FirebaseApp) firebaseApp: any,
   @Inject(MAT_DIALOG_DATA) public data: any) {
 
-
-    console.log(this.data);
-
     if (this.data.course) {
       this.openCourse = this.data.course;
       this.getStorageUrl();
     }
     this.isNewCourse = this.data.isNewCourse;
-
   }
+
   ngOnInit() {
     if (!this.openCourse.finalExam) {
       this.openCourse.finalExam = [];
@@ -176,25 +169,6 @@ constructor(private igucaService: IgucaService,
     question.correct = value;
   }
 
-  updateCourse() {
-    if (this.validateCourse()) {
-      this.database.updateElement(this.openCourse);
-      if (this.manualFile) {
-        this.updateFile(this.manualFile, 'Manual');
-      }
-      if (this.exerciseFile) {
-        this.updateFile(this.exerciseFile, 'Ejercicios');
-      }
-      if (this.examFile) {
-        this.updateFile(this.examFile, 'Examen');
-      }
-      if (this.answersFile) {
-        this.updateFile(this.answersFile, 'Respuestas');
-      }
-      this.dialogRef.close(this.openCourse);
-    }
-  }
-
   resetNumbers() {
     let i = 1;
     this.openCourse.finalExam.forEach((question) => {
@@ -230,13 +204,32 @@ constructor(private igucaService: IgucaService,
     this.uploadFile(item, file);
   }
 
+  updateCourse() {
+    if (this.validateCourse()) {
+      this.database.updateElement(this.openCourse);
+      if (this.manualFile) {
+        this.updateFile(this.manualFile, 'Manual');
+      }
+      if (this.exerciseFile) {
+        this.updateFile(this.exerciseFile, 'Ejercicios');
+      }
+      if (this.examFile) {
+        this.updateFile(this.examFile, 'Examen');
+      }
+      if (this.answersFile) {
+        this.updateFile(this.answersFile, 'Respuestas');
+      }
+      this.dialogRef.close(this.openCourse);
+    }
+  }
+
 
   uploadFile(item: FileItem, file: string) {
-      try {
-        const task = this.afStorage.ref( this.openCourse.name).child(file).put(item.file.rawFile);
-      } catch (e) {
-        console.log(e);
-      }
+    try {
+      const task = this.afStorage.ref( this.openCourse.name).child(file).put(item.file.rawFile);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   validateCourse(): boolean {
@@ -244,10 +237,6 @@ constructor(private igucaService: IgucaService,
     let isValid = true;
     if (this.openCourse.name === '') {
       this.statusText.push('Falta agregar el nombre del curso');
-      isValid = false;
-    }
-    if (this.openCourse.company === '') {
-      this.statusText.push('Falta agregar el nombre de la compania');
       isValid = false;
     }
     // TODO: validacion documentos

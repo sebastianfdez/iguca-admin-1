@@ -1,38 +1,42 @@
+<div class="existing-courses-content">
 
-<button *ngIf="database.coursesCharged" (click)="getDatabaseCourses()">Cargar Cursos</button>  
-<button *ngIf="!database.coursesCharged" (click)="getDatabaseCourses()" disabled> Cargar Cursos</button>  
+  <div class="course-loader-title">
+    <span class="course-loader-title-span">
+      Administrador de Cursos
+    </span>
+    <span class="course-loader-subtitle">
+      Presione el boton para cargar los cursos de la base de datos
+    </span>
+  </div>
 
+  <div class="charge-courses">
+    <button mat-button *ngIf="database.coursesCharged" (click)="getDatabaseCourses()">Cargar Cursos</button>  
+    <button mat-button class="disabled" *ngIf="!database.coursesCharged" (click)="getDatabaseCourses()" disabled> Cargar Cursos</button>
+  </div>
 
-
-<div class="course-loader-title">
-  <span class="course-loader-title-span">
-    Cursos existentes:
-  </span>
-</div>
-
-<div class="course-loader">  
-  <div class="course-element" *ngFor="let course of this.Courses; let i = index">
-    <div class="courseName">
-        <span class="course-loader-number-span">
-          N)
-        </span>
-        <span class="course-loader-name-span">
-          {{ course.name }}
-        </span>
-      <button class="button-edit" (click)="editCourse(i)">Editar Curso</button>
+  <div class="course-loader">  
+    <div class="course-element mat-elevation-z2" *ngFor="let course of this.Courses; let i = index">
+      <div class="course-name">
+          <span class="course-loader-name-span">
+            {{ course.name }}
+          </span>
+      </div>
+      <button mat-button class="button-edit" (click)="editCourse(i)">Editar Curso</button>
+      <button mat-button class="button-delete" (click)="deleteCourse(i)">Editar Curso</button>
     </div>
   </div>
+
+  <div class="course-delete">
+    <div class="course-delete-field">Nombre de curso a eliminar:</div>
+    <mat-form-field class="course-form">
+        <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}"> 
+    </mat-form-field>
+    <button class="course-delete-button" (click)="deleteDatabaseCourse()">Borrar Curso</button>
+
+  </div>
+
+  <div class="home-buttons">
+    <button mat-button class="home-page-button" (click)="homePage()">Volver a Inicio</button> 
+  </div>
 </div>
-
-<form class="course-delete">
-  <div class="course-delete-field">Nombre de curso a eliminar:</div>
-  <mat-form-field class="course-form">
-      <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}"> 
-  </mat-form-field>
-  <button class="course-delete-button" (click)="deleteDatabaseCourse()">Borrar Curso</button>
-
-</form>
-
-
-<button class="homePage-button" (click)="homePage()">Volver a Inicio</button> 
 

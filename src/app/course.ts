@@ -29,7 +29,6 @@ export class IgucaQuestion {
 
 export class IgucaCourse {
   _id = '';
-  company = '';
   finalExam: IgucaQuestion[] = [];
   name = '';
 

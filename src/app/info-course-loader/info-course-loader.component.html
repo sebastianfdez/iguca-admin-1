@@ -1,8 +1,11 @@
 <div class="info-course-loader-content">
 
   <div class="course-loader-main-title">
-    <span class="course-loader-main-title-span">
-      Agregar nuevo curso
+    <span class="course-loader-main-title-span" *ngIf="isNewCourse">
+      Agregar nuevo Curso
+    </span>
+    <span class="course-loader-main-title-span" *ngIf="!isNewCourse">
+      Editar Curso
     </span>
   </div>
 
@@ -10,19 +13,13 @@
 
     <div class="course-loader-title">
       <span class="course-loader-title-span">
-        Nombres del curso
+        Nombre del Curso
       </span>
     </div>
     
     <form class="course-loader-input">
       <mat-form-field class="course-form">
         <input matInput placeholder="Nombre del curso" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-    </form>
-
-    <form class="course-loader-input">
-      <mat-form-field class="course-form">
-        <input matInput placeholder="Nombre de la empresa" [(ngModel)]="openCourse.company" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </form>
 
@@ -102,21 +99,21 @@
 
     <div class="final-exam-question" *ngFor="let question of openCourse.finalExam">
 
-      <div class="mainQuestion">
+      <div class="main-question">
         <mat-form-field>
           <input matInput placeholder="Pregunta {{question.number}} :" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
       <div class="choices">
-        <mat-radio-group>
-          <div class="choiceQuestion">
+        <mat-radio-group class="choices-radio-group">
+          <div class="choice-question">
             <mat-form-field>
               <input matInput placeholder="Alternativa a:" [(ngModel)]="question.a" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-radio-button value="1" (click)="setCorrectAnswer('a', question)" [checked]="isCorrect('a',question)">a</mat-radio-button>
           </div>
     
-          <div class="choiceQuestion">
+          <div class="choice-question">
             <mat-form-field>
               <input matInput placeholder="Alternativa b:" [(ngModel)]="question.b" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
@@ -124,7 +121,7 @@
           </div>
           
           <div *ngIf="question.b !== ''">
-            <div class="choiceQuestion">
+            <div class="choice-question">
               <mat-form-field>
                 <input matInput placeholder="Alternativa c:" [(ngModel)]="question.c" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
@@ -133,7 +130,7 @@
           </div>
             
           <div *ngIf="question.c !== ''">
-            <div class="choiceQuestion">
+            <div class="choice-question">
               <mat-form-field>
                 <input matInput placeholder="Alternativa d:" [(ngModel)]="question.d" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
@@ -142,7 +139,7 @@
           </div>
 
           <div *ngIf="question.d !== ''">
-            <div class="choiceQuestion">
+            <div class="choice-question">
               <mat-form-field>
                 <input matInput placeholder="Alternativa e:" [(ngModel)]="question.e" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
@@ -151,7 +148,7 @@
           </div>
 
           <div *ngIf="question.e !== ''">
-            <div class="choiceQuestion">
+            <div class="choice-question">
               <mat-form-field>
                 <input matInput placeholder="Alternativa f:" [(ngModel)]="question.f" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
@@ -160,7 +157,7 @@
           </div>
 
           <div *ngIf="question.f !== ''">
-            <div class="choiceQuestion">
+            <div class="choice-question">
               <mat-form-field>
                 <input matInput placeholder="Alternativa g:" [(ngModel)]="question.g" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
@@ -169,7 +166,7 @@
           </div>
 
           <div *ngIf="question.g !== ''">
-            <div class="choiceQuestion">
+            <div class="choice-question">
               <mat-form-field>
                 <input matInput placeholder="Alternativa h:" [(ngModel)]="question.h" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
@@ -180,27 +177,27 @@
         </mat-radio-group>
       </div>
       
-      <div class="buttonQuestionDisplay">
+      <div class="button-question-display">
         <button mat-button (click)="deleteQuestion(question)">Eliminar Pregunta</button>
       </div>
       
     </div>
 
-    <div class="addQuestionButton">
+    <div class="add-question-button">
       <button mat-button (click)="pushQuestion()">Agregar Pregunta</button>
     </div>
   </div>
 
-  <div class="statusText" *ngFor="let error of statusText">
+  <div class="status-text" *ngFor="let error of statusText">
     {{error}}
   </div>
 
 
-  <div class="sendCourseButton">
+  <div class="send-course-button">
     <button mat-button *ngIf="this.isNewCourse" (click)="sendCourse()">Agregar Curso</button>
   </div>
 
-  <div class="sendCourseButton">
+  <div class="send-course-button">
     <button mat-button *ngIf="!this.isNewCourse" (click)="updateCourse()">Editar Curso</button>
   </div>
 
