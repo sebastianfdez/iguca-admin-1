@@ -26,19 +26,6 @@ export class LoginComponent implements OnInit {
     if (this.userInput === '' && this.passwordInput === '') {
       return;
     }
-    /*this.afAuth.auth.setPersistence('local').then(() => {
-      console.log(this.userInput);
-      return this.afAuth.auth.signInWithEmailAndPassword(this.userInput, this.passwordInput).then(
-        (data) => {
-          this.igucaService.userLogIn();
-        }, (err) => {
-          console.log(err);
-        }
-      );
-    }).catch(function(error) {
-      // Handle Errors here.
-      console.log(error);
-    });*/
     this.afAuth.auth.signInWithEmailAndPassword(this.userInput, this.passwordInput).then(
       (data) => {
         this.igucaService.userLogIn();

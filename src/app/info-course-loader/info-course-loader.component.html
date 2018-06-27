@@ -19,7 +19,8 @@
     
     <form class="course-loader-input">
       <mat-form-field class="course-form">
-        <input matInput placeholder="Nombre del curso" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
+          <input matInput placeholder="Nombre del curso" *ngIf="isNewCourse" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
+          <input matInput disabled *ngIf="!isNewCourse" placeholder="Nombre del curso" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </form>
 

@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { MatDialog } from '@angular/material';
 import { CompanyManagementComponent } from '../company-management/company-management.component';
 import { IgucaService } from '../services/iguca-service.service';
+import { WarningComponent } from '../warning/warning.component';
 
 @Component({
   selector: 'app-existing-companies',
@@ -13,10 +14,7 @@ import { IgucaService } from '../services/iguca-service.service';
 })
 export class ExistingCompaniesComponent implements OnInit {
   public database = new Database(this.db);
-  IgucaCompanies: IgucaCompany [] = [];
   public companies;
-  public deleteAlert = '';
-
 
   constructor(
     private db: AngularFireDatabase,
@@ -28,40 +26,45 @@ export class ExistingCompaniesComponent implements OnInit {
   }
 
   deleteCompany(i: number) {
-    if (this.deleteAlert !== '') {
-      this.database.deleteCompanyDB('name', this.IgucaCompanies[i].name);
-      this.deleteAlert = '';
-    } else {
-      this.deleteAlert = 'Estas seguro que deseas eliminar la compania?';
-    }
+    const dialogRef = this.dialog.open(WarningComponent, {
+      width: '600px',
+      data: {
+        message: `Seguro que quieres eliminar '${this.database.IgucaCompanies[i].name}'? Una vez eliminada no puede recuperarse`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
+      }
+    });
   }
 
   editCompany(i: number) {
     this.dialog.open(CompanyManagementComponent, {
       width: '1000px',
       data: {
-        company: this.IgucaCompanies[i],
+        company: this.database.IgucaCompanies[i],
         isNewCompany: false,
       },
     });
-    // console.log(this.IgucaCompanies[i]);
-  }
-
-  getDatabaseCompanies() {
-    this.companies = this.database.getComapny();
-
-    for (let _i = 0; _i < this.companies.length ; _i++) {
-      this.IgucaCompanies[_i] = new IgucaCompany();
-      this.IgucaCompanies[_i].name = this.companies[_i].name;
-      this.IgucaCompanies[_i].courses = this.companies[_i].courses;
-      this.IgucaCompanies[_i]._id = this.companies[_i]._id;
-    }
-    console.log(this.companies);
-    console.log(this.IgucaCompanies);
   }
 
   homePage() {
     this.igucaService.closeExistingCompany();
+  }
+
+  showCompanyManagement() {
+    const dialogRef = this.dialog.open(CompanyManagementComponent, {
+      width: '1000px',
+      data: {
+        company: null,
+        isNewCompany: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
+
   }
 
 }

@@ -27,6 +27,7 @@ import { CompanyManagementComponent } from './company-management/company-managem
 import { ExistingCompaniesComponent } from './existing-companies/existing-companies.component';
 import { LoginComponent } from './login/login.component';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { WarningComponent } from './warning/warning.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
     CompanyManagementComponent,
     ExistingCompaniesComponent,
     LoginComponent,
+    WarningComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -62,6 +64,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
     CompanyManagementComponent,
     ExistingCompaniesComponent,
     LoginComponent,
+    WarningComponent,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 

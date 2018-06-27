@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class IgucaService {
+
   private closeEditCourses = new Subject();
   public closeEditCourses$ = this.closeEditCourses.asObservable();
 
@@ -26,7 +27,6 @@ export class IgucaService {
   }
 
   constructor() { }
-
 }
 
 

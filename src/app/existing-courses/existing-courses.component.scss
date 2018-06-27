@@ -127,6 +127,20 @@ app-existing-courses {
         }
     }
 
+    .menu-new-course {
+        width: 100%;
+        margin: 5px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .mat-button {
+            color: #ffffff;
+            background-color: #FB1D5E;
+            width: 300px;
+        }
+    }
+
     @media (max-width: 850px) {
         .course-element {
             width: calc(50% - 20px);

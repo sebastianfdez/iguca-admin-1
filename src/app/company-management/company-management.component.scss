@@ -1,20 +1,39 @@
 app-company-management { 
 
-height: 100%;
-width: 100%;
-display: flex;
-overflow-y: scroll; 
+  height: 100%;
+  width: 100%;
+  display: flex;
+  overflow-y: scroll; 
 
-.button-addCourse { 
-  .mat-button { 
-  background-color: green;
-  width: 30%;
-  margin: 10px;
-  font-size: 30px;
+  .button-add-course { 
+    width: 300px;
+    .mat-button { 
+      background-color: green;
+      width: 100%;
+      margin: 10px;
+      font-size: 20px;
+      color: #ffffff;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+  } 
+
+  .button-delete-course { 
+    width: fit-content;
+    display: flex;
+    height: 36px;
+    width: 150px;
+
+    .mat-button { 
+      width: 100%;
+      background-color: red;
+      margin-right: 20px;
+      font-size: 14px; 
+      color: #ffffff;
+    }
   }
-}
 
-.company-form {
+  .company-form {
     height: 100%;
     display: flex;
     width: calc(100% - 60px);
@@ -61,6 +80,16 @@ overflow-y: scroll;
     line-height: 44px;
     text-align: start;
     color: #282d31;
+  } 
+
+  .company-management-sub-title-span {
+    font-size: 22px;
+    line-height: 44px;
+    text-align: start;
+    color: #282d31; 
+    margin-left: 20px;
+    flex: 1;
+    text-transform: capitalize;
   }
 
   .company-management-title {
@@ -85,13 +114,6 @@ overflow-y: scroll;
   .inputs { 
     display: flex;
     width: 100%;
-
-    .mat-button { 
-      width: 10%;
-      background-color: red;
-      margin: 10px;
-      font-size: 30px;
-    }
   }
 
   .send-company-button {

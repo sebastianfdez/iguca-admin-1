@@ -4,18 +4,13 @@
     <span class="course-loader-title-span">
       Administrador de Cursos
     </span>
-    <span class="course-loader-subtitle">
-      Presione el boton para cargar los cursos de la base de datos
-    </span>
+    
   </div>
 
-  <div class="charge-courses">
-    <button mat-button *ngIf="database.coursesCharged" (click)="getDatabaseCourses()">Cargar Cursos</button>  
-    <button mat-button class="disabled" *ngIf="!database.coursesCharged" (click)="getDatabaseCourses()" disabled> Cargar Cursos</button>
-  </div>
+  
 
   <div class="course-loader">  
-    <div class="course-element mat-elevation-z2" *ngFor="let course of this.Courses; let i = index">
+    <div class="course-element mat-elevation-z2" *ngFor="let course of this.database.existingCoures; let i = index">
       <div class="course-name">
           <span class="course-loader-name-span">
             {{ course.name }}
@@ -26,17 +21,17 @@
     </div>
   </div> 
   
-  <div class="delete-alert">
-    {{deleteAlert}}
-  </div>
-  
-    <div class="course-delete">
+  <div class="course-delete">
     <div class="course-delete-field">Nombre de curso a eliminar:</div>
     <mat-form-field class="course-form">
         <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}"> 
     </mat-form-field>
     <button class="course-delete-button" (click)="deleteDatabaseCourse()">Borrar Curso</button>
 
+  </div>
+
+  <div class="menu-new-course">
+    <button mat-button (click)="showNewCourse()">Agregar Nuevo Curso</button>
   </div>
 
   <div class="home-buttons">

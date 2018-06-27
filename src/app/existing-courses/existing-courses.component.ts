@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material';
 import { InfoCourseLoaderComponent } from '../info-course-loader/info-course-loader.component';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { FirebaseApp } from 'angularfire2';
+import { WarningComponent } from '../warning/warning.component';
 
 @Component({
   selector: 'app-existing-courses',
@@ -19,27 +20,23 @@ export class ExistingCoursesComponent implements OnInit {
   public database: Database = new Database(this.db);
   public deleteChild = '';
   public deleteValue = '';
-  public IgucaCourses: IgucaCourse[] = [];
   public Iguca: IgucaCourse = new IgucaCourse();
   public editC: IgucaCourse;
   public edit = false;
   public editN: number;
-  public deleteAlert = '';
-
 
   constructor(
     private igucaService: IgucaService,
     private db: AngularFireDatabase,
     private dialog: MatDialog,
     private afStorage: AngularFireStorage) {
-    }
+  }
 
   ngOnInit() {
   }
 
   deleteDatabaseCourse(child: string, value: string) {
     this.database.deleteElement( child , value );
-    this.getDatabaseCourses();
     try {
       const task = this.afStorage.ref(value).child('Examen').delete();
       const task1 = this.afStorage.ref(value).child('Respuestas').delete();
@@ -55,36 +52,40 @@ export class ExistingCoursesComponent implements OnInit {
     this.dialog.open(InfoCourseLoaderComponent, {
       width: '1000px',
       data: {
-        course: this.IgucaCourses[i],
+        course: this.database.IgucaCourses[i],
         isNewCourse: false,
       },
     });
   }
 
   deleteCourse(i: number) {
-    if (this.deleteAlert !== '') {
-      this.deleteDatabaseCourse('name', this.IgucaCourses[i].name );
-      this.deleteAlert = '';
-      this.getDatabaseCourses();
-    } else {
-      this.deleteAlert = 'Estas seguro que deseas eliminar el Curso';
-    }
-  }
-
-  getDatabaseCourses() {
-    this.Courses = this.database.getElement();
-    for (let _i = 0; _i < this.Courses.length ; _i++) {
-      this.IgucaCourses[_i] = new IgucaCourse();
-      this.IgucaCourses[_i].name = this.Courses[_i].name;
-      this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
-      this.IgucaCourses[_i]._id = this.Courses[_i]._id;
-
-    }
-    console.log(this.Courses);
-    console.log(this.IgucaCourses);
+    const dialogRef = this.dialog.open(WarningComponent, {
+      width: '600px',
+      data: {
+        message: `Seguro que quieres eliminar '${this.database.IgucaCourses[i].name}'? Una vez eliminado no se puede recuperar`,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteDatabaseCourse('name', this.database.IgucaCourses[i].name );
+      }
+    });
   }
 
   homePage() {
     this.igucaService.closeExistingCourses();
+  }
+
+  showNewCourse() {
+    const dialogRef = this.dialog.open(InfoCourseLoaderComponent, {
+      width: '1000px',
+      data: {
+        course: null,
+        isNewCourse: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
   }
 }

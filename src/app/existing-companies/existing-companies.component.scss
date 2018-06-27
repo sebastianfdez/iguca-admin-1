@@ -115,7 +115,21 @@ app-existing-companies {
 
     .home-buttons {
         width: 100%;
-        margin: 15px 0;
+        margin: 5px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .mat-button {
+            color: #ffffff;
+            background-color: #FB1D5E;
+            width: 300px;
+        }
+    }
+
+    .menu-new-company {
+        width: 100%;
+        margin: 5px 0;
         display: flex;
         flex-direction: column;
         align-items: center;

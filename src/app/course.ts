@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { FileItem } from 'ng2-file-upload';
+import { IgucaService } from './services/iguca-service.service';
 
 
 export class IgucaCompany {
@@ -61,20 +62,21 @@ export class Database {
   public companies: AngularFireList<any>;
   public existingCoures: any[];
   public existingCompanies: any[];
+  public igucaService = new IgucaService();
   deleteCourse: AngularFireList<any>;
   deleteCompany: AngularFireList<any>;
   items: Observable<any[]>;
-  coursesCharged: boolean;
-  companiesCharged: boolean;
+  isCoursesCharged = false;
+  isCompaniesCharged = false;
+  IgucaCourses: IgucaCourse[] = [];
+  IgucaCompanies: IgucaCompany [] = [];
+  igucaCoursesName = [];
 
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
     this.deleteCourse = db.list('/Cursos');
     this.companies = db.list('/Companies');
     this.deleteCompany = db.list('/Companies');
-
-    this.coursesCharged = false;
-    this.companiesCharged = false;
 
    /*this.items = db.list('/Cursos').snapshotChanges().pipe(
       map(changes =>
@@ -87,13 +89,28 @@ export class Database {
     // const newKey = db.database.ref().child('/Cursos').push().key;
 
     db.list('/Cursos').valueChanges().subscribe((Courses) => {
-      this.coursesCharged = true;
       this.existingCoures = Courses;
+      for (let _i = 0; _i < this.existingCoures.length ; _i++) {
+        this.IgucaCourses[_i] = new IgucaCourse();
+        this.IgucaCourses[_i].name = this.existingCoures[_i].name;
+        this.IgucaCourses[_i].finalExam = this.existingCoures[_i].finalExam;
+        this.IgucaCourses[_i]._id = this.existingCoures[_i]._id;
+      }
+      this.isCoursesCharged = true;
+      for (let _k = 0; _k < this.IgucaCourses.length ; _k++) {
+        this.igucaCoursesName[_k] = this.IgucaCourses[_k].name;
+      }
     });
 
     db.list('/Companies').valueChanges().subscribe((Companies) => {
-      this.companiesCharged = true;
       this.existingCompanies = Companies;
+
+    for (let _i = 0; _i < this.existingCompanies.length ; _i++) {
+      this.IgucaCompanies[_i] = new IgucaCompany();
+      this.IgucaCompanies[_i].name = this.existingCompanies[_i].name;
+      this.IgucaCompanies[_i].courses = this.existingCompanies[_i].courses;
+      this.IgucaCompanies[_i]._id = this.existingCompanies[_i]._id;
+    }
     });
 
    // console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
@@ -123,8 +140,9 @@ export class Database {
        snapshot.forEach(function(child) {
          child.ref.remove();
        });
-     });
-   }
+    });
+  }
+
 
   getElement() {
     return this.existingCoures;
