@@ -13,14 +13,16 @@ import { IgucaService } from '../services/iguca-service.service';
 })
 export class ExistingCompaniesComponent implements OnInit {
   public database = new Database(this.db);
-  igucaService: IgucaService = new IgucaService();
   IgucaCompanies: IgucaCompany [] = [];
   public companies;
   public deleteAlert = '';
 
 
-  constructor(private db: AngularFireDatabase,
-    private dialog: MatDialog) { }
+  constructor(
+    private db: AngularFireDatabase,
+    private dialog: MatDialog,
+    private igucaService: IgucaService,
+  ) { }
 
   ngOnInit() {
   }
@@ -58,7 +60,7 @@ export class ExistingCompaniesComponent implements OnInit {
     console.log(this.IgucaCompanies);
   }
 
-  homePage() {  // TODO: dosen't work yet
+  homePage() {
     this.igucaService.closeExistingCompany();
   }
 

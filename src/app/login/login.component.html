@@ -1,0 +1,38 @@
+<div class="login-content">
+
+  <div class="login-title">
+    <span class="login-title-span">
+      Bienvenidos al Admin de Iguca
+    </span>
+  </div>
+
+  <div class="login-input mat-elevation-z1">
+
+    <div class="login-input-title">
+      <span>
+        Auntentificación
+      </span>
+    </div>
+    
+    <form class="login-form">
+      <mat-form-field class="login-form-field">
+        <input matInput placeholder="Mail usuario" [(ngModel)]="userInput" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <mat-form-field class="login-form-field">
+        <input matInput placeholder="Contraseña" type="password" [(ngModel)]="passwordInput" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form>
+
+    <div class="login-button">
+      <button mat-button (click)="login()">Login</button>
+    </div>
+
+  </div>
+
+
+  <div class="login-logo">
+    <img [src]="igucaLogo"/>
+  </div>
+
+
+</div>

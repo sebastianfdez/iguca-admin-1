@@ -7,6 +7,8 @@ import { IgucaCourse } from './course';
 import { MatDialog } from '@angular/material';
 import { CompanyManagementComponent } from './company-management/company-management.component';
 import { ExistingCompaniesComponent } from './existing-companies/existing-companies.component';
+import { LoginComponent } from './login/login.component';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 // import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/database';
 
@@ -24,34 +26,55 @@ export class AppComponent implements OnInit {
 
   private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
   private existingCompaniesHolder: ComponentFactory<ExistingCompaniesComponent>;
-  private existingCoursesHolderComp;
-  private existingCompaniesHolderComp;
+  private loginHolder: ComponentFactory<LoginComponent>;
+  private componentHolders = [];
 
 
   @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;
 
   private allIgucaCourses: IgucaCourse[] = [];
-  public childOpen = false;
   public igucaLogo = '../../assets/Logoconfondoblanco.jpg';
 
   constructor(
     private factory: ComponentFactoryResolver,
     private igucaService: IgucaService,
     private dialog: MatDialog,
+    private afAuth: AngularFireAuth,
   ) {
   }
 
   ngOnInit() {
     this.igucaService.closeEditCourses$.subscribe((data) => {
-      this.existingCoursesHolderComp.destroy();
-      this.childOpen = false;
+      this.destroyComponents();
     });
-
     this.igucaService.closeEditCompany$.subscribe((data) => {
-      console.log('aca');
-      this.existingCompaniesHolderComp.destroy();
-      this.childOpen = false;
+      this.destroyComponents();
     });
+    this.igucaService.loggedUser$.subscribe((data) => {
+      console.log('entroooo');
+      this.destroyComponents();
+    });
+    if (!this.afAuth.auth.currentUser) {
+      this.openLogin();
+    }
+  }
+
+  destroyComponents() {
+    this.componentHolders.forEach(c => c.destroy());
+    this.componentHolders = [];
+  }
+
+  logOut() {
+    this.afAuth.auth.signOut().then(() => {
+      this.openLogin();
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  openLogin() {
+    this.loginHolder = this.factory.resolveComponentFactory(LoginComponent);
+    this.componentHolders.push(this.parent.createComponent(this.loginHolder));
   }
 
   showNewCourse() {
@@ -69,8 +92,7 @@ export class AppComponent implements OnInit {
 
   openExistingCourses() {
     this.existingCoursesHolder = this.factory.resolveComponentFactory(ExistingCoursesComponent);
-    this.existingCoursesHolderComp = this.parent.createComponent(this.existingCoursesHolder);
-    this.childOpen = true;
+    this.componentHolders.push(this.parent.createComponent(this.existingCoursesHolder));
   }
 
   showExistingCourses() {
@@ -92,8 +114,7 @@ export class AppComponent implements OnInit {
 
   showExistingCompanies() {
     this.existingCompaniesHolder = this.factory.resolveComponentFactory(ExistingCompaniesComponent);
-    this.existingCompaniesHolderComp = this.parent.createComponent(this.existingCompaniesHolder);
-    this.childOpen = true;
+    this.componentHolders.push(this.parent.createComponent(this.existingCompaniesHolder));
   }
 
 }

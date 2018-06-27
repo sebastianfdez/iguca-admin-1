@@ -25,6 +25,8 @@ import { IgucaService } from './services/iguca-service.service';
 import { ExistingCoursesComponent } from './existing-courses/existing-courses.component';
 import { CompanyManagementComponent } from './company-management/company-management.component';
 import { ExistingCompaniesComponent } from './existing-companies/existing-companies.component';
+import { LoginComponent } from './login/login.component';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { ExistingCompaniesComponent } from './existing-companies/existing-compan
     ExistingCoursesComponent,
     CompanyManagementComponent,
     ExistingCompaniesComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -51,9 +54,15 @@ import { ExistingCompaniesComponent } from './existing-companies/existing-compan
     AngularFireDatabaseModule,
     AngularFireStorageModule,
   ],
-  providers: [IgucaService ],
+  providers: [IgucaService, AngularFireAuth ],
   bootstrap: [AppComponent],
-  entryComponents: [InfoCourseLoaderComponent, ExistingCoursesComponent, CompanyManagementComponent, ExistingCompaniesComponent],
+  entryComponents: [
+    InfoCourseLoaderComponent,
+    ExistingCoursesComponent,
+    CompanyManagementComponent,
+    ExistingCompaniesComponent,
+    LoginComponent,
+  ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 
 })

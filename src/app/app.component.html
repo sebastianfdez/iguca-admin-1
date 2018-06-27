@@ -2,7 +2,7 @@
 
   <div id="parent" #parent></div>
 
-  <div class="app-parent-menu" *ngIf="!childOpen">
+  <div class="app-parent-menu" id="app-menu-content" *ngIf="this.componentHolders.length === 0">
 
     <div class="menu-title">
       <span class="menu-title-p">Admin IGUCA</span>
@@ -30,6 +30,10 @@
 
     <div class="menu-logo">
       <img class="menu-logo-img" [src]="igucaLogo"/>
+    </div>
+
+    <div class="menu-logout">
+      <button mat-button (click)="logOut()">Log out</button>
     </div>
 
   </div>

@@ -34,6 +34,7 @@ export class CompanyManagementComponent implements OnInit {
     if (this.isNewCompany) {
       this.openCompany.courses.push('');
     }
+    this.getDatabaseCoursesName();
   }
 
   addCourse() {

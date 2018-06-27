@@ -37,19 +37,18 @@ export class ExistingCoursesComponent implements OnInit {
   ngOnInit() {
   }
 
-  getDatabaseCourses() {
-    this.Courses = this.database.getElement();
+  deleteDatabaseCourse(child: string, value: string) {
+    this.database.deleteElement( child , value );
+    this.getDatabaseCourses();
+    try {
+      const task = this.afStorage.ref(value).child('Examen').delete();
+      const task1 = this.afStorage.ref(value).child('Respuestas').delete();
+      const task2 = this.afStorage.ref(value).child('Ejercicios').delete();
+      const task3 = this.afStorage.ref(value).child('Manual').delete();
 
-
-    for (let _i = 0; _i < this.Courses.length ; _i++) {
-      this.IgucaCourses[_i] = new IgucaCourse();
-      this.IgucaCourses[_i].name = this.Courses[_i].name;
-      this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
-      this.IgucaCourses[_i]._id = this.Courses[_i]._id;
-
+    } catch (e) {
+      console.log(e);
     }
-    console.log(this.Courses);
-    console.log(this.IgucaCourses);
   }
 
   editCourse(i: number) {
@@ -72,18 +71,17 @@ export class ExistingCoursesComponent implements OnInit {
     }
   }
 
-  deleteDatabaseCourse(child: string, value: string) {
-    this.database.deleteElement( child , value );
-    this.getDatabaseCourses();
-    try {
-      const task = this.afStorage.ref(value).child('Examen').delete();
-      const task1 = this.afStorage.ref(value).child('Respuestas').delete();
-      const task2 = this.afStorage.ref(value).child('Ejercicios').delete();
-      const task3 = this.afStorage.ref(value).child('Manual').delete();
+  getDatabaseCourses() {
+    this.Courses = this.database.getElement();
+    for (let _i = 0; _i < this.Courses.length ; _i++) {
+      this.IgucaCourses[_i] = new IgucaCourse();
+      this.IgucaCourses[_i].name = this.Courses[_i].name;
+      this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
+      this.IgucaCourses[_i]._id = this.Courses[_i]._id;
 
-    } catch (e) {
-      console.log(e);
     }
+    console.log(this.Courses);
+    console.log(this.IgucaCourses);
   }
 
   homePage() {
