@@ -14,12 +14,12 @@ export class CompanyManagementComponent implements OnInit {
   IgucaCompanies: IgucaCompany[] = [];
   database: Database = new Database(this.db);
   IgucaCourses = [];
-  public companies;
   isNewCompany: boolean;
   private Courses: any[];
   public openCompany: IgucaCompany = new IgucaCompany();
   private errVal = [];
   public newCourse = '';
+  public courseNameInput = [];
 
   constructor(private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<CompanyManagementComponent>,
@@ -32,10 +32,15 @@ export class CompanyManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.courseNameInput = Object.assign([], this.database.igucaCoursesName);
   }
 
   addCourse() {
+    if (!this.openCompany.courses) {
+      this.openCompany.courses = [];
+    }
     this.openCompany.courses.push(this.newCourse);
+    this.courseNameInput = this.courseNameInput.filter(course => course !== this.newCourse);
     this.newCourse = '';
   }
 
@@ -43,25 +48,6 @@ export class CompanyManagementComponent implements OnInit {
     this.openCompany.courses = this.openCompany.courses.filter((course_) => {
       return course_ !== course;
     });
-  }
-
-  getDatabaseCompanies() {
-    this.companies = this.database.getComapny();
-
-    for (let _i = 0; _i < this.companies.length ; _i++) {
-      this.IgucaCompanies[_i] = new IgucaCompany();
-      this.IgucaCompanies[_i].name = this.companies[_i].name;
-      this.IgucaCompanies[_i].courses = this.companies[_i].courses;
-      this.IgucaCompanies[_i]._id = this.companies[_i]._id;
-    }
-
-  }
-
-  getDatabaseCoursesName() {
-    this.Courses = this.database.getElement();
-    for (let _i = 0; _i < this.Courses.length ; _i++) {
-      this.IgucaCourses[_i] = this.Courses[_i].name;
-    }
   }
 
   sendCompany() {
@@ -75,8 +61,6 @@ export class CompanyManagementComponent implements OnInit {
     if (this.validation) {
       this.database.updateCompany(this.openCompany);
       this.dialogRef.close(this.openCompany);
-      this.getDatabaseCoursesName();
-      this.getDatabaseCompanies();
     }
   }
 

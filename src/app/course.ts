@@ -104,13 +104,12 @@ export class Database {
 
     db.list('/Companies').valueChanges().subscribe((Companies) => {
       this.existingCompanies = Companies;
-
-    for (let _i = 0; _i < this.existingCompanies.length ; _i++) {
-      this.IgucaCompanies[_i] = new IgucaCompany();
-      this.IgucaCompanies[_i].name = this.existingCompanies[_i].name;
-      this.IgucaCompanies[_i].courses = this.existingCompanies[_i].courses;
-      this.IgucaCompanies[_i]._id = this.existingCompanies[_i]._id;
-    }
+      for (let _i = 0; _i < this.existingCompanies.length ; _i++) {
+        this.IgucaCompanies[_i] = new IgucaCompany();
+        this.IgucaCompanies[_i].name = this.existingCompanies[_i].name;
+        this.IgucaCompanies[_i].courses = this.existingCompanies[_i].courses;
+        this.IgucaCompanies[_i]._id = this.existingCompanies[_i]._id;
+      }
     });
 
    // console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
