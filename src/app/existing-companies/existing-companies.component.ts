@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Database, IgucaCompany } from '../course';
+import { Database, IgucaCompany, IgucaCourse } from '../course';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MatDialog } from '@angular/material';
 import { CompanyManagementComponent } from '../company-management/company-management.component';
+import { IgucaService } from '../services/iguca-service.service';
 
 @Component({
   selector: 'app-existing-companies',
@@ -12,8 +13,10 @@ import { CompanyManagementComponent } from '../company-management/company-manage
 })
 export class ExistingCompaniesComponent implements OnInit {
   public database = new Database(this.db);
+  igucaService: IgucaService = new IgucaService();
   IgucaCompanies: IgucaCompany [] = [];
   public companies;
+  public deleteAlert = '';
 
 
   constructor(private db: AngularFireDatabase,
@@ -22,14 +25,24 @@ export class ExistingCompaniesComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteCompany(i: number) {
+    if (this.deleteAlert !== '') {
+      this.database.deleteCompanyDB('name', this.IgucaCompanies[i].name);
+      this.deleteAlert = '';
+    } else {
+      this.deleteAlert = 'Estas seguro que deseas eliminar la compania?';
+    }
+  }
+
   editCompany(i: number) {
     this.dialog.open(CompanyManagementComponent, {
       width: '1000px',
       data: {
-        comany: this.IgucaCompanies[i],
-        isNewCourse: false,
+        company: this.IgucaCompanies[i],
+        isNewCompany: false,
       },
     });
+    // console.log(this.IgucaCompanies[i]);
   }
 
   getDatabaseCompanies() {
@@ -43,6 +56,10 @@ export class ExistingCompaniesComponent implements OnInit {
     }
     console.log(this.companies);
     console.log(this.IgucaCompanies);
+  }
+
+  homePage() {  // TODO: dosen't work yet
+    this.igucaService.closeExistingCompany();
   }
 
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { IgucaService } from '../services/iguca-service.service';
 import { Database, IgucaCourse, IgucaQuestion, IgucaCompany } from '../course';
 import { AngularFireDatabase } from 'angularfire2/database';
+import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-company-management',
@@ -14,14 +15,25 @@ export class CompanyManagementComponent implements OnInit {
   database: Database = new Database(this.db);
   IgucaCourses = [];
   public companies;
+  isNewCompany: boolean;
   private Courses: any[];
   public openCompany: IgucaCompany = new IgucaCompany();
+  private errVal = [];
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase,
+    public dialogRef: MatDialogRef<CompanyManagementComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+
+      if (this.data.company) {
+        this.openCompany = this.data.company;
+      }
+      this.isNewCompany = this.data.isNewCompany;
   }
 
   ngOnInit() {
-    this.openCompany.courses.push('');
+    if (this.isNewCompany) {
+      this.openCompany.courses.push('');
+    }
   }
 
   addCourse() {
@@ -57,9 +69,34 @@ export class CompanyManagementComponent implements OnInit {
     }
   }
 
-  showCompany() {
-    console.log(this.openCompany);
-    this.database.addCompany(this.openCompany);
+
+  sendCompany() {
+    if (this.validation) {
+      console.log(this.openCompany);
+      this.database.addCompany(this.openCompany);
+      this.dialogRef.close(this.openCompany);
+    }
   }
 
+  updateCompany() {
+    if (this.validation) {
+      this.database.updateCompany(this.openCompany);
+      this.dialogRef.close(this.openCompany);
+    }
+  }
+
+  validation(): boolean { // TODO: Validation
+    this.errVal = [];
+    if (this.openCompany.name === '') {
+      this.errVal.push('Compania debe tener nombre');
+    }
+    if (this.openCompany.courses[0] === '' ) {
+      this.errVal.push('Compania debe tener por lo menos 1 Curso');
+    }
+    if (this.errVal === [] ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

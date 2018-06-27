@@ -23,10 +23,8 @@ export class AppComponent implements OnInit {
   titleHerma = 'hermano';
 
   private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
-  private companyManagementHolder: ComponentFactory<CompanyManagementComponent>;
   private existingCompaniesHolder: ComponentFactory<ExistingCompaniesComponent>;
   private existingCoursesHolderComp;
-  private companyManagementHolderComp;
   private existingCompaniesHolderComp;
 
 
@@ -46,6 +44,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.igucaService.closeEditCourses$.subscribe((data) => {
       this.existingCoursesHolderComp.destroy();
+      this.childOpen = false;
+    });
+
+    this.igucaService.closeEditCompany$.subscribe((data) => {
+      console.log('aca');
+      this.existingCompaniesHolderComp.destroy();
       this.childOpen = false;
     });
   }
@@ -74,9 +78,16 @@ export class AppComponent implements OnInit {
   }
 
   showCompanyManagement() {
-    this.companyManagementHolder = this.factory.resolveComponentFactory(CompanyManagementComponent);
-    this.companyManagementHolderComp = this.parent.createComponent(this.companyManagementHolder);
-    this.childOpen = true;
+    const dialogRef = this.dialog.open(CompanyManagementComponent, {
+      width: '1000px',
+      data: {
+        company: null,
+        isNewCompany: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
   }
 
   showExistingCompanies() {

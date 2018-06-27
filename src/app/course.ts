@@ -142,7 +142,7 @@ export class Database {
 
   updateCompany(updateElement: IgucaCompany) {
     const replaceId = updateElement._id;
-    this.deleteElement( '_id' , replaceId );
+    this.deleteCompanyDB( '_id' , replaceId );
     this.addCompany(updateElement);
   }
 }

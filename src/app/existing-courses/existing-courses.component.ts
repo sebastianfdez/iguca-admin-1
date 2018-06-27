@@ -24,6 +24,7 @@ export class ExistingCoursesComponent implements OnInit {
   public editC: IgucaCourse;
   public edit = false;
   public editN: number;
+  public deleteAlert = '';
 
 
   constructor(
@@ -62,17 +63,23 @@ export class ExistingCoursesComponent implements OnInit {
   }
 
   deleteCourse(i: number) {
-    // TODO: delete course
+    if (this.deleteAlert !== '') {
+      this.deleteDatabaseCourse('name', this.IgucaCourses[i].name );
+      this.deleteAlert = '';
+      this.getDatabaseCourses();
+    } else {
+      this.deleteAlert = 'Estas seguro que deseas eliminar el Curso';
+    }
   }
 
-  deleteDatabaseCourse() {
-    this.database.deleteElement( 'name' , this.deleteValue );
+  deleteDatabaseCourse(child: string, value: string) {
+    this.database.deleteElement( child , value );
     this.getDatabaseCourses();
     try {
-      const task = this.afStorage.ref(this.deleteValue).child('Examen').delete();
-      const task1 = this.afStorage.ref(this.deleteValue).child('Respuestas').delete();
-      const task2 = this.afStorage.ref(this.deleteValue).child('Ejercicios').delete();
-      const task3 = this.afStorage.ref(this.deleteValue).child('Manual').delete();
+      const task = this.afStorage.ref(value).child('Examen').delete();
+      const task1 = this.afStorage.ref(value).child('Respuestas').delete();
+      const task2 = this.afStorage.ref(value).child('Ejercicios').delete();
+      const task3 = this.afStorage.ref(value).child('Manual').delete();
 
     } catch (e) {
       console.log(e);

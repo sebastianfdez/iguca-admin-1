@@ -8,10 +8,10 @@
   <button class="get-courses-name" (click)="getDatabaseCoursesName()">Cargar cursos</button> 
 
   <div class="company-management-main-title">
-    <span class="company-management-main-title-span" *ngIf="isNewCourse">
-      Agregar nueva compania
+    <span class="company-management-main-title-span" *ngIf="isNewCompany">
+      Agregar nueva Compania
     </span>
-    <span class="company-management-main-title-span" *ngIf="!isNewCourse">
+    <span class="company-management-main-title-span" *ngIf="!isNewCompany">
       Editar Compania
     </span>
   </div> 
@@ -62,13 +62,16 @@
   </div>
 
   <div class="send-company-button">
-    <button mat-button *ngIf="this.isNewCourse" >Agregar Compania</button>
+    <button mat-button *ngIf="this.isNewCompany" (click)="sendCompany()" >Agregar Compania</button>
   </div>
 
   <div class="send-company-button">
-    <button mat-button *ngIf="!this.isNewCourse" (click)="showCompany()">Mostrar</button>
+    <button mat-button *ngIf="!this.isNewCompany" (click)="updateCompany()">Editar Compania</button>
   </div>
 
+  <div class="status-text" *ngFor="let error of errVal">
+      {{error}}
+  </div>
 
 
 </div>

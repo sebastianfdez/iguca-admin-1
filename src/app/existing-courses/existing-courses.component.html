@@ -24,9 +24,13 @@
       <button mat-button class="button-edit" (click)="editCourse(i)">Editar Curso</button>
       <button mat-button class="button-delete" (click)="deleteCourse(i)">Eliminar Curso</button>
     </div>
+  </div> 
+  
+  <div class="delete-alert">
+    {{deleteAlert}}
   </div>
-
-  <div class="course-delete">
+  
+    <div class="course-delete">
     <div class="course-delete-field">Nombre de curso a eliminar:</div>
     <mat-form-field class="course-form">
         <input matInput placeholder="valor" [(ngModel)]="deleteValue" [ngModelOptions]="{standalone: true}"> 
