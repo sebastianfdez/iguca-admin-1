@@ -19,7 +19,6 @@ export class ExistingCoursesComponent implements OnInit {
   public database: Database = new Database(this.db);
   public deleteChild = '';
   public deleteValue = '';
-  public IgucaCourses: IgucaCourse[] = [];
   public Iguca: IgucaCourse = new IgucaCourse();
   public editC: IgucaCourse;
   public edit = false;
@@ -35,28 +34,23 @@ export class ExistingCoursesComponent implements OnInit {
     }
 
   ngOnInit() {
+
+    this.igucaService.coursesCharged$.subscribe((data) => {
+      this.getDatabaseCourses();
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   getDatabaseCourses() {
     this.Courses = this.database.getElement();
-
-
-    for (let _i = 0; _i < this.Courses.length ; _i++) {
-      this.IgucaCourses[_i] = new IgucaCourse();
-      this.IgucaCourses[_i].name = this.Courses[_i].name;
-      this.IgucaCourses[_i].finalExam = this.Courses[_i].finalExam;
-      this.IgucaCourses[_i]._id = this.Courses[_i]._id;
-
-    }
-    console.log(this.Courses);
-    console.log(this.IgucaCourses);
   }
 
   editCourse(i: number) {
     this.dialog.open(InfoCourseLoaderComponent, {
       width: '1000px',
       data: {
-        course: this.IgucaCourses[i],
+        course: this.database.IgucaCourses[i],
         isNewCourse: false,
       },
     });
@@ -64,7 +58,7 @@ export class ExistingCoursesComponent implements OnInit {
 
   deleteCourse(i: number) {
     if (this.deleteAlert !== '') {
-      this.deleteDatabaseCourse('name', this.IgucaCourses[i].name );
+      this.deleteDatabaseCourse('name', this.database.IgucaCourses[i].name );
       this.deleteAlert = '';
       this.getDatabaseCourses();
     } else {

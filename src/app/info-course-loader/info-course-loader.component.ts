@@ -240,6 +240,24 @@ constructor(private igucaService: IgucaService,
       isValid = false;
     }
     // TODO: validacion documentos
+    if (this.isNewCourse) {
+      if (!this.manualFile) {
+        isValid = false;
+        this.statusText.push('Falta manual');
+      }
+      if (!this.exerciseFile) {
+        isValid = false;
+        this.statusText.push('Falta Ejercicos');
+      }
+      if (!this.examFile) {
+        isValid = false;
+        this.statusText.push('Falta Examen');
+      }
+      if (!this.answersFile) {
+        isValid = false;
+        this.statusText.push('Faltan Respuestas');
+      }
+    }
     if (this.openCourse.finalExam.length === 0) {
       this.statusText.push('Falta agregar al menos una pregunta');
       isValid = false;

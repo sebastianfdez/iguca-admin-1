@@ -14,7 +14,6 @@ import { IgucaService } from '../services/iguca-service.service';
 export class ExistingCompaniesComponent implements OnInit {
   public database = new Database(this.db);
   igucaService: IgucaService = new IgucaService();
-  IgucaCompanies: IgucaCompany [] = [];
   public companies;
   public deleteAlert = '';
 
@@ -23,11 +22,16 @@ export class ExistingCompaniesComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit() {
+
+    this.igucaService.companiesCharged$.subscribe((data) => {
+
+    console.log('event');
+    });
   }
 
   deleteCompany(i: number) {
     if (this.deleteAlert !== '') {
-      this.database.deleteCompanyDB('name', this.IgucaCompanies[i].name);
+      this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
       this.deleteAlert = '';
     } else {
       this.deleteAlert = 'Estas seguro que deseas eliminar la compania?';
@@ -38,25 +42,13 @@ export class ExistingCompaniesComponent implements OnInit {
     this.dialog.open(CompanyManagementComponent, {
       width: '1000px',
       data: {
-        company: this.IgucaCompanies[i],
+        company: this.database.IgucaCompanies[i],
         isNewCompany: false,
       },
     });
     // console.log(this.IgucaCompanies[i]);
   }
 
-  getDatabaseCompanies() {
-    this.companies = this.database.getComapny();
-
-    for (let _i = 0; _i < this.companies.length ; _i++) {
-      this.IgucaCompanies[_i] = new IgucaCompany();
-      this.IgucaCompanies[_i].name = this.companies[_i].name;
-      this.IgucaCompanies[_i].courses = this.companies[_i].courses;
-      this.IgucaCompanies[_i]._id = this.companies[_i]._id;
-    }
-    console.log(this.companies);
-    console.log(this.IgucaCompanies);
-  }
 
   homePage() {  // TODO: dosen't work yet
     this.igucaService.closeExistingCompany();

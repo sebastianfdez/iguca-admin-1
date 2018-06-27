@@ -19,6 +19,7 @@ export class CompanyManagementComponent implements OnInit {
   private Courses: any[];
   public openCompany: IgucaCompany = new IgucaCompany();
   private errVal = [];
+  public newCourse = '';
 
   constructor(private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<CompanyManagementComponent>,
@@ -31,13 +32,11 @@ export class CompanyManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.isNewCompany) {
-      this.openCompany.courses.push('');
-    }
   }
 
   addCourse() {
-    this.openCompany.courses.push('');
+    this.openCompany.courses.push(this.newCourse);
+    this.newCourse = '';
   }
 
   deleteCourse(course: string) {
@@ -55,17 +54,13 @@ export class CompanyManagementComponent implements OnInit {
       this.IgucaCompanies[_i].courses = this.companies[_i].courses;
       this.IgucaCompanies[_i]._id = this.companies[_i]._id;
     }
-    console.log(this.companies);
-    console.log(this.IgucaCompanies);
+
   }
 
   getDatabaseCoursesName() {
-    if (this.database.coursesCharged) {
-      this.Courses = this.database.getElement();
-      for (let _i = 0; _i < this.Courses.length ; _i++) {
-        this.IgucaCourses[_i] = this.Courses[_i].name;
-      }
-      console.log(this.IgucaCourses);
+    this.Courses = this.database.getElement();
+    for (let _i = 0; _i < this.Courses.length ; _i++) {
+      this.IgucaCourses[_i] = this.Courses[_i].name;
     }
   }
 
@@ -82,6 +77,8 @@ export class CompanyManagementComponent implements OnInit {
     if (this.validation) {
       this.database.updateCompany(this.openCompany);
       this.dialogRef.close(this.openCompany);
+      this.getDatabaseCoursesName();
+      this.getDatabaseCompanies();
     }
   }
 

@@ -1,11 +1,8 @@
 <div class="company-management-content">
-  <button class="get-companies" (click)="getDatabaseCompanies()">Cargar companias</button>
 
   <div class="companies-loader" *ngFor="let company of this.companies; let i = index">  
     {{ company.name }}
   </div>
-
-  <button class="get-courses-name" (click)="getDatabaseCoursesName()">Cargar cursos</button> 
 
   <div class="company-management-main-title">
     <span class="company-management-main-title-span" *ngIf="isNewCompany">
@@ -40,24 +37,28 @@
       </span>
     </div>
     
-    <div class="inputs" *ngFor="let inputs of this.openCompany.courses; let i = index">
+    <div class="inputs" *ngFor="let course of this.openCompany.courses; let i = index">
       <form class="company-management-input">
-        <mat-form-field class="company-form">
-          <mat-select placeholder="Cursos Disponibles" [(ngModel)]="openCompany.courses[i]" [ngModelOptions]="{standalone: true}" >
-            <mat-option *ngFor="let course of this.Courses" [value]="course.name">
-              {{ course.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
         
-        <div class="button-deleteCourse">
-          <button mat-button (click)="deleteCourse(openCompany.courses[i])">-</button>
+          <span class="company-management-sub-title-span">
+              {{course}}
+          </span>
+        <div class="button-delete-course">  
+          <button mat-button (click)="deleteCourse(openCompany.courses[i])">Eliminar</button>
         </div>
-      
       </form>
     </div>
-    <div class="button-addCourse">
-      <button mat-button (click)="addCourse()">+</button>
+    <mat-form-field class="company-form">
+      <mat-select placeholder="Cursos Disponibles" [(ngModel)]="newCourse" [ngModelOptions]="{standalone: true}" >
+        <mat-option *ngFor="let course of this.database.igucaCoursesName" [value]="course">
+          {{ course }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    
+    <div class="button-add-course">
+      <button mat-button (click)="addCourse()">Agregar</button>
     </div>
   </div>
 

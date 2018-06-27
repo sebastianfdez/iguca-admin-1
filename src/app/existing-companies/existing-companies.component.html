@@ -5,18 +5,12 @@
       <span class="course-loader-title-span">
         Administrador de Companias
       </span>
-      <span class="course-loader-subtitle">
-        Presione el boton para cargar las companias de la base de datos
-      </span>
+      
     </div>
   
-    <div class="charge-courses">
-      <button mat-button *ngIf="database.companiesCharged" (click)="getDatabaseCompanies()">Cargar Companias</button>  
-      <button mat-button class="disabled" *ngIf="!database.companiesCharged" (click)="getDatabaseCompanies()" disabled> Cargar Comapnias</button>
-    </div>
   
     <div class="course-loader">  
-      <div class="course-element mat-elevation-z2" *ngFor="let company of this.companies; let i = index">
+      <div class="course-element mat-elevation-z2" *ngFor="let company of this.database.existingCompanies; let i = index">
         <div class="course-name">
             <span class="course-loader-name-span">
               {{ company.name }}

@@ -5,13 +5,19 @@ width: 100%;
 display: flex;
 overflow-y: scroll; 
 
-.button-addCourse { 
+.button-add-course { 
   .mat-button { 
   background-color: green;
-  width: 30%;
+  width: 100%;
   margin: 10px;
-  font-size: 30px;
+  font-size: 20px;
+  color: #ffffff;
   }
+} 
+
+.button-delete-course { 
+  width: fit-content;
+  display: flex;
 }
 
 .company-form {
@@ -61,6 +67,16 @@ overflow-y: scroll;
     line-height: 44px;
     text-align: start;
     color: #282d31;
+  } 
+
+  .company-management-sub-title-span {
+    font-size: 22px;
+    line-height: 44px;
+    text-align: start;
+    color: #282d31; 
+    margin-left: 20px;
+    flex: 1;
+    text-transform: capitalize;
   }
 
   .company-management-title {
@@ -87,10 +103,11 @@ overflow-y: scroll;
     width: 100%;
 
     .mat-button { 
-      width: 10%;
+      width: 100%;
       background-color: red;
-      margin: 10px;
-      font-size: 30px;
+      margin-right: 20px;
+      font-size: 20px; 
+      color: #ffffff;
     }
   }
 

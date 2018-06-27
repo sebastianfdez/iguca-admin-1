@@ -48,10 +48,10 @@ export class AppComponent implements OnInit {
     });
 
     this.igucaService.closeEditCompany$.subscribe((data) => {
-      console.log('aca');
       this.existingCompaniesHolderComp.destroy();
       this.childOpen = false;
     });
+
   }
 
   showNewCourse() {

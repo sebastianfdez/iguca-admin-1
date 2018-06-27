@@ -4,18 +4,13 @@
     <span class="course-loader-title-span">
       Administrador de Cursos
     </span>
-    <span class="course-loader-subtitle">
-      Presione el boton para cargar los cursos de la base de datos
-    </span>
+    
   </div>
 
-  <div class="charge-courses">
-    <button mat-button *ngIf="database.coursesCharged" (click)="getDatabaseCourses()">Cargar Cursos</button>  
-    <button mat-button class="disabled" *ngIf="!database.coursesCharged" (click)="getDatabaseCourses()" disabled> Cargar Cursos</button>
-  </div>
+  
 
   <div class="course-loader">  
-    <div class="course-element mat-elevation-z2" *ngFor="let course of this.Courses; let i = index">
+    <div class="course-element mat-elevation-z2" *ngFor="let course of this.database.existingCoures; let i = index">
       <div class="course-name">
           <span class="course-loader-name-span">
             {{ course.name }}
