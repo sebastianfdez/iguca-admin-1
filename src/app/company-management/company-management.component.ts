@@ -15,9 +15,8 @@ export class CompanyManagementComponent implements OnInit {
   database: Database = new Database(this.db);
   IgucaCourses = [];
   isNewCompany: boolean;
-  private Courses: any[];
   public openCompany: IgucaCompany = new IgucaCompany();
-  private errVal = [];
+  public errVal = [];
   public newCourse = '';
   public courseNameInput = [];
 

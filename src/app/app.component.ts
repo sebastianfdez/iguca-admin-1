@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
   private existingCompaniesHolder: ComponentFactory<ExistingCompaniesComponent>;
   private loginHolder: ComponentFactory<LoginComponent>;
-  private componentHolders = [];
+  public componentHolders = [];
 
   @ViewChild('parent', { read: ViewContainerRef }) parent: ViewContainerRef;
 
