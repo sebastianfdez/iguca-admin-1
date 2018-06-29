@@ -19,6 +19,8 @@ export class CompanyManagementComponent implements OnInit {
   public errVal = [];
   public newCourse = '';
   public courseNameInput = [];
+  public editCompanyNumber;
+  public coursePosition;
 
   constructor(private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<CompanyManagementComponent>,
@@ -28,6 +30,7 @@ export class CompanyManagementComponent implements OnInit {
         this.openCompany = this.data.company;
       }
       this.isNewCompany = this.data.isNewCompany;
+      this.editCompanyNumber = this.data.editCompanyNumber;
   }
 
   ngOnInit() {
@@ -38,7 +41,10 @@ export class CompanyManagementComponent implements OnInit {
     if (!this.openCompany.courses) {
       this.openCompany.courses = [];
     }
-    this.openCompany.courses.push(this.newCourse);
+    if (this.newCourse === '') {
+      return null;
+    }
+    this.openCompany.courses.push(this.database.coursesKeys[this.coursePosition]);
     this.courseNameInput = this.courseNameInput.filter(course => course !== this.newCourse);
     this.newCourse = '';
   }
@@ -50,31 +56,34 @@ export class CompanyManagementComponent implements OnInit {
   }
 
   sendCompany() {
-    if (this.validation) {
+    if (this.validation()) {
       this.database.addCompany(this.openCompany);
       this.dialogRef.close(this.openCompany);
     }
   }
 
+  setCoursePosition(i: number) {
+    this.coursePosition = i;
+  }
+
   updateCompany() {
-    if (this.validation) {
-      this.database.updateCompany(this.openCompany);
+    if (this.validation()) {
+      this.database.updateCompany(this.openCompany, this.database.companiesKeys[this.editCompanyNumber]);
       this.dialogRef.close(this.openCompany);
     }
   }
 
   validation(): boolean { // TODO: Validation
+    let isValid = true;
     this.errVal = [];
     if (this.openCompany.name === '') {
       this.errVal.push('Compania debe tener nombre');
+      isValid = false;
     }
-    if (this.openCompany.courses[0] === '' ) {
+    if (this.openCompany.courses.length === 0 ) {
       this.errVal.push('Compania debe tener por lo menos 1 Curso');
+      isValid = false;
     }
-    if (this.errVal === [] ) {
-      return true;
-    } else {
-      return false;
-    }
+    return isValid;
   }
 }

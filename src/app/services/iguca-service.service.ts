@@ -14,6 +14,14 @@ export class IgucaService {
   private loggedUser = new Subject();
   public loggedUser$ = this.loggedUser.asObservable();
 
+  private areKeysLoaded = new Subject();
+  public areKeysLoaded$ = this.areKeysLoaded.asObservable();
+
+  public chargeUrl() {
+    this.areKeysLoaded.next(true);
+    console.log('aca');
+  }
+
   public closeExistingCourses() {
     this.closeEditCourses.next(true);
   }
@@ -25,6 +33,7 @@ export class IgucaService {
   public userLogIn() {
     this.loggedUser.next();
   }
+
 
   constructor() { }
 }

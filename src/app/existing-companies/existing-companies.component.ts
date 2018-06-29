@@ -34,7 +34,8 @@ export class ExistingCompaniesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
+       // this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
+       this.database.deleteCompanyByKey(i);
       }
     });
   }
@@ -45,6 +46,7 @@ export class ExistingCompaniesComponent implements OnInit {
       data: {
         company: this.database.IgucaCompanies[i],
         isNewCompany: false,
+        editCompanyNumber : i,
       },
     });
   }
