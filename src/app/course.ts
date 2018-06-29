@@ -5,6 +5,8 @@ import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask 
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { FileItem } from 'ng2-file-upload';
 import { IgucaService } from './services/iguca-service.service';
+import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
 
 
 export class IgucaCompany {
@@ -71,22 +73,36 @@ export class Database {
   IgucaCourses: IgucaCourse[] = [];
   IgucaCompanies: IgucaCompany [] = [];
   igucaCoursesName = [];
+  coursesKeys = [];
+  companiesKeys = [];
+  deleter: AngularFireDatabase;
+  iskeysCharged = false;
+  charged = new Subject();
 
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
     this.deleteCourse = db.list('/Cursos');
     this.companies = db.list('/Companies');
     this.deleteCompany = db.list('/Companies');
+    this.deleter = db;
 
-   /*this.items = db.list('/Cursos').snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+    db.list('/Cursos').snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => ( a.key ))
       )
-    );
-    console.log(this.items); */
+    ).subscribe(items => {
+      this.coursesKeys = items;
+      this.charged.next(true);
+    });
 
+    db.list('/Companies').snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => ( a.key ))
+      )
+    ).subscribe(items => {
+      this.companiesKeys = items;
+    });
 
-    // const newKey = db.database.ref().child('/Cursos').push().key;
 
     db.list('/Cursos').valueChanges().subscribe((Courses) => {
       this.existingCoures = Courses;
@@ -112,19 +128,35 @@ export class Database {
       }
     });
 
-   // console.log(Object.keys(db.list('/Cursos').snapshotChanges()));
-
   }
 
-  addElement(newCourse: IgucaCourse) {
-    this.courses.push(newCourse);
+  addCourse(newCourse: IgucaCourse) {
+    const key = this.courses.push(newCourse).key;
+    return key;
   }
 
   addCompany(newCompany: IgucaCompany) {
     this.companies.push(newCompany);
   }
 
-  deleteElement( Child: string, equalTo: string ) {
+  deleteCompanyByKey(i: number) {
+    try {
+      this.deleter.list('/Companies/' + this.companiesKeys[i]).remove();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  deleteCoursesByKey(i: number) {
+    try {
+      this.deleter.list('/Cursos/' + this.coursesKeys[i]).remove();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /* function that can delete of find items by especific child fields, they can be usefull in the future
+  deleteCourseDB( Child: string, equalTo: string ) {
     const deleteQuery = this.deleteCourse.query.orderByChild(Child).equalTo(equalTo);
     deleteQuery.once('value', function(snapshot) {
       snapshot.forEach(function(child) {
@@ -140,26 +172,33 @@ export class Database {
          child.ref.remove();
        });
     });
+  } */
+
+
+  updateCourse(igucaCourse: IgucaCourse, key: string) {
+    try {
+      this.courses.update( key, igucaCourse);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-
-  getElement() {
-    return this.existingCoures;
+  updateCompany(igucaCompany: IgucaCompany, key: string) {
+    try {
+      this.companies.update( key, igucaCompany);
+    } catch (e) {
+      console.log(e);
+    }
   }
-
-  getComapny() {
-    return this.existingCompanies;
-  }
-
-  updateElement(updateElement: IgucaCourse) {
-    const replaceId = updateElement._id;
-    this.deleteElement( '_id' , replaceId );
-    this.addElement(updateElement);
-  }
-
-  updateCompany(updateElement: IgucaCompany) {
-    const replaceId = updateElement._id;
-    this.deleteCompanyDB( '_id' , replaceId );
-    this.addCompany(updateElement);
+  keyToName(keyList: any[]) {
+    const names = [];
+    for (let i = 0; i < keyList.length; i++) {
+      for (let k = 0; k < this.IgucaCourses.length; k++) {
+        if (keyList[i] === this.coursesKeys[k]) {
+          names.push(this.IgucaCourses[k].name);
+        }
+      }
+    }
+    return names;
   }
 }

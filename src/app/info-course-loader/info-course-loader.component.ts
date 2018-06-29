@@ -52,6 +52,7 @@ public urlExam = '';
 public urlManual = '';
 
 public statusText = [];
+public editCourseNumber;
 
 constructor(private igucaService: IgucaService,
   private db: AngularFireDatabase,
@@ -62,12 +63,18 @@ constructor(private igucaService: IgucaService,
 
     if (this.data.course) {
       this.openCourse = this.data.course;
-      this.getStorageUrl();
+
     }
     this.isNewCourse = this.data.isNewCourse;
+    this.editCourseNumber = this.data.editCourseNumber;
   }
 
   ngOnInit() {
+    if (!this.isNewCourse) {
+      this.database.charged.subscribe((data) => {
+        this.getStorageUrl();
+      });
+    }
     if (!this.openCourse.finalExam) {
       this.openCourse.finalExam = [];
     }
@@ -137,17 +144,17 @@ constructor(private igucaService: IgucaService,
   }
 
   getStorageUrl() {
-      const URL_ref_Manual = this.afStorage.ref(this.openCourse.name).child('Manual');
-      URL_ref_Manual.getDownloadURL().subscribe(url => this.urlManual = url);
+    const URL_ref_Manual = this.afStorage.ref(this.database.coursesKeys[this.editCourseNumber]).child('Manual');
+    URL_ref_Manual.getDownloadURL().subscribe(url => this.urlManual = url);
 
-      const URL_ref_Exersices = this.afStorage.ref(this.openCourse.name).child('Ejercicios');
-      URL_ref_Exersices.getDownloadURL().subscribe(url => this.urlExersices = url);
+    const URL_ref_Exersices = this.afStorage.ref(this.database.coursesKeys[this.editCourseNumber]).child('Ejercicios');
+    URL_ref_Exersices.getDownloadURL().subscribe(url => this.urlExersices = url);
 
-      const URL_ref_Answers = this.afStorage.ref(this.openCourse.name).child('Respuestas');
-      URL_ref_Answers.getDownloadURL().subscribe(url => this.urlAnswers = url);
+    const URL_ref_Answers = this.afStorage.ref(this.database.coursesKeys[this.editCourseNumber]).child('Respuestas');
+    URL_ref_Answers.getDownloadURL().subscribe(url => this.urlAnswers = url);
 
-      const URL_ref_Exam = this.afStorage.ref(this.openCourse.name).child('Examen');
-      URL_ref_Exam.getDownloadURL().subscribe(url => this.urlExam = url);
+    const URL_ref_Exam = this.afStorage.ref(this.database.coursesKeys[this.editCourseNumber]).child('Examen');
+    URL_ref_Exam.getDownloadURL().subscribe(url => this.urlExam = url);
   }
 
 
@@ -180,13 +187,12 @@ constructor(private igucaService: IgucaService,
   sendCourse() {
     if (this.validateCourse()) {
       if (this.isNewCourse) {
-        this.database.addElement(this.openCourse);
-      }
-      if (this.isNewCourse) {
-        this.uploadFile(this.manualFile, 'Manual');
-        this.uploadFile(this.exerciseFile , 'Ejercicios');
-        this.uploadFile(this.examFile , 'Examen');
-        this.uploadFile(this.answersFile, 'Respuestas');
+        const key = this.database.addCourse(this.openCourse);
+        console.log(key);
+        this.uploadFile(this.manualFile, 'Manual', key);
+        this.uploadFile(this.exerciseFile , 'Ejercicios', key);
+        this.uploadFile(this.examFile , 'Examen', key);
+        this.uploadFile(this.answersFile, 'Respuestas', key);
         this.dialogRef.close(this.openCourse);
       } else {
 
@@ -196,16 +202,16 @@ constructor(private igucaService: IgucaService,
 
   updateFile(item: FileItem, file: string) {
     try {
-      const task = this.afStorage.ref( this.openCourse.name).child(file).delete();
+      const task = this.afStorage.ref(this.database.coursesKeys[this.editCourseNumber]).child(file).delete();
     } catch (e) {
       console.log(e);
     }
-    this.uploadFile(item, file);
+    this.uploadFile(item, file , this.database.coursesKeys[this.editCourseNumber]);
   }
 
   updateCourse() {
     if (this.validateCourse()) {
-      this.database.updateElement(this.openCourse);
+      this.database.updateCourse( this.openCourse, this.database.coursesKeys[this.editCourseNumber]);
       if (this.manualFile) {
         this.updateFile(this.manualFile, 'Manual');
       }
@@ -223,9 +229,9 @@ constructor(private igucaService: IgucaService,
   }
 
 
-  uploadFile(item: FileItem, file: string) {
+  uploadFile(item: FileItem, file: string, key: string) {
     try {
-      const task = this.afStorage.ref( this.openCourse.name).child(file).put(item.file.rawFile);
+      const task = this.afStorage.ref( key).child(file).put(item.file.rawFile);
     } catch (e) {
       console.log(e);
     }

@@ -5,6 +5,18 @@ app-info-course-loader {
   display: flex;
   overflow-y: scroll; 
 
+  .add-question-button {
+    margin: 10px 0;
+    width: 300px;
+    max-width: 300px;
+
+    .mat-button {
+      background-color: green;
+      width: 100%;
+      color: #ffffff;
+    }
+  }
+
   .course-form {
     height: 100%;
     display: flex;
@@ -140,18 +152,6 @@ app-info-course-loader {
     }
   }
 
-  .add-question-button {
-    margin: 10px 0;
-    width: 300px;
-    max-width: 300px;
-
-    .mat-button {
-      background-color: green;
-      width: 100%;
-      color: #ffffff;
-    }
-  }
-
   .send-course-button {
     margin: 10px 0;
     width: 300px;
@@ -164,7 +164,7 @@ app-info-course-loader {
     }
   }
 
-  .statusText {
+  .status-text {
     color: red;
   }
 

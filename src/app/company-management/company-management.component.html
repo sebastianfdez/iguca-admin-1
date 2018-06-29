@@ -1,9 +1,4 @@
 <div class="company-management-content">
-
-  <div class="companies-loader" *ngFor="let company of database.IgucaCompanies; let i = index">  
-    {{ company.name }}
-  </div>
-
   <div class="company-management-main-title">
     <span class="company-management-main-title-span" *ngIf="isNewCompany">
       Agregar nueva Compania
@@ -37,7 +32,7 @@
       </span>
     </div>
     
-    <div class="inputs" *ngFor="let course of this.openCompany.courses; let i = index">
+    <div class="inputs" *ngFor="let course of this.database.keyToName(this.openCompany.courses); let i = index">
       <form class="company-management-input">
         
           <span class="company-management-sub-title-span">
@@ -50,7 +45,7 @@
     </div>
     <mat-form-field class="company-form">
       <mat-select placeholder="Cursos Disponibles" [(value)]="newCourse" [ngModelOptions]="{standalone: true}" >
-        <mat-option *ngFor="let course of this.database.igucaCoursesName" [value]="course">
+        <mat-option *ngFor="let course of this.database.igucaCoursesName; let i = index" (click)="setCoursePosition(i)" [value]="course">
           {{ course }}
         </mat-option>
       </mat-select>
@@ -70,7 +65,7 @@
     <button mat-button *ngIf="!this.isNewCompany" (click)="updateCompany()">Editar Compania</button>
   </div>
 
-  <div class="status-text" *ngFor="let error of errVal">
+  <div class="status-text" *ngFor="let error of this.errVal">
       {{error}}
   </div>
 
