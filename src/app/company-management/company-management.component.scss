@@ -82,7 +82,7 @@ app-company-management {
     color: #282d31;
   } 
 
-  .company-management-sub-title-span {
+  .company-management-subtitle-span {
     font-size: 22px;
     line-height: 44px;
     text-align: start;
@@ -90,7 +90,9 @@ app-company-management {
     margin-left: 20px;
     flex: 1;
     text-transform: capitalize;
-  }
+  } 
+
+
 
   .company-management-title {
     padding: 15px 0;
@@ -109,6 +111,42 @@ app-company-management {
     word-break: break-all;
     height: 50px;
     overflow: hidden;
+  } 
+
+  .documents-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .document-file {
+    display: flex;
+  } 
+
+  .existing-file { 
+    margin-top: 14px;
+  }
+
+  .file-button {
+    height: 20px;
+    flex: 0 0 auto;
+    width: fit-content;
+    display: flex; 
+    margin-top: 10px; 
+    background-color: gray;
+
+    .mat-button-wrapper {
+      line-height: 0;
+    }
+  }
+
+  .file-span {
+    height: fit-content;
+    margin-right: 10px;
+    font-size: 17px;
+    margin-top: 10px;
   }
 
   .inputs { 

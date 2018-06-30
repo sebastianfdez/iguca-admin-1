@@ -68,8 +68,6 @@ export class Database {
   deleteCourse: AngularFireList<any>;
   deleteCompany: AngularFireList<any>;
   items: Observable<any[]>;
-  isCoursesCharged = false;
-  isCompaniesCharged = false;
   IgucaCourses: IgucaCourse[] = [];
   IgucaCompanies: IgucaCompany [] = [];
   igucaCoursesName = [];
@@ -77,7 +75,8 @@ export class Database {
   companiesKeys = [];
   deleter: AngularFireDatabase;
   iskeysCharged = false;
-  charged = new Subject();
+  chargedCourses = new Subject();
+  chargedCompanies = new Subject();
 
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
@@ -92,7 +91,7 @@ export class Database {
       )
     ).subscribe(items => {
       this.coursesKeys = items;
-      this.charged.next(true);
+      this.chargedCourses.next(true);
     });
 
     db.list('/Companies').snapshotChanges().pipe(
@@ -101,6 +100,7 @@ export class Database {
       )
     ).subscribe(items => {
       this.companiesKeys = items;
+      this.chargedCompanies.next(true);
     });
 
 
@@ -112,7 +112,6 @@ export class Database {
         this.IgucaCourses[_i].finalExam = this.existingCoures[_i].finalExam;
         this.IgucaCourses[_i]._id = this.existingCoures[_i]._id;
       }
-      this.isCoursesCharged = true;
       for (let _k = 0; _k < this.IgucaCourses.length ; _k++) {
         this.igucaCoursesName[_k] = this.IgucaCourses[_k].name;
       }
@@ -136,7 +135,8 @@ export class Database {
   }
 
   addCompany(newCompany: IgucaCompany) {
-    this.companies.push(newCompany);
+    const key = this.companies.push(newCompany).key;
+    return key;
   }
 
   deleteCompanyByKey(i: number) {

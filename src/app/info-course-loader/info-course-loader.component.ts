@@ -71,7 +71,7 @@ constructor(private igucaService: IgucaService,
 
   ngOnInit() {
     if (!this.isNewCourse) {
-      this.database.charged.subscribe((data) => {
+      this.database.chargedCourses.subscribe((data) => {
         this.getStorageUrl();
       });
     }

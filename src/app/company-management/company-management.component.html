@@ -35,7 +35,7 @@
     <div class="inputs" *ngFor="let course of this.database.keyToName(this.openCompany.courses); let i = index">
       <form class="company-management-input">
         
-          <span class="company-management-sub-title-span">
+          <span class="company-management-subtitle-span">
               {{course}}
           </span>
         <div class="button-delete-course">  
@@ -54,6 +54,28 @@
     
     <div class="button-add-course">
       <button mat-button (click)="addCourse()">Agregar Curso</button>
+    </div>
+  </div> 
+
+  <div class="company-management-field mat-elevation-z1">
+    <div class="documents-container">
+      <div class="company-management-title">
+        <span class="company-management-title-span">Subir documentos de la Compania</span>
+      </div>
+
+      <div class="company-management-subtitle">
+        <span class="company-management-subtitle-span document-manual">Icono de la Compania</span>
+      </div>
+      <input type="file" ng2FileSelect [uploader]="fileLoaderIcon" multiple/>
+
+      <div class="document-file" *ngFor="let item of fileLoaderIcon.queue">
+
+        <span  class="file-span">{{item?.file?.name}}</span>
+        <button mat-button type="button" class="file-button" (click)="deleteManual(item)">Eliminar</button>
+      </div>
+      <div class="existing-file">
+        <a target="blank_" href="{{urlIcon}}" *ngIf="urlIcon !== ''"><img src="{{urlIcon}}" width="300" height="210" ></a>
+      </div>
     </div>
   </div>
 
