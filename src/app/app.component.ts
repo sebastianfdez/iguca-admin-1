@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog,
     private afAuth: AngularFireAuth,
   ) {
+    localStorage.removeItem('firebase:previous_websocket_failure');
   }
 
   ngOnInit() {
