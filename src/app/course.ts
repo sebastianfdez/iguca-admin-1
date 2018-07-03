@@ -39,11 +39,14 @@ export class IgucaCourse {
   _id = '';
   finalExam: IgucaQuestion[] = [];
   name = '';
+  expireDate: any;
+  description = '';
 
   constructor() {
     const date = new Date();
     this._id = String(date.getTime());
   }
+
 }
 
 export class Upload {
@@ -111,6 +114,8 @@ export class Database {
         this.IgucaCourses[_i].name = this.existingCoures[_i].name;
         this.IgucaCourses[_i].finalExam = this.existingCoures[_i].finalExam;
         this.IgucaCourses[_i]._id = this.existingCoures[_i]._id;
+        this.IgucaCourses[_i].description = this.existingCoures[_i].description;
+        this.IgucaCourses[_i].expireDate = this.existingCoures[_i].expireDate;
       }
       for (let _k = 0; _k < this.IgucaCourses.length ; _k++) {
         this.igucaCoursesName[_k] = this.IgucaCourses[_k].name;

@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { CompanyManagementComponent } from '../company-management/company-management.component';
 import { IgucaService } from '../services/iguca-service.service';
 import { WarningComponent } from '../warning/warning.component';
+import { AngularFireStorage } from 'angularfire2/storage';
 
 @Component({
   selector: 'app-existing-companies',
@@ -20,6 +21,7 @@ export class ExistingCompaniesComponent implements OnInit {
     private db: AngularFireDatabase,
     private dialog: MatDialog,
     private igucaService: IgucaService,
+    private afStorage: AngularFireStorage,
   ) { }
 
   ngOnInit() {
@@ -36,12 +38,13 @@ export class ExistingCompaniesComponent implements OnInit {
       if (result) {
        // this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
        this.database.deleteCompanyByKey(i);
+       this.deleteStorageComoany(i);
       }
     });
   }
 
   editCompany(i: number) {
-    this.dialog.open(CompanyManagementComponent, {
+    const editDialog = this.dialog.open(CompanyManagementComponent, {
       width: '1000px',
       data: {
         company: this.database.IgucaCompanies[i],
@@ -49,7 +52,21 @@ export class ExistingCompaniesComponent implements OnInit {
         editCompanyNumber : i,
       },
     });
+    editDialog.afterClosed().subscribe((result) => {
+      this.database = new Database(this.db);
+      // this destroy the previous data from the dialog component
+    });
   }
+
+  deleteStorageComoany( i: number) {
+    try {
+      const task = this.afStorage.ref('Icons').child(this.database.companiesKeys[i]).delete();
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 
   homePage() {
     this.igucaService.closeExistingCompany();

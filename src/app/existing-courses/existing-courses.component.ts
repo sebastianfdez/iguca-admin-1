@@ -35,7 +35,7 @@ export class ExistingCoursesComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteStorageCourse(child: string, value: string) {
+  deleteStorageCourse( value: string) {
     try {
       const task = this.afStorage.ref(value).child('Examen').delete();
       const task1 = this.afStorage.ref(value).child('Respuestas').delete();
@@ -48,13 +48,16 @@ export class ExistingCoursesComponent implements OnInit {
   }
 
   editCourse(i: number) {
-    this.dialog.open(InfoCourseLoaderComponent, {
+    const editDialog = this.dialog.open(InfoCourseLoaderComponent, {
       width: '1000px',
       data: {
         course: this.database.IgucaCourses[i],
         isNewCourse: false,
         editCourseNumber: i,
       },
+    });
+    editDialog.afterClosed().subscribe((result) => {
+      this.database = new Database(this.db);
     });
   }
 
@@ -68,6 +71,7 @@ export class ExistingCoursesComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.database.deleteCoursesByKey(i);
+        this.deleteStorageCourse(this.database.coursesKeys[i]);
       //  this.deleteStorageCourse('name', this.database.IgucaCourses[i].name );
       }
     });

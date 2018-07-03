@@ -2,10 +2,10 @@ import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { IgucaService } from '../services/iguca-service.service';
 import { Database, IgucaCourse, IgucaQuestion, IgucaCompany } from '../course';
 import { AngularFireDatabase } from 'angularfire2/database';
-import {  MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {  MAT_DIALOG_DATA, MatDialogRef, MatDatepicker, MatDatepickerInput } from '@angular/material';
 import { FileUploader, FileItem } from 'ng2-file-upload';
 import { AngularFireStorage } from 'angularfire2/storage';
-import { FirebaseApp } from 'angularfire2';
+
 
 @Component({
   selector: 'app-company-management',
@@ -25,6 +25,7 @@ export class CompanyManagementComponent implements OnInit {
   public editCompanyNumber;
   public coursePosition;
   public urlIcon = '';
+
 
   companyIcon: FileItem;
 
@@ -62,6 +63,10 @@ export class CompanyManagementComponent implements OnInit {
     };
   }
 
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
   addCourse() {
     if (!this.openCompany.courses) {
       this.openCompany.courses = [];
@@ -69,7 +74,8 @@ export class CompanyManagementComponent implements OnInit {
     if (this.newCourse === '') {
       return null;
     }
-    this.openCompany.courses.push(this.database.coursesKeys[this.coursePosition]);
+    const filterList = this.filterCoursesList();
+    this.openCompany.courses.push(filterList[this.coursePosition]);
     this.courseNameInput = this.courseNameInput.filter(course => course !== this.newCourse);
     this.newCourse = '';
   }
@@ -84,6 +90,16 @@ export class CompanyManagementComponent implements OnInit {
     this.fileLoaderIcon.queue = this.fileLoaderIcon.queue.filter((file_) => {
       return file_ !== file;
     });
+  }
+
+  filterCoursesList() {
+    let list = [];
+    // list = this.database.igucaCoursesName.filter(item =>
+    //  this.database.keyToName(this.openCompany.courses).indexOf(item) < 0 );
+    // return list;
+    list = this.database.coursesKeys.filter(item =>
+      this.openCompany.courses.indexOf(item) < 0 );
+      return list;
   }
 
   getStorageUrl() {

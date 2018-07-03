@@ -45,7 +45,7 @@
     </div>
     <mat-form-field class="company-form">
       <mat-select placeholder="Cursos Disponibles" [(value)]="newCourse" [ngModelOptions]="{standalone: true}" >
-        <mat-option *ngFor="let course of this.database.igucaCoursesName; let i = index" (click)="setCoursePosition(i)" [value]="course">
+        <mat-option *ngFor="let course of  this.database.keyToName(filterCoursesList()); let i = index" (click)="setCoursePosition(i)" [value]="course">
           {{ course }}
         </mat-option>
       </mat-select>
