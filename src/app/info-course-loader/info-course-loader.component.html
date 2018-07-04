@@ -19,8 +19,31 @@
     
     <form class="course-loader-input">
       <mat-form-field class="course-form">
-          <input matInput placeholder="Nombre del curso" *ngIf="isNewCourse" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
-          <input matInput disabled *ngIf="!isNewCourse" placeholder="Nombre del curso" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
+          <input matInput placeholder="Nombre del curso" [(ngModel)]="openCourse.name" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form> 
+
+  </div> 
+
+  <div class="course-loader-field mat-elevation-z1">
+
+    <div class="course-loader-title">
+      <span class="course-loader-title-span">
+        Información adicional
+      </span>
+    </div>
+    
+    <form class="course-loader-input">
+      <mat-form-field class="course-form">
+          <input matInput placeholder=" Descripción del curso (Opcional)" [(ngModel)]="openCourse.description" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form> 
+
+    <form class="course-loader-input">
+      <mat-form-field class="course-form">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha de expiracion del curso (Opcional)" [(ngModel)]="openCourse.expireDate" [ngModelOptions]="{standalone: true}">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </form>
 

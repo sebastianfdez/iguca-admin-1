@@ -39,11 +39,14 @@ export class IgucaCourse {
   _id = '';
   finalExam: IgucaQuestion[] = [];
   name = '';
+  expireDate: any;
+  description = '';
 
   constructor() {
     const date = new Date();
     this._id = String(date.getTime());
   }
+
 }
 
 export class Upload {
@@ -68,8 +71,6 @@ export class Database {
   deleteCourse: AngularFireList<any>;
   deleteCompany: AngularFireList<any>;
   items: Observable<any[]>;
-  isCoursesCharged = false;
-  isCompaniesCharged = false;
   IgucaCourses: IgucaCourse[] = [];
   IgucaCompanies: IgucaCompany [] = [];
   igucaCoursesName = [];
@@ -77,7 +78,8 @@ export class Database {
   companiesKeys = [];
   deleter: AngularFireDatabase;
   iskeysCharged = false;
-  charged = new Subject();
+  chargedCourses = new Subject();
+  chargedCompanies = new Subject();
 
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
@@ -92,7 +94,7 @@ export class Database {
       )
     ).subscribe(items => {
       this.coursesKeys = items;
-      this.charged.next(true);
+      this.chargedCourses.next(true);
     });
 
     db.list('/Companies').snapshotChanges().pipe(
@@ -101,6 +103,7 @@ export class Database {
       )
     ).subscribe(items => {
       this.companiesKeys = items;
+      this.chargedCompanies.next(true);
     });
 
 
@@ -111,8 +114,9 @@ export class Database {
         this.IgucaCourses[_i].name = this.existingCoures[_i].name;
         this.IgucaCourses[_i].finalExam = this.existingCoures[_i].finalExam;
         this.IgucaCourses[_i]._id = this.existingCoures[_i]._id;
+        this.IgucaCourses[_i].description = this.existingCoures[_i].description;
+        this.IgucaCourses[_i].expireDate = this.existingCoures[_i].expireDate;
       }
-      this.isCoursesCharged = true;
       for (let _k = 0; _k < this.IgucaCourses.length ; _k++) {
         this.igucaCoursesName[_k] = this.IgucaCourses[_k].name;
       }
@@ -136,7 +140,8 @@ export class Database {
   }
 
   addCompany(newCompany: IgucaCompany) {
-    this.companies.push(newCompany);
+    const key = this.companies.push(newCompany).key;
+    return key;
   }
 
   deleteCompanyByKey(i: number) {

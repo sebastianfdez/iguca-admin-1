@@ -3,7 +3,7 @@ import { FileUploader, FileItem } from 'ng2-file-upload';
 import { IgucaCourse, IgucaQuestion, Database} from '../course';
 import { IgucaService } from '../services/iguca-service.service';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDatepickerModule } from '@angular/material';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { FirebaseApp } from 'angularfire2';
 
@@ -71,7 +71,7 @@ constructor(private igucaService: IgucaService,
 
   ngOnInit() {
     if (!this.isNewCourse) {
-      this.database.charged.subscribe((data) => {
+      this.database.chargedCourses.subscribe((data) => {
         this.getStorageUrl();
       });
     }
@@ -194,8 +194,7 @@ constructor(private igucaService: IgucaService,
         this.uploadFile(this.examFile , 'Examen', key);
         this.uploadFile(this.answersFile, 'Respuestas', key);
         this.dialogRef.close(this.openCourse);
-      } else {
-
+        console.log(this.openCourse.expireDate);
       }
     }
   }
@@ -224,6 +223,7 @@ constructor(private igucaService: IgucaService,
       if (this.answersFile) {
         this.updateFile(this.answersFile, 'Respuestas');
       }
+      console.log(this.openCourse.expireDate);
       this.dialogRef.close(this.openCourse);
     }
   }

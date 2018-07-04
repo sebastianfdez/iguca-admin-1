@@ -16,6 +16,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+
+
+
 
 
 // Components
@@ -55,6 +60,8 @@ import { WarningComponent } from './warning/warning.component';
     AngularFireModule.initializeApp(environment.firebase, 'igucaAdmin'),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [IgucaService, AngularFireAuth ],
   bootstrap: [AppComponent],
