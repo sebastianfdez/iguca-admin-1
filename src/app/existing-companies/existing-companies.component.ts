@@ -38,7 +38,7 @@ export class ExistingCompaniesComponent implements OnInit {
       if (result) {
        // this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
        this.database.deleteCompanyByKey(i);
-       this.deleteStorageComoany(i);
+       this.deleteStorageCompany(i);
       }
     });
   }
@@ -58,7 +58,7 @@ export class ExistingCompaniesComponent implements OnInit {
     });
   }
 
-  deleteStorageComoany( i: number) {
+  deleteStorageCompany( i: number) {
     try {
       const task = this.afStorage.ref('Icons').child(this.database.companiesKeys[i]).delete();
 

@@ -5,6 +5,13 @@ app-company-management {
   display: flex;
   overflow-y: scroll; 
 
+  .add-course-error { 
+    font-size: 18px;
+    color: red;
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
+  
   .button-add-course { 
     width: 300px;
     .mat-button { 
@@ -38,6 +45,7 @@ app-company-management {
     display: flex;
     width: calc(100% - 60px);
     margin: 0 30px;
+    margin-top: 20px;
 
     .mat-form-field-wrapper {
       width: 100%;
@@ -66,6 +74,11 @@ app-company-management {
     display: flex;
     margin-top: 20px;
     width: 100%;
+  } 
+
+  .company-management-input-idSence {
+    display: flex;
+    width: 100%;
   }
 
   .company-management-main-title {
@@ -92,7 +105,14 @@ app-company-management {
     text-transform: capitalize;
   } 
 
-
+  .company-management-idSense-span { 
+    font-size: 18px;
+    line-height: 44px;
+    text-align: end;
+    color: #282d31; 
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 
   .company-management-title {
     padding: 15px 0;
