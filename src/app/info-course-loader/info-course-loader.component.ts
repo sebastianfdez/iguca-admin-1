@@ -39,6 +39,7 @@ public fileLoaderExam: FileUploader = new FileUploader({
 
 public openCourse: IgucaCourse = new IgucaCourse();
 private database: Database = new Database(this.db);
+expireDate: Date;
 
 examFile: FileItem;
 manualFile: FileItem;
@@ -63,7 +64,6 @@ constructor(private igucaService: IgucaService,
 
     if (this.data.course) {
       this.openCourse = this.data.course;
-
     }
     this.isNewCourse = this.data.isNewCourse;
     this.editCourseNumber = this.data.editCourseNumber;
@@ -71,6 +71,7 @@ constructor(private igucaService: IgucaService,
 
   ngOnInit() {
     if (!this.isNewCourse) {
+      this.reBuildExpireDate();
       this.database.chargedCourses.subscribe((data) => {
         this.getStorageUrl();
       });
@@ -110,6 +111,16 @@ constructor(private igucaService: IgucaService,
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  buildExpireDate() {
+    const day = this.expireDate.getDate().toString();
+    let month = this.expireDate.getMonth();
+    month = month + 1;  // In Date library months start from 0 -> (0-11 months)
+    const monthString = month.toString();
+    const year = this.expireDate.getFullYear().toString();
+    return (day + '/' + monthString + '/' + year);
+
   }
 
   deleteQuestion(question: IgucaQuestion) {
@@ -184,17 +195,27 @@ constructor(private igucaService: IgucaService,
     });
   }
 
+  reBuildExpireDate() {
+    const days = this.openCourse.expireDate.split('/')[0];
+    let months = this.openCourse.expireDate.split('/')[1];
+    months--;   // Date library takes month starring from 0 (months - 0 => 11)
+    const years = this.openCourse.expireDate.split('/')[2];
+    this.expireDate = new Date();
+    this.expireDate.setDate(days);
+    this.expireDate.setMonth(months);
+    this.expireDate.setFullYear(years);
+  }
+
   sendCourse() {
     if (this.validateCourse()) {
       if (this.isNewCourse) {
+        this.openCourse.expireDate = this.buildExpireDate();
         const key = this.database.addCourse(this.openCourse);
-        console.log(key);
         this.uploadFile(this.manualFile, 'Manual', key);
         this.uploadFile(this.exerciseFile , 'Ejercicios', key);
         this.uploadFile(this.examFile , 'Examen', key);
         this.uploadFile(this.answersFile, 'Respuestas', key);
         this.dialogRef.close(this.openCourse);
-        console.log(this.openCourse.expireDate);
       }
     }
   }
@@ -210,6 +231,7 @@ constructor(private igucaService: IgucaService,
 
   updateCourse() {
     if (this.validateCourse()) {
+      this.openCourse.expireDate = this.buildExpireDate();
       this.database.updateCourse( this.openCourse, this.database.coursesKeys[this.editCourseNumber]);
       if (this.manualFile) {
         this.updateFile(this.manualFile, 'Manual');
@@ -223,7 +245,6 @@ constructor(private igucaService: IgucaService,
       if (this.answersFile) {
         this.updateFile(this.answersFile, 'Respuestas');
       }
-      console.log(this.openCourse.expireDate);
       this.dialogRef.close(this.openCourse);
     }
   }

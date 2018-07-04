@@ -41,7 +41,7 @@
 
     <form class="course-loader-input">
       <mat-form-field class="course-form">
-        <input matInput [matDatepicker]="picker" placeholder="Fecha de expiracion del curso (Opcional)" [(ngModel)]="openCourse.expireDate" [ngModelOptions]="{standalone: true}">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha de expiracion del curso (Opcional)" [(ngModel)]="expireDate" [ngModelOptions]="{standalone: true}">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
