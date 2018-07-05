@@ -114,13 +114,7 @@ constructor(private igucaService: IgucaService,
   }
 
   buildExpireDate() {
-    const day = this.expireDate.getDate().toString();
-    let month = this.expireDate.getMonth();
-    month = month + 1;  // In Date library months start from 0 -> (0-11 months)
-    const monthString = month.toString();
-    const year = this.expireDate.getFullYear().toString();
-    return (day + '/' + monthString + '/' + year);
-
+    this.openCourse.expireDate = this.expireDate.getTime();
   }
 
   deleteQuestion(question: IgucaQuestion) {
@@ -196,20 +190,14 @@ constructor(private igucaService: IgucaService,
   }
 
   reBuildExpireDate() {
-    const days = this.openCourse.expireDate.split('/')[0];
-    let months = this.openCourse.expireDate.split('/')[1];
-    months--;   // Date library takes month starring from 0 (months - 0 => 11)
-    const years = this.openCourse.expireDate.split('/')[2];
     this.expireDate = new Date();
-    this.expireDate.setDate(days);
-    this.expireDate.setMonth(months);
-    this.expireDate.setFullYear(years);
+    this.expireDate.setTime(this.openCourse.expireDate);
   }
 
   sendCourse() {
     if (this.validateCourse()) {
       if (this.isNewCourse) {
-        this.openCourse.expireDate = this.buildExpireDate();
+        this.buildExpireDate();
         const key = this.database.addCourse(this.openCourse);
         this.uploadFile(this.manualFile, 'Manual', key);
         this.uploadFile(this.exerciseFile , 'Ejercicios', key);
@@ -231,7 +219,7 @@ constructor(private igucaService: IgucaService,
 
   updateCourse() {
     if (this.validateCourse()) {
-      this.openCourse.expireDate = this.buildExpireDate();
+      this.buildExpireDate();
       this.database.updateCourse( this.openCourse, this.database.coursesKeys[this.editCourseNumber]);
       if (this.manualFile) {
         this.updateFile(this.manualFile, 'Manual');
