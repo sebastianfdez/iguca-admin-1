@@ -20,7 +20,9 @@ export class CompanyManagementComponent implements OnInit {
   isNewCompany: boolean;
   public openCompany: IgucaCompany = new IgucaCompany();
   public errVal = [];
+  public errorAddCourse = '';
   public newCourse = '';
+  public newIdSence = '';
   public courseNameInput = [];
   public editCompanyNumber;
   public coursePosition;
@@ -44,10 +46,12 @@ export class CompanyManagementComponent implements OnInit {
       }
       this.isNewCompany = this.data.isNewCompany;
       this.editCompanyNumber = this.data.editCompanyNumber;
-  }
+
+    }
 
   ngOnInit() {
     this.courseNameInput = Object.assign([], this.database.igucaCoursesName);
+
 
     if (!this.isNewCompany) {
       this.database.chargedCompanies.subscribe((data) => {
@@ -59,7 +63,6 @@ export class CompanyManagementComponent implements OnInit {
       item.withCredentials = false;
       item.alias = 'manual';
       this.companyIcon = item;
-      console.log('aca');
     };
   }
 
@@ -71,20 +74,27 @@ export class CompanyManagementComponent implements OnInit {
     if (!this.openCompany.courses) {
       this.openCompany.courses = [];
     }
-    if (this.newCourse === '') {
+    if (this.newCourse === '' || this.newIdSence === '') {
+      this.errorAddCourse = 'Falta agregar curso o ID Sense';
       return null;
     }
     const filterList = this.filterCoursesList();
     this.openCompany.courses.push(filterList[this.coursePosition]);
-    this.courseNameInput = this.courseNameInput.filter(course => course !== this.newCourse);
+    this.openCompany.idSence.push(this.newIdSence);
     this.newCourse = '';
+    this.newIdSence = '';
+    this.errorAddCourse = '';
   }
 
-  deleteCourse(course: string) {
+  deleteCourse(course: string, idSence: String) {
     this.openCompany.courses = this.openCompany.courses.filter((course_) => {
       return course_ !== course;
     });
+    this.openCompany.idSence = this.openCompany.idSence.filter((idSence_) => {
+      return idSence_ !== idSence;
+    });
   }
+
 
   deleteManual(file) {
     this.fileLoaderIcon.queue = this.fileLoaderIcon.queue.filter((file_) => {
@@ -112,7 +122,6 @@ export class CompanyManagementComponent implements OnInit {
   sendCompany() {
     if (this.validation()) {
       const newKey = this.database.addCompany(this.openCompany);
-      console.log(newKey);
       if (this.companyIcon) {
         this.uploadFile( this.companyIcon, newKey );
       }
@@ -150,6 +159,7 @@ export class CompanyManagementComponent implements OnInit {
     }
     this.uploadFile(item, file );
   }
+
 
   validation(): boolean { // TODO: Validation
     let isValid = true;

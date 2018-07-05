@@ -9,9 +9,11 @@ import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 
 
+
 export class IgucaCompany {
 
   _id = '';
+  idSence = [];
   courses = [];
   name = '';
 
@@ -49,37 +51,37 @@ export class IgucaCourse {
 
 }
 
-export class Upload {
-  $key: string;
-  file: File;
-  name: string;
-  url: string;
-  progress: number;
-  createdAt: Date = new Date();
-
-  constructor(file: File) {
-    this.file = file;
-  }
-}
-
 export class Database {
   public courses: AngularFireList<IgucaCourse>;
   public companies: AngularFireList<any>;
+  public idSences: AngularFireList<any>;
+
   public existingCoures: any[];
   public existingCompanies: any[];
+  public existingIdSence: any[];
+
   public igucaService = new IgucaService();
+
   deleteCourse: AngularFireList<any>;
   deleteCompany: AngularFireList<any>;
   items: Observable<any[]>;
+
   IgucaCourses: IgucaCourse[] = [];
-  IgucaCompanies: IgucaCompany [] = [];
+  IgucaCompanies: IgucaCompany[] = [];
+
   igucaCoursesName = [];
+
   coursesKeys = [];
   companiesKeys = [];
+  idSenceKeys = [];
+
   deleter: AngularFireDatabase;
   iskeysCharged = false;
+
   chargedCourses = new Subject();
   chargedCompanies = new Subject();
+
+
 
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
@@ -128,10 +130,10 @@ export class Database {
         this.IgucaCompanies[_i] = new IgucaCompany();
         this.IgucaCompanies[_i].name = this.existingCompanies[_i].name;
         this.IgucaCompanies[_i].courses = this.existingCompanies[_i].courses;
+        this.IgucaCompanies[_i].idSence = this.existingCompanies[_i].idSence;
         this.IgucaCompanies[_i]._id = this.existingCompanies[_i]._id;
       }
     });
-
   }
 
   addCourse(newCourse: IgucaCourse) {
@@ -155,10 +157,12 @@ export class Database {
   deleteCoursesByKey(i: number) {
     try {
       this.deleter.list('/Cursos/' + this.coursesKeys[i]).remove();
+      this.removeOldCompanyCourses(this.coursesKeys[i]);
     } catch (e) {
       console.log(e);
     }
   }
+
 
   /* function that can delete of find items by especific child fields, they can be usefull in the future
   deleteCourseDB( Child: string, equalTo: string ) {
@@ -195,6 +199,8 @@ export class Database {
       console.log(e);
     }
   }
+
+
   keyToName(keyList: any[]) {
     const names = [];
     for (let i = 0; i < keyList.length; i++) {
@@ -205,5 +211,23 @@ export class Database {
       }
     }
     return names;
+  }
+
+  removeOldCompanyCourses(key: String) {
+    for (let i = 0; i < this.IgucaCompanies.length; i++) {
+      for (let k = 0; k < this.IgucaCompanies[i].courses.length; k++) {
+        if (key === this.IgucaCompanies[i].courses[k]) {
+
+          this.IgucaCompanies[i].courses = this.IgucaCompanies[i].courses.filter((course_) => {
+            return course_ !== this.IgucaCompanies[i].courses[k];
+          });
+          this.IgucaCompanies[i].idSence = this.IgucaCompanies[i].idSence.filter((idSence_) => {
+            return idSence_ !== this.IgucaCompanies[i].idSence[k];
+          });
+          this.updateCompany(this.IgucaCompanies[i], this.companiesKeys[i]);
+
+        }
+      }
+    }
   }
 }

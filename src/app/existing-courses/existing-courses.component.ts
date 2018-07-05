@@ -58,6 +58,7 @@ export class ExistingCoursesComponent implements OnInit {
     });
     editDialog.afterClosed().subscribe((result) => {
       this.database = new Database(this.db);
+      // this distroy de old data from the comoponent that was loaded before
     });
   }
 
@@ -90,7 +91,6 @@ export class ExistingCoursesComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
     });
   }
 }

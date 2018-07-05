@@ -38,11 +38,17 @@
           <span class="company-management-subtitle-span">
               {{course}}
           </span>
+          <span class="company-management-idSense-span">
+            ID:
+            {{openCompany.idSence[i]}}
+          </span>
+
         <div class="button-delete-course">  
-          <button mat-button (click)="deleteCourse(openCompany.courses[i])">Eliminar</button>
+          <button mat-button (click)="deleteCourse(openCompany.courses[i], openCompany.idSence[i])">Eliminar</button>
         </div>
       </form>
     </div>
+    
     <mat-form-field class="company-form">
       <mat-select placeholder="Cursos Disponibles" [(value)]="newCourse" [ngModelOptions]="{standalone: true}" >
         <mat-option *ngFor="let course of  this.database.keyToName(filterCoursesList()); let i = index" (click)="setCoursePosition(i)" [value]="course">
@@ -50,10 +56,18 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    
-    
+
+    <form class="company-management-input-idSence">
+      <mat-form-field class="company-form">
+        <input matInput placeholder="ID Sence" [(ngModel)]="newIdSence" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </form>
+
     <div class="button-add-course">
       <button mat-button (click)="addCourse()">Agregar Curso</button>
+    </div>
+    <div class="add-course-error">
+      {{errorAddCourse}}
     </div>
   </div> 
 
