@@ -36,7 +36,6 @@ export class ExistingCompaniesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-       // this.database.deleteCompanyDB('name', this.database.IgucaCompanies[i].name);
        this.database.deleteCompanyByKey(i);
        this.deleteStorageCompany(i);
       }
@@ -81,7 +80,6 @@ export class ExistingCompaniesComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
     });
 
   }

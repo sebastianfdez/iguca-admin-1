@@ -46,10 +46,12 @@ export class CompanyManagementComponent implements OnInit {
       }
       this.isNewCompany = this.data.isNewCompany;
       this.editCompanyNumber = this.data.editCompanyNumber;
-  }
+
+    }
 
   ngOnInit() {
     this.courseNameInput = Object.assign([], this.database.igucaCoursesName);
+
 
     if (!this.isNewCompany) {
       this.database.chargedCompanies.subscribe((data) => {
@@ -157,6 +159,7 @@ export class CompanyManagementComponent implements OnInit {
     }
     this.uploadFile(item, file );
   }
+
 
   validation(): boolean { // TODO: Validation
     let isValid = true;

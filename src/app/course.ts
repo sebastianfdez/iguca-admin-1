@@ -82,6 +82,7 @@ export class Database {
   chargedCompanies = new Subject();
 
 
+
   constructor(db: AngularFireDatabase) {
     this.courses = db.list('/Cursos');
     this.deleteCourse = db.list('/Cursos');
@@ -105,14 +106,6 @@ export class Database {
     ).subscribe(items => {
       this.companiesKeys = items;
       this.chargedCompanies.next(true);
-    });
-
-    db.list('/IdSence').snapshotChanges().pipe(
-      map(actions =>
-        actions.map(a => ( a.key ))
-      )
-    ).subscribe(items => {
-      this.idSenceKeys = items;
     });
 
 
@@ -164,6 +157,7 @@ export class Database {
   deleteCoursesByKey(i: number) {
     try {
       this.deleter.list('/Cursos/' + this.coursesKeys[i]).remove();
+      this.removeOldCompanyCourses(this.coursesKeys[i]);
     } catch (e) {
       console.log(e);
     }
@@ -217,5 +211,23 @@ export class Database {
       }
     }
     return names;
+  }
+
+  removeOldCompanyCourses(key: String) {
+    for (let i = 0; i < this.IgucaCompanies.length; i++) {
+      for (let k = 0; k < this.IgucaCompanies[i].courses.length; k++) {
+        if (key === this.IgucaCompanies[i].courses[k]) {
+
+          this.IgucaCompanies[i].courses = this.IgucaCompanies[i].courses.filter((course_) => {
+            return course_ !== this.IgucaCompanies[i].courses[k];
+          });
+          this.IgucaCompanies[i].idSence = this.IgucaCompanies[i].idSence.filter((idSence_) => {
+            return idSence_ !== this.IgucaCompanies[i].idSence[k];
+          });
+          this.updateCompany(this.IgucaCompanies[i], this.companiesKeys[i]);
+
+        }
+      }
     }
+  }
 }
