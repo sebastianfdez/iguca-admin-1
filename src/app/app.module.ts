@@ -9,6 +9,8 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 
+import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
+
 // Material Packages
 import { MatInputModule, MatButtonModule, MatCheckboxModule, MatDialogModule } from '@angular/material';
 import { MatRadioModule } from '@angular/material/radio';
@@ -33,6 +35,7 @@ import { ExistingCompaniesComponent } from './existing-companies/existing-compan
 import { LoginComponent } from './login/login.component';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { WarningComponent } from './warning/warning.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,7 @@ import { WarningComponent } from './warning/warning.component';
     ExistingCompaniesComponent,
     LoginComponent,
     WarningComponent,
+    ReportsComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -62,6 +66,7 @@ import { WarningComponent } from './warning/warning.component';
     AngularFireStorageModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    ExcelExportModule,
   ],
   providers: [IgucaService, AngularFireAuth ],
   bootstrap: [AppComponent],
@@ -72,6 +77,7 @@ import { WarningComponent } from './warning/warning.component';
     ExistingCompaniesComponent,
     LoginComponent,
     WarningComponent,
+    ReportsComponent,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 

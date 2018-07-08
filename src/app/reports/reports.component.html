@@ -1,0 +1,24 @@
+<div class="reports-content">
+  <div class="home-buttons">
+    <button mat-button class="home-page-button" (click)="homePage()">Volver a Inicio</button> 
+  </div>
+  <button (click)="test()">test</button>
+  
+  <button type="button" class="k-button" (click)="save(excelexport)">Export To Excel</button>
+
+  <kendo-excelexport [data]="createData()" fileName="Products.xlsx" #excelexport>
+      <kendo-excelexport-column field="company" title="Compania"></kendo-excelexport-column>
+      <kendo-excelexport-column field="idSence" title="ID Sence"> </kendo-excelexport-column>
+      <kendo-excelexport-column field="userName" title="Nombre"></kendo-excelexport-column>
+      <kendo-excelexport-column field="rut" title="rut"> </kendo-excelexport-column>
+      <kendo-excelexport-column field="questions.0" title="1"></kendo-excelexport-column>
+      <kendo-excelexport-column field="1" title="2"> </kendo-excelexport-column>
+      <kendo-excelexport-column field="2" title="3"></kendo-excelexport-column>
+      <kendo-excelexport-column field="3" title="4"> </kendo-excelexport-column>
+      <kendo-excelexport-column field="4" title="5"></kendo-excelexport-column>
+      
+      
+  </kendo-excelexport>
+
+
+</div>

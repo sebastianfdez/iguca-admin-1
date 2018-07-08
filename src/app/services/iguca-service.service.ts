@@ -11,6 +11,9 @@ export class IgucaService {
   private closeEditCompany = new Subject();
   public closeEditCompany$ = this.closeEditCompany.asObservable();
 
+  private closeReports = new Subject();
+  public closeReports$ = this.closeReports.asObservable();
+
   private loggedUser = new Subject();
   public loggedUser$ = this.loggedUser.asObservable();
 
@@ -28,6 +31,10 @@ export class IgucaService {
 
   public closeExistingCompany() {
     this.closeEditCompany.next(true);
+  }
+
+  public closeReport() {
+    this.closeReports.next(true);
   }
 
   public userLogIn() {

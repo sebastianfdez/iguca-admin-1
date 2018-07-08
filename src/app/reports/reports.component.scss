@@ -1,0 +1,19 @@
+app-reports { 
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    .home-buttons {
+        width: 100%;
+        margin: 5px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .mat-button {
+            color: #ffffff;
+            background-color: #FB1D5E;
+            width: 300px;
+        }
+    }
+}

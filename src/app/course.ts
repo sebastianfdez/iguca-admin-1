@@ -51,6 +51,14 @@ export class IgucaCourse {
 
 }
 
+export class IgucaReport {
+  company = '';
+  rut = '';
+  userName = '';
+  idSence = '';
+  questions: string[];
+}
+
 export class Database {
   public courses: AngularFireList<IgucaCourse>;
   public companies: AngularFireList<any>;
@@ -59,6 +67,7 @@ export class Database {
   public existingCoures: any[];
   public existingCompanies: any[];
   public existingIdSence: any[];
+  public existingReports: any[];
 
   public igucaService = new IgucaService();
 
@@ -68,18 +77,20 @@ export class Database {
 
   IgucaCourses: IgucaCourse[] = [];
   IgucaCompanies: IgucaCompany[] = [];
+  IgucaReports: IgucaReport[] = [];
 
   igucaCoursesName = [];
 
   coursesKeys = [];
   companiesKeys = [];
-  idSenceKeys = [];
+  reportsKeys = [];
 
   deleter: AngularFireDatabase;
   iskeysCharged = false;
 
   chargedCourses = new Subject();
   chargedCompanies = new Subject();
+  chargedReports = new Subject();
 
 
 
@@ -108,6 +119,15 @@ export class Database {
       this.chargedCompanies.next(true);
     });
 
+    db.list('/Reports').snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => ( a.key ))
+      )
+    ).subscribe(items => {
+      this.reportsKeys = items;
+      this.chargedReports.next(true);
+    });
+
 
     db.list('/Cursos').valueChanges().subscribe((Courses) => {
       this.existingCoures = Courses;
@@ -132,6 +152,19 @@ export class Database {
         this.IgucaCompanies[_i].courses = this.existingCompanies[_i].courses;
         this.IgucaCompanies[_i].idSence = this.existingCompanies[_i].idSence;
         this.IgucaCompanies[_i]._id = this.existingCompanies[_i]._id;
+      }
+    });
+
+    db.list('/Reports').valueChanges().subscribe((Reports) => {
+      this.existingReports = Reports;
+      console.log(Reports);
+      for (let _i = 0; _i < this.existingReports.length ; _i++) {
+        this.IgucaReports[_i] = new IgucaReport();
+        this.IgucaReports[_i].company = this.existingReports[_i].company;
+        this.IgucaReports[_i].idSence = this.existingReports[_i].idSence;
+        this.IgucaReports[_i].rut = this.existingReports[_i].rut;
+        this.IgucaReports[_i].userName = this.existingReports[_i].userName;
+        this.IgucaReports[_i].questions = this.existingReports[_i].questions;
       }
     });
   }
