@@ -11,21 +11,16 @@ import { Database } from '../course';
 })
 
 export class ReportsComponent implements OnInit {
-  databse: Database = new Database(this.db);
+  database: Database = new Database(this.db);
 
-  createData() {
-    const data = [];
-    this.databse.IgucaReports.forEach(element => {
-      data.push({
-        'company' : element.company,
-        'idSence' : element.idSence,
-        'rut' : element.rut,
-        'userName' : element.userName,
-      });
-      for (let i = 0; i < element.questions.length; i++ ) {
-        data[0].i = element.questions[i];
-      }
-    });
+  isReportCharged = false;
+  isReportChargedKeys = false;
+  isCoursesCharged = false;
+
+  createData(courseNumber: number) {
+    let data: any[] = [];
+
+    data = this.database.IgucaReports[courseNumber].courseReport;
   return data;
   }
 
@@ -35,13 +30,31 @@ export class ReportsComponent implements OnInit {
     private db: AngularFireDatabase) { }
 
   ngOnInit() {
+    this.database.chargedReports.subscribe(() => {
+      this.isReportCharged = true;
+    });
+    this.database.chargedReportsKeys.subscribe(() => {
+      this.isReportChargedKeys = true;
+    });
+    this.database.chargedCourses.subscribe(() => {
+      this.isCoursesCharged = true;
+    });
   }
 
   homePage() {
     this.igucaService.closeReport();
   }
+
+  indexToNumber(i) {
+    return i;
+  }
+
   test() {
-    console.log(this.databse.IgucaReports);
+    console.log(this.database.existingReports[0][Object.keys(this.database.existingReports[0])[0]].company);
+    console.log(Object.keys(this.database.existingReports[0])[0]);
+    console.log(this.database.existingReports[1]['-LGWP_xTC_qTTDP0kPk']);
+    console.log(this.database.IgucaReports);
+   // console.log(this.createData(0)[0]);
   }
 
 

@@ -54,7 +54,7 @@ export class CompanyManagementComponent implements OnInit {
 
 
     if (!this.isNewCompany) {
-      this.database.chargedCompanies.subscribe((data) => {
+      this.database.chargedCompaniesKeys.subscribe((data) => {
         this.getStorageUrl();
       });
     }

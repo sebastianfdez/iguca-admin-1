@@ -4,21 +4,37 @@
   </div>
   <button (click)="test()">test</button>
   
-  <button type="button" class="k-button" (click)="save(excelexport)">Export To Excel</button>
+  <div class="loading info" *ngIf="!isReportCharged">
+    Cargando
+  </div> 
 
-  <kendo-excelexport [data]="createData()" fileName="Products.xlsx" #excelexport>
-      <kendo-excelexport-column field="company" title="Compania"></kendo-excelexport-column>
-      <kendo-excelexport-column field="idSence" title="ID Sence"> </kendo-excelexport-column>
-      <kendo-excelexport-column field="userName" title="Nombre"></kendo-excelexport-column>
-      <kendo-excelexport-column field="rut" title="rut"> </kendo-excelexport-column>
-      <kendo-excelexport-column field="questions.0" title="1"></kendo-excelexport-column>
-      <kendo-excelexport-column field="1" title="2"> </kendo-excelexport-column>
-      <kendo-excelexport-column field="2" title="3"></kendo-excelexport-column>
-      <kendo-excelexport-column field="3" title="4"> </kendo-excelexport-column>
-      <kendo-excelexport-column field="4" title="5"></kendo-excelexport-column>
-      
-      
-  </kendo-excelexport>
+  <div class="course-list" *ngIf="isCoursesCharged">
+    <div *ngFor="let course of database.keyToName(database.reportsKeys); let i = index;">
+      <div class="report-span">
+        <div class="report-sub-title">
+          {{course}}
+        </div>
+        <div class="button-export">
+          <button mat-button>Exportar a Excel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="data-loader" *ngIf="isReportCharged">
+    <button type="button" class="k-button" (click)="save(excelexport)">Export To Excel</button>
+    <kendo-excelexport [data]="createData(1)" fileName="Products.xlsx" #excelexport>
+        <kendo-excelexport-column field="company" title="Compania"></kendo-excelexport-column>
+        <kendo-excelexport-column field="idSence" title="ID Sence"></kendo-excelexport-column>
+        <kendo-excelexport-column field="userName" title="Nombre"></kendo-excelexport-column>
+        <kendo-excelexport-column field="rut" title="Rut"></kendo-excelexport-column>
+        <kendo-excelexport-column field="score" title="Puntaje"></kendo-excelexport-column>
+        <div *ngFor="let question of database.IgucaReports[1].courseReport[0].questions; let i = index">
+          <kendo-excelexport-column field="questions[{{i}}]" title="{{i+1}}"></kendo-excelexport-column>
+        </div>
+    </kendo-excelexport>
+  </div>
 
 
 </div>
