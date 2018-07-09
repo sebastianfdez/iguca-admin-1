@@ -91,6 +91,7 @@ export class Database {
   reportsKeys = [];
 
   deleter: AngularFireDatabase;
+  asker: AngularFireDatabase;
   iskeysCharged = false;
 
   chargedCoursesKeys = new Subject();
@@ -134,7 +135,6 @@ export class Database {
     ).subscribe(items => {
       this.reportsKeys = items;
       this.chargedReportsKeys.next(true);
-      console.log(this.reportsKeys);
     });
 
 
@@ -168,7 +168,6 @@ export class Database {
 
     db.list('/Reports').valueChanges().subscribe((Reports) => {
       this.existingReports = Reports;
-      console.log(Reports);
       for (let _i = 0; _i < this.existingReports.length ; _i++) { // => how many course have reports
         this.IgucaReports[_i] = new IgucaReport();
         for (let k = 0; k < Object.keys(this.existingReports[_i]).length; k++) {
@@ -179,7 +178,6 @@ export class Database {
           this.IgucaReports[_i].courseReport[k].idSence = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].idSence;
           this.IgucaReports[_i].courseReport[k].questions = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].questions;
           this.IgucaReports[_i].courseReport[k].score = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].score;
-          console.log(this.existingReports[0][Object.keys(this.existingReports[0])[0]].company);
         }
       }
       this.chargedReports.next(true);
@@ -213,6 +211,14 @@ export class Database {
     }
   }
 
+  deleteReportByKey(i: number) {
+    try {
+      this.deleter.list('/Reports/' + this.reportsKeys[i]).remove();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 
   /* function that can delete of find items by especific child fields, they can be usefull in the future
   deleteCourseDB( Child: string, equalTo: string ) {
@@ -232,6 +238,20 @@ export class Database {
        });
     });
   } */
+
+  getCourseAnswer(key: string) {
+    const list = [];
+    let position = null;
+    for (let i = 0; i < this.coursesKeys.length; i++) {
+      if (key === this.coursesKeys[i]) {
+        position = i;
+      }
+    }
+    this.IgucaCourses[position].finalExam.forEach(element => {
+      list.push(element.correct);
+    });
+    return list;
+  }
 
 
   updateCourse(igucaCourse: IgucaCourse, key: string) {
