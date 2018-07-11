@@ -51,6 +51,19 @@ export class IgucaCourse {
 
 }
 
+export class UserReport {
+  company = '';
+  rut = '';
+  userName = '';
+  idSence = '';
+  score = '';
+  questions: string[];
+}
+
+export class IgucaReport {
+  courseReport: UserReport[] = [];
+}
+
 export class Database {
   public courses: AngularFireList<IgucaCourse>;
   public companies: AngularFireList<any>;
@@ -59,6 +72,7 @@ export class Database {
   public existingCoures: any[];
   public existingCompanies: any[];
   public existingIdSence: any[];
+  public existingReports: any[];
 
   public igucaService = new IgucaService();
 
@@ -68,18 +82,24 @@ export class Database {
 
   IgucaCourses: IgucaCourse[] = [];
   IgucaCompanies: IgucaCompany[] = [];
+  IgucaReports: IgucaReport[] = [];
 
   igucaCoursesName = [];
 
   coursesKeys = [];
   companiesKeys = [];
-  idSenceKeys = [];
+  reportsKeys = [];
 
   deleter: AngularFireDatabase;
+  asker: AngularFireDatabase;
   iskeysCharged = false;
 
+  chargedCoursesKeys = new Subject();
   chargedCourses = new Subject();
+  chargedCompaniesKeys = new Subject();
   chargedCompanies = new Subject();
+  chargedReportsKeys = new Subject();
+  chargedReports = new Subject();
 
 
 
@@ -96,7 +116,7 @@ export class Database {
       )
     ).subscribe(items => {
       this.coursesKeys = items;
-      this.chargedCourses.next(true);
+      this.chargedCoursesKeys.next(true);
     });
 
     db.list('/Companies').snapshotChanges().pipe(
@@ -105,7 +125,16 @@ export class Database {
       )
     ).subscribe(items => {
       this.companiesKeys = items;
-      this.chargedCompanies.next(true);
+      this.chargedCompaniesKeys.next(true);
+    });
+
+    db.list('/Reports').snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => ( a.key ))
+      )
+    ).subscribe(items => {
+      this.reportsKeys = items;
+      this.chargedReportsKeys.next(true);
     });
 
 
@@ -122,6 +151,7 @@ export class Database {
       for (let _k = 0; _k < this.IgucaCourses.length ; _k++) {
         this.igucaCoursesName[_k] = this.IgucaCourses[_k].name;
       }
+      this.chargedCourses.next(true);
     });
 
     db.list('/Companies').valueChanges().subscribe((Companies) => {
@@ -133,6 +163,24 @@ export class Database {
         this.IgucaCompanies[_i].idSence = this.existingCompanies[_i].idSence;
         this.IgucaCompanies[_i]._id = this.existingCompanies[_i]._id;
       }
+      this.chargedCompanies.next(true);
+    });
+
+    db.list('/Reports').valueChanges().subscribe((Reports) => {
+      this.existingReports = Reports;
+      for (let _i = 0; _i < this.existingReports.length ; _i++) { // => how many course have reports
+        this.IgucaReports[_i] = new IgucaReport();
+        for (let k = 0; k < Object.keys(this.existingReports[_i]).length; k++) {
+          this.IgucaReports[_i].courseReport[k] = new UserReport();
+          this.IgucaReports[_i].courseReport[k].company = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].company;
+          this.IgucaReports[_i].courseReport[k].rut = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].rut;
+          this.IgucaReports[_i].courseReport[k].userName = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].userName;
+          this.IgucaReports[_i].courseReport[k].idSence = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].idSence;
+          this.IgucaReports[_i].courseReport[k].questions = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].questions;
+          this.IgucaReports[_i].courseReport[k].score = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].score;
+        }
+      }
+      this.chargedReports.next(true);
     });
   }
 
@@ -163,6 +211,14 @@ export class Database {
     }
   }
 
+  deleteReportByKey(i: number) {
+    try {
+      this.deleter.list('/Reports/' + this.reportsKeys[i]).remove();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
 
   /* function that can delete of find items by especific child fields, they can be usefull in the future
   deleteCourseDB( Child: string, equalTo: string ) {
@@ -182,6 +238,20 @@ export class Database {
        });
     });
   } */
+
+  getCourseAnswer(key: string) {
+    const list = [];
+    let position = null;
+    for (let i = 0; i < this.coursesKeys.length; i++) {
+      if (key === this.coursesKeys[i]) {
+        position = i;
+      }
+    }
+    this.IgucaCourses[position].finalExam.forEach(element => {
+      list.push(element.correct);
+    });
+    return list;
+  }
 
 
   updateCourse(igucaCourse: IgucaCourse, key: string) {

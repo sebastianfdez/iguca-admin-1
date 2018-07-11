@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material';
 import { ExistingCompaniesComponent } from './existing-companies/existing-companies.component';
 import { LoginComponent } from './login/login.component';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { ReportsComponent } from './reports/reports.component';
 
 export interface Item { name: string; }
 
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
 
   private existingCoursesHolder: ComponentFactory<ExistingCoursesComponent>;
   private existingCompaniesHolder: ComponentFactory<ExistingCompaniesComponent>;
+  private reportsHolder: ComponentFactory<ReportsComponent>;
   private loginHolder: ComponentFactory<LoginComponent>;
   public componentHolders = [];
 
@@ -45,6 +47,9 @@ export class AppComponent implements OnInit {
       this.destroyComponents();
     });
     this.igucaService.loggedUser$.subscribe((data) => {
+      this.destroyComponents();
+    });
+    this.igucaService.closeReports$.subscribe((data) => {
       this.destroyComponents();
     });
     if (!this.afAuth.auth.currentUser) {
@@ -72,6 +77,11 @@ export class AppComponent implements OnInit {
   openExistingCourses() {
     this.existingCoursesHolder = this.factory.resolveComponentFactory(ExistingCoursesComponent);
     this.componentHolders.push(this.parent.createComponent(this.existingCoursesHolder));
+  }
+
+  openReports() {
+    this.reportsHolder = this.factory.resolveComponentFactory(ReportsComponent);
+    this.componentHolders.push(this.parent.createComponent(this.reportsHolder));
   }
 
   showExistingCourses() {
