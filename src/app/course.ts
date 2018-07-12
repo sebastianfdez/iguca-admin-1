@@ -208,7 +208,7 @@ export class Database {
     try {
       this.deleter.list('/Cursos/' + this.coursesKeys[i]).remove();
       this.removeOldCompanyCourses(this.coursesKeys[i]);
-      this.deleter.list('/Reports/' + this.coursesKeys[i]);
+      this.deleter.list('/Reports/' + this.coursesKeys[i]).remove();
     } catch (e) {
       console.log(e);
     }

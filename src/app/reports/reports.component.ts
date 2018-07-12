@@ -49,7 +49,6 @@ export class ReportsComponent implements OnInit {
       correctReport.questions = this.database.getCourseAnswer(this.database.reportsKeys[courseNumber]);
       data.unshift(correctReport);
     }
-    console.log(this.excelData);
     this.excelData[courseNumber] = data;
     return data;
   }
@@ -64,11 +63,20 @@ export class ReportsComponent implements OnInit {
   ngOnInit() {
     this.database.chargedReports.subscribe(() => {
       this.isReportCharged = true;
+
+      if (this.isReportChargedKeys) {
+        for (let i = 0; i < this.database.reportsKeys.length; i++) {
+          this.createData(i);
+        }
+      }
     });
     this.database.chargedReportsKeys.subscribe(() => {
       this.isReportChargedKeys = true;
-      for (let i = 0; i < this.database.reportsKeys.length; i++) {
-        this.createData(i);
+
+      if (this.isReportCharged) {
+        for (let i = 0; i < this.database.reportsKeys.length; i++) {
+          this.createData(i);
+        }
       }
     });
     this.database.chargedCourses.subscribe(() => {
@@ -94,21 +102,12 @@ export class ReportsComponent implements OnInit {
 
 
   homePage() {
+    this.database = new Database(this.db);
     this.igucaService.closeReport();
   }
 
-  indexToNumber(i) {
-    return i;
-  }
 
   test() {
-    console.log(this.database.existingReports[0][Object.keys(this.database.existingReports[0])[0]].company);
-    console.log(Object.keys(this.database.existingReports[0])[0]);
-    console.log(this.database.existingReports[1]['-LGWP_xTC_qTTDP0kPk']);
-    console.log(this.database.IgucaReports);
-   // console.log(this.createData(0)[0]);
-    console.log(this.database.getCourseAnswer('-LGcba5stskq5OjHUmQl'));
-    this.createData(2);
   }
 
 
@@ -117,18 +116,8 @@ export class ReportsComponent implements OnInit {
     const options = component.workbookOptions();
 
     const rows = options.sheets[0].rows;
-
-    // let altIdx = 0;
     rows.forEach((row) => {
-        /*if (row.type === 'data') {
-            if (altIdx % 2 !== 0) {
-                row.cells.forEach((cell) => {
-                    cell.background = '#aabbcc';
-                });
-            }
-            altIdx++;
-        }*/
-        console.log(row.cells[6], rows[1].cells[6]);
+
         if (row.type === 'data') {
           for (let i = 0; i < (row.cells.length - 6); i++) {
             if (row.cells[6 + i].value !== rows[1].cells[6 + i].value) {
