@@ -58,6 +58,7 @@ export class UserReport {
   idSence = '';
   score = '';
   questions: string[];
+  userMail = '';
 }
 
 export class IgucaReport {
@@ -178,6 +179,7 @@ export class Database {
           this.IgucaReports[_i].courseReport[k].idSence = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].idSence;
           this.IgucaReports[_i].courseReport[k].questions = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].questions;
           this.IgucaReports[_i].courseReport[k].score = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].score;
+          this.IgucaReports[_i].courseReport[k].userMail = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].mail;
         }
       }
       this.chargedReports.next(true);
@@ -206,6 +208,7 @@ export class Database {
     try {
       this.deleter.list('/Cursos/' + this.coursesKeys[i]).remove();
       this.removeOldCompanyCourses(this.coursesKeys[i]);
+      this.deleter.list('/Reports/' + this.coursesKeys[i]);
     } catch (e) {
       console.log(e);
     }
@@ -248,7 +251,7 @@ export class Database {
       }
     }
     this.IgucaCourses[position].finalExam.forEach(element => {
-      list.push(element.correct);
+      list.push(element.correct.charAt(0).toUpperCase());
     });
     return list;
   }
