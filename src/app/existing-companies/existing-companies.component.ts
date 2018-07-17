@@ -57,7 +57,7 @@ export class ExistingCompaniesComponent implements OnInit {
     });
   }
 
-  deleteStorageCompany( i: number) {
+  deleteStorageCompany( i: number) { // delete the storage Icon of a client company, if ixist
     try {
       const task = this.afStorage.ref('Icons').child(this.database.companiesKeys[i]).delete();
 

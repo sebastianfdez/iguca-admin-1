@@ -54,7 +54,7 @@ export class CompanyManagementComponent implements OnInit {
 
 
     if (!this.isNewCompany) {
-      this.database.chargedCompaniesKeys.subscribe((data) => {
+      this.database.chargedCompaniesKeys.subscribe((data) => { // waiting for database to get companies info
         this.getStorageUrl();
       });
     }
@@ -104,9 +104,6 @@ export class CompanyManagementComponent implements OnInit {
 
   filterCoursesList() {
     let list = [];
-    // list = this.database.igucaCoursesName.filter(item =>
-    //  this.database.keyToName(this.openCompany.courses).indexOf(item) < 0 );
-    // return list;
     list = this.database.coursesKeys.filter(item =>
       this.openCompany.courses.indexOf(item) < 0 );
       return list;
@@ -129,7 +126,7 @@ export class CompanyManagementComponent implements OnInit {
     }
   }
 
-  setCoursePosition(i: number) {
+  setCoursePosition(i: number) { // course list position
     this.coursePosition = i;
   }
 
@@ -161,7 +158,7 @@ export class CompanyManagementComponent implements OnInit {
   }
 
 
-  validation(): boolean { // TODO: Validation
+  validation(): boolean {
     let isValid = true;
     this.errVal = [];
     if (this.openCompany.name === '') {
