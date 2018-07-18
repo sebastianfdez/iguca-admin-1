@@ -1,9 +1,6 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-import { FileItem } from 'ng2-file-upload';
 import { IgucaService } from './services/iguca-service.service';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
@@ -19,7 +16,7 @@ export class IgucaCompany {
 
   constructor() {
     const date = new Date();
-    this._id = String(date.getTime());
+    this._id = String(date.getTime()); // bulding a own ID, may be useful in the future
   }
 }
 
@@ -32,7 +29,7 @@ export class IgucaQuestion {
   f = '';
   g = '';
   h = '';
-  correct = '';
+  correct = ''; // correct answer of the question
   question = '';
   number = 0;
 }
@@ -59,10 +56,11 @@ export class UserReport {
   score = '';
   questions: string[];
   userMail = '';
+  date = '';
 }
 
 export class IgucaReport {
-  courseReport: UserReport[] = [];
+  courseReport: UserReport[] = []; // each Iguca Course have many userReports
 }
 
 export class Database {
@@ -111,7 +109,7 @@ export class Database {
     this.deleteCompany = db.list('/Companies');
     this.deleter = db;
 
-    db.list('/Cursos').snapshotChanges().pipe(
+    db.list('/Cursos').snapshotChanges().pipe(  // storgare the firebase realtime database keys for courses
       map(actions =>
         actions.map(a => ( a.key ))
       )
@@ -120,7 +118,7 @@ export class Database {
       this.chargedCoursesKeys.next(true);
     });
 
-    db.list('/Companies').snapshotChanges().pipe(
+    db.list('/Companies').snapshotChanges().pipe( // storgare the firebase realtime database keys for companies
       map(actions =>
         actions.map(a => ( a.key ))
       )
@@ -129,7 +127,7 @@ export class Database {
       this.chargedCompaniesKeys.next(true);
     });
 
-    db.list('/Reports').snapshotChanges().pipe(
+    db.list('/Reports').snapshotChanges().pipe( // storgare the firebase realtime database keys for reports
       map(actions =>
         actions.map(a => ( a.key ))
       )
@@ -139,7 +137,7 @@ export class Database {
     });
 
 
-    db.list('/Cursos').valueChanges().subscribe((Courses) => {
+    db.list('/Cursos').valueChanges().subscribe((Courses) => { // load the courses from teh database
       this.existingCoures = Courses;
       for (let _i = 0; _i < this.existingCoures.length ; _i++) {
         this.IgucaCourses[_i] = new IgucaCourse();
@@ -155,7 +153,7 @@ export class Database {
       this.chargedCourses.next(true);
     });
 
-    db.list('/Companies').valueChanges().subscribe((Companies) => {
+    db.list('/Companies').valueChanges().subscribe((Companies) => { // load the companies from teh database
       this.existingCompanies = Companies;
       for (let _i = 0; _i < this.existingCompanies.length ; _i++) {
         this.IgucaCompanies[_i] = new IgucaCompany();
@@ -167,7 +165,7 @@ export class Database {
       this.chargedCompanies.next(true);
     });
 
-    db.list('/Reports').valueChanges().subscribe((Reports) => {
+    db.list('/Reports').valueChanges().subscribe((Reports) => { // load the reports from teh database
       this.existingReports = Reports;
       for (let _i = 0; _i < this.existingReports.length ; _i++) { // => how many course have reports
         this.IgucaReports[_i] = new IgucaReport();
@@ -180,6 +178,10 @@ export class Database {
           this.IgucaReports[_i].courseReport[k].questions = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].questions;
           this.IgucaReports[_i].courseReport[k].score = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].score;
           this.IgucaReports[_i].courseReport[k].userMail = this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].mail;
+          const date = new Date(this.existingReports[_i][Object.keys(this.existingReports[_i])[k]].date);
+          const aux = date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString() +
+          ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString();
+          this.IgucaReports[_i].courseReport[k].date = aux;
         }
       }
       this.chargedReports.next(true);
@@ -208,7 +210,7 @@ export class Database {
     try {
       this.deleter.list('/Cursos/' + this.coursesKeys[i]).remove();
       this.removeOldCompanyCourses(this.coursesKeys[i]);
-      this.deleter.list('/Reports/' + this.coursesKeys[i]).remove();
+      this.deleter.list('/Reports/' + this.coursesKeys[i]).remove(); // delete the course report
     } catch (e) {
       console.log(e);
     }
@@ -242,7 +244,7 @@ export class Database {
     });
   } */
 
-  getCourseAnswer(key: string) {
+  getCourseAnswer(key: string) { // gets the corrects answers for the final examan for a especific course using his key
     const list = [];
     let position = null;
     for (let i = 0; i < this.coursesKeys.length; i++) {
@@ -274,7 +276,7 @@ export class Database {
   }
 
 
-  keyToName(keyList: any[]) {
+  keyToName(keyList: any[]) { // recive a course database key list and returns a list of the names of thous courses
     const names = [];
     for (let i = 0; i < keyList.length; i++) {
       for (let k = 0; k < this.IgucaCourses.length; k++) {
@@ -286,7 +288,7 @@ export class Database {
     return names;
   }
 
-  removeOldCompanyCourses(key: String) {
+  removeOldCompanyCourses(key: String) { // makes sure that unsuscribe the courses to company client when deleting a especific sourse
     for (let i = 0; i < this.IgucaCompanies.length; i++) {
       for (let k = 0; k < this.IgucaCompanies[i].courses.length; k++) {
         if (key === this.IgucaCompanies[i].courses[k]) {

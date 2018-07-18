@@ -35,7 +35,7 @@ export class ExistingCoursesComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteStorageCourse( value: string) {
+  deleteStorageCourse( value: string) { // delete the storage files of a especific course
     try {
       const task = this.afStorage.ref(value).child('Examen').delete();
       const task1 = this.afStorage.ref(value).child('Respuestas').delete();
@@ -73,7 +73,6 @@ export class ExistingCoursesComponent implements OnInit {
       if (result) {
         this.database.deleteCoursesByKey(i);
         this.deleteStorageCourse(this.database.coursesKeys[i]);
-      //  this.deleteStorageCourse('name', this.database.IgucaCourses[i].name );
       }
     });
   }

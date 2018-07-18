@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDatepickerModule } from '@angular/mat
 import { AngularFireStorage } from 'angularfire2/storage';
 import { FirebaseApp } from 'angularfire2';
 
-const URL = ''; // aca debe ir la ruta donde los archivos llegan (conectar con la base de datos)
+const URL = '';
 
 @Component({
   selector: 'app-info-course-loader',
@@ -72,7 +72,7 @@ constructor(private igucaService: IgucaService,
   ngOnInit() {
     if (!this.isNewCourse) {
       this.reBuildExpireDate();
-      this.database.chargedCourses.subscribe((data) => {
+      this.database.chargedCourses.subscribe((data) => { // waiting fot database to load courses
         this.getStorageUrl();
       });
     }
@@ -148,7 +148,7 @@ constructor(private igucaService: IgucaService,
     });
   }
 
-  getStorageUrl() {
+  getStorageUrl() { // gets the urls of the strorage Files of a especific courses
     const URL_ref_Manual = this.afStorage.ref(this.database.coursesKeys[this.editCourseNumber]).child('Manual');
     URL_ref_Manual.getDownloadURL().subscribe(url => this.urlManual = url);
 
@@ -246,14 +246,13 @@ constructor(private igucaService: IgucaService,
     }
   }
 
-  validateCourse(): boolean {
+  validateCourse(): boolean { // conditions that must be done before uploading or updating a course
     this.statusText = [];
     let isValid = true;
     if (this.openCourse.name === '') {
       this.statusText.push('Falta agregar el nombre del curso');
       isValid = false;
     }
-    // TODO: validacion documentos
     if (this.isNewCourse) {
       if (!this.manualFile) {
         isValid = false;

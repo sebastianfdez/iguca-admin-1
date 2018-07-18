@@ -19,13 +19,14 @@
           <div class="data-loader" *ngIf="isReportCharged">
             <button mat-button type="button" class="excel-button" (click)="save(excelexport)" >Export To Excel</button>
             <button mat-button type="button" class="delete-button" (click)="deleteReport(i)">Eliminar</button>
-              <kendo-excelexport [data]="excelData[i]" fileName="{{course + ' ' + date}}.xlsx" #excelexport>
+              <kendo-excelexport [data]="excelData[i]" fileName="{{course + ' ' + date.getDate().toString() + '/' + (date.getMonth() + 1).toString() + '/' + date.getFullYear().toString()}}.xlsx" #excelexport>
                 <kendo-excelexport-column field="company" title="Compania"></kendo-excelexport-column>
                 <kendo-excelexport-column field="idSence" title="ID Sence"></kendo-excelexport-column>
                 <kendo-excelexport-column field="userName" title="Nombre"></kendo-excelexport-column>
                 <kendo-excelexport-column field="rut" title="Rut"></kendo-excelexport-column>
-                <kendo-excelexport-column field="score" title="Puntaje"></kendo-excelexport-column>
+                <kendo-excelexport-column field="date" title="Fecha de Rendicion dd/mm/yyyy"></kendo-excelexport-column>
                 <kendo-excelexport-column field="userMail" title="Mail"></kendo-excelexport-column>
+                <kendo-excelexport-column field="score" title="Puntaje"></kendo-excelexport-column>
                 <div *ngFor="let question of database.IgucaReports[i].courseReport[0].questions; let k = index">
                   <kendo-excelexport-column field="questions[{{k}}]" title="{{k+1}}" [width]="40"></kendo-excelexport-column>
                 </div>

@@ -28,13 +28,8 @@ export class ReportsComponent implements OnInit {
   public excelData: any[][] = [];
 
   public date = new Date();
-  public cells: any = {
-    background: '#ff0000',
-    textAlign: 'center'
-  };
 
-
-  createData(courseNumber: number) {
+  createData(courseNumber: number) { // creates the data of a course for the excel export funtionality
     let data: any[] = [];
 
     data = this.database.IgucaReports[courseNumber].courseReport;
@@ -61,7 +56,7 @@ export class ReportsComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.database.chargedReports.subscribe(() => {
+    this.database.chargedReports.subscribe(() => { // waiting for database to charge Reports
       this.isReportCharged = true;
 
       if (this.isReportChargedKeys) {
@@ -118,10 +113,10 @@ export class ReportsComponent implements OnInit {
     const rows = options.sheets[0].rows;
     rows.forEach((row) => {
 
-        if (row.type === 'data') {
-          for (let i = 0; i < (row.cells.length - 6); i++) {
-            if (row.cells[6 + i].value !== rows[1].cells[6 + i].value) {
-              row.cells[6 + i].background = '#ff0000';
+        if (row.type === 'data') { // checking the UsersReports answers to the correct answers in the databse
+          for (let i = 0; i < (row.cells.length - 7); i++) {
+            if (row.cells[7 + i].value !== rows[1].cells[7 + i].value) {
+              row.cells[7 + i].background = '#ff0000';
             }
           }
         }
